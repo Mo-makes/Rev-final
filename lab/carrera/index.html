@@ -1,0 +1,170 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Carrera Model Lab</title>
+  <!-- Standalone viewer for experimenting on the Carrera GLB. Not part of the published site (lives outside rev-site/). -->
+  <script type="importmap">{"imports":{"three":"https://cdn.jsdelivr.net/npm/three@0.168.0/build/three.module.js","three/addons/":"https://cdn.jsdelivr.net/npm/three@0.168.0/examples/jsm/"}}</script>
+  <style>
+    :root { --bg: #0b1a33; --panel: rgba(8, 18, 36, 0.82); --text: #e8eef7; --muted: #9db0c8; --accent: #5ba8e1; }
+    * { box-sizing: border-box; }
+    html, body { margin: 0; height: 100%; background: radial-gradient(ellipse at 60% 45%, #1c3a66 0%, var(--bg) 70%); color: var(--text); font: 14px/1.4 system-ui, sans-serif; overflow: hidden; }
+    canvas { display: block; width: 100vw; height: 100vh; }
+    .panel { position: fixed; top: 16px; left: 16px; background: var(--panel); border: 1px solid rgba(255,255,255,0.12); border-radius: 10px; padding: 12px 14px; display: grid; gap: 10px; max-width: calc(100vw - 32px); }
+    .row { display: flex; gap: 6px; flex-wrap: wrap; align-items: center; }
+    .label { color: var(--muted); font-size: 12px; text-transform: uppercase; letter-spacing: 0.06em; margin-right: 4px; }
+    button { background: transparent; color: var(--text); border: 1px solid rgba(255,255,255,0.25); border-radius: 6px; padding: 5px 10px; font: inherit; cursor: pointer; }
+    button[aria-pressed="true"] { background: var(--accent); border-color: var(--accent); color: #04121f; }
+    #info { color: var(--muted); font-size: 12px; font-variant-numeric: tabular-nums; }
+  </style>
+</head>
+<body>
+  <div class="panel">
+    <div class="row" id="models"><span class="label">Model</span></div>
+    <div class="row"><span class="label">View</span>
+      <button data-view="hero">Hero</button>
+      <button data-view="top">Top</button>
+      <button data-view="side">Side</button>
+      <button data-view="front">Front</button>
+      <button data-view="corner">Panel corner</button>
+      <button id="wire" aria-pressed="false">Wireframe</button>
+    </div>
+    <div id="info">Loading…</div>
+  </div>
+  <script type="module">
+    import * as THREE from "three";
+    import { GLTFLoader } from "three/addons/loaders/GLTFLoader.js";
+    import { OrbitControls } from "three/addons/controls/OrbitControls.js";
+
+    // Models to compare. Add candidates here as they are produced.
+    const MODELS = [
+      { id: "original", label: "Original", url: "../../rev-site/assets/models/carrera.glb" },
+      { id: "refined", label: "Refined", url: "./carrera-refined.glb" },
+      { id: "cells", label: "Refined + cells", url: "./carrera-refined-cells.glb" },
+    ];
+
+    const renderer = new THREE.WebGLRenderer({ antialias: true, alpha: true });
+    renderer.setPixelRatio(Math.min(devicePixelRatio, 2));
+    renderer.outputColorSpace = THREE.SRGBColorSpace;
+    renderer.toneMapping = THREE.ACESFilmicToneMapping;
+    renderer.toneMappingExposure = 1.18;
+    document.body.prepend(renderer.domElement);
+
+    // Same lights as rev-site/assets/js/car-viewer.js so the lab matches the site.
+    const scene = new THREE.Scene();
+    scene.add(new THREE.HemisphereLight(0xffffff, 0x183153, 3.1));
+    const key = new THREE.DirectionalLight(0xffffff, 4.8); key.position.set(-5, 8, 7); scene.add(key);
+    const fill = new THREE.DirectionalLight(0xbfdcff, 2.1); fill.position.set(6, 2, 5); scene.add(fill);
+    const rim = new THREE.DirectionalLight(0x5ba8e1, 2.4); rim.position.set(2, 4, -7); scene.add(rim);
+
+    const camera = new THREE.PerspectiveCamera(30, 1, 0.01, 1000);
+    const controls = new OrbitControls(camera, renderer.domElement);
+    controls.enableDamping = true;
+
+    // Same material overrides as car-viewer.js.
+    function styleMaterial(material) {
+      const name = material.name || "";
+      if (/body/i.test(name)) {
+        material.color?.set("#f1f4f8"); material.metalness = 0.03; material.roughness = 0.3;
+        if ("clearcoat" in material) material.clearcoat = 0.75;
+        if ("clearcoatRoughness" in material) material.clearcoatRoughness = 0.18;
+      } else if (/solar/i.test(name)) {
+        material.color?.set("#031c35"); material.metalness = 0.08; material.roughness = 0.38;
+      } else if (/glass|window/i.test(name)) {
+        material.color?.set("#46515c"); material.transparent = true; material.opacity = 0.82;
+        material.depthWrite = true; material.side = THREE.FrontSide; material.metalness = 0.22; material.roughness = 0.09;
+      } else if (/tire/i.test(name)) {
+        material.color?.set("#080b11"); material.roughness = 0.9;
+      }
+      material.needsUpdate = true;
+    }
+
+    const loader = new GLTFLoader();
+    const cache = new Map();
+    let current = null;
+    let wireframe = false;
+    const info = document.getElementById("info");
+
+    async function load(entry) {
+      if (!cache.has(entry.id)) {
+        cache.set(entry.id, (async () => {
+          const res = await fetch(entry.url, { cache: "no-store" });
+          if (!res.ok) throw new Error(`${entry.url}: ${res.status}`);
+          const buf = await res.arrayBuffer();
+          const gltf = await loader.parseAsync(buf, "");
+          let tris = 0;
+          gltf.scene.traverse((o) => {
+            if (!o.isMesh) return;
+            if (!o.geometry.attributes.normal) o.geometry.computeVertexNormals();
+            o.material = o.material.clone(); styleMaterial(o.material);
+            tris += (o.geometry.index ? o.geometry.index.count : o.geometry.attributes.position.count) / 3;
+          });
+          const box = new THREE.Box3().setFromObject(gltf.scene);
+          gltf.scene.position.sub(box.getCenter(new THREE.Vector3()));
+          return { root: gltf.scene, bytes: buf.byteLength, tris };
+        })());
+      }
+      return cache.get(entry.id);
+    }
+
+    async function show(id) {
+      const entry = MODELS.find((m) => m.id === id);
+      try {
+        const m = await load(entry);
+        if (current) scene.remove(current.root);
+        current = m; scene.add(m.root); applyWire();
+        info.textContent = `${entry.label}: ${(m.bytes / 1e6).toFixed(2)} MB · ${Math.round(m.tris).toLocaleString()} triangles`;
+      } catch (err) {
+        info.textContent = `${entry.label}: not available (${err.message})`;
+      }
+      document.querySelectorAll("[data-model]").forEach((b) => b.setAttribute("aria-pressed", String(b.dataset.model === id)));
+      history.replaceState(null, "", `#${id}`);
+    }
+
+    function applyWire() {
+      current?.root.traverse((o) => { if (o.isMesh) o.material.wireframe = wireframe; });
+    }
+
+    // Camera presets. The car is ~4.8 m long (x), ~1.9 m wide (z), ~1.3 m tall (y).
+    const VIEWS = {
+      hero: { pos: [-4.6, 2.7, 5.9], target: [0, 0, 0] },
+      top: { pos: [0, 8.5, 0.001], target: [0, 0, 0] },
+      side: { pos: [0, 0.3, 8], target: [0, 0, 0] },
+      front: { pos: [8, 0.4, 0], target: [0, 0, 0] },
+      corner: { pos: [3.4, 1.9, 2.0], target: [2.0, 0.25, 0.8] },
+    };
+    function setView(name) {
+      const v = VIEWS[name];
+      // Presets are framed for a landscape window; back the camera off in tall windows so the car fits.
+      const fit = name === "corner" ? 1 : Math.max(1, 1.5 / camera.aspect);
+      const target = new THREE.Vector3(...v.target);
+      camera.position.set(...v.pos).sub(target).multiplyScalar(fit).add(target);
+      controls.target.copy(target); controls.update();
+    }
+
+    const modelRow = document.getElementById("models");
+    MODELS.forEach((m) => {
+      const b = document.createElement("button");
+      b.textContent = m.label; b.dataset.model = m.id; b.onclick = () => show(m.id);
+      modelRow.append(b);
+    });
+    document.querySelectorAll("[data-view]").forEach((b) => (b.onclick = () => setView(b.dataset.view)));
+    document.getElementById("wire").onclick = (e) => {
+      wireframe = !wireframe; e.currentTarget.setAttribute("aria-pressed", String(wireframe)); applyWire();
+    };
+
+    function resize() {
+      renderer.setSize(innerWidth, innerHeight, false);
+      camera.aspect = innerWidth / innerHeight; camera.updateProjectionMatrix();
+    }
+    addEventListener("resize", resize); resize();
+    setView("hero");
+    show(location.hash.slice(1) || "original");
+    renderer.setAnimationLoop(() => { controls.update(); renderer.render(scene, camera); });
+
+    // Handy for scripted screenshots: window.lab.show("refined"), window.lab.setView("corner").
+    window.lab = { show, setView, VIEWS, camera, controls };
+  </script>
+</body>
+</html>

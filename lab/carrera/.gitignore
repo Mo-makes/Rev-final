@@ -1,0 +1,2 @@
+# Candidate models are rebuilt from scripts/refine.py; keep them out of git.
+*.glb
