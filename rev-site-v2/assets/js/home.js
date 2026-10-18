@@ -184,6 +184,17 @@ async function boot() {
   stage.classList.remove("is-loading");
   stage.classList.add("is-ready");
   studio.wake();
+  // Build the schematic layer and compile its shaders while idle, so the x-ray beat
+  // doesn't stall the first time someone scrolls into it.
+  const idle = window.requestIdleCallback || ((fn) => setTimeout(fn, 600));
+  idle(async () => {
+    void studio.schematic;
+    studio.setXray(0.001, 0);
+    await studio.compile();
+    studio.renderer.render(studio.scene, studio.camera);
+    studio.setXray(0, 0);
+    studio.wake();
+  }, { timeout: 2500 });
 }
 
 if (reduceMotion) {

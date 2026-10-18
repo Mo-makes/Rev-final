@@ -24,7 +24,22 @@ export function pickQuality() {
   const cores = navigator.hardwareConcurrency || 8;
   const memory = navigator.deviceMemory || 8;
   const saveData = navigator.connection?.saveData;
-  return compact || cores <= 4 || memory <= 4 || saveData ? "low" : "high";
+  return compact || cores <= 4 || memory <= 4 || saveData || softwareGL() ? "low" : "high";
+}
+
+// Browsers without usable GPU acceleration fall back to a CPU rasteriser (SwiftShader, llvmpipe).
+// Every frame is expensive there, so those visitors get the light tier.
+function softwareGL() {
+  try {
+    const gl = document.createElement("canvas").getContext("webgl");
+    if (!gl) return false;
+    const info = gl.getExtension("WEBGL_debug_renderer_info");
+    const name = info ? gl.getParameter(info.UNMASKED_RENDERER_WEBGL) : gl.getParameter(gl.RENDERER);
+    gl.getExtension("WEBGL_lose_context")?.loseContext();
+    return /swiftshader|llvmpipe|software|basic render/i.test(String(name));
+  } catch {
+    return false;
+  }
 }
 
 export function webglAvailable() {
@@ -526,8 +541,13 @@ export async function createStudio({ stage, canvas, quality = pickQuality(), onP
     const keepGoing = update ? update(dt, now) : false;
     renderer.render(scene, camera);
     const animating = keepGoing || (schematic && uniforms.uXray.value > 0.001 && !reduceMotion);
-    if (inView && pageVisible && animating) frame = requestAnimationFrame(tick);
-    else last = 0;
+    // update() may already have queued the next frame (controls fire "change" -> wake()).
+    // Queue at most one, or frames multiply.
+    if (inView && pageVisible && animating) {
+      if (!frame) frame = requestAnimationFrame(tick);
+    } else if (!frame) {
+      last = 0;
+    }
   };
   function wake() {
     if (!frame && inView && pageVisible) frame = requestAnimationFrame(tick);

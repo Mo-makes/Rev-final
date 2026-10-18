@@ -592,8 +592,10 @@ async function boot() {
   controls.zoomSpeed = 0.7;
   controls.minPolarAngle = 0.05;
   controls.maxPolarAngle = 1.5;
-  controls.autoRotate = !reduceMotion;
+  // The turntable renders every frame, so it runs on capable devices only and stops by itself.
+  controls.autoRotate = !reduceMotion && studio.quality === "high";
   controls.autoRotateSpeed = 0.7;
+  setTimeout(() => { controls.autoRotate = false; }, 14000);
   camera.fov = 30;
 
   let touched = false;
