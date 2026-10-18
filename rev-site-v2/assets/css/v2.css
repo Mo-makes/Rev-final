@@ -212,6 +212,7 @@ h1, h2, h3, h4 { margin: 0; font-weight: 600; }
 .timeline li::before { content: ""; position: absolute; top: -5px; left: 0; width: 9px; height: 9px; border-radius: 50%; background: var(--void); border: 1px solid var(--steel); }
 .timeline li.is-now::before { background: var(--gold); border-color: var(--gold); box-shadow: 0 0 0 6px rgba(242, 193, 91, 0.15); }
 .timeline li.is-goal::before { border-color: var(--gold); }
+.timeline .when, .timeline .what, .timeline .state { display: block; }
 .timeline .when { font: 500 0.72rem/1.2 var(--mono); letter-spacing: 0; color: var(--steel); }
 .timeline .what { margin-top: 8px; font-weight: 700; line-height: 1.35; }
 .timeline .state { margin-top: 6px; font: 0.7rem/1 var(--mono); color: var(--gold); letter-spacing: 0; }
