@@ -152,7 +152,9 @@
 @media (max-width: 860px) { .race, .faq-cols { grid-template-columns: 1fr; } }
 
 /* ---------- Phone ---------- */
-@media (max-width: 760px) {
+/* Stacked viewer (phones, tablets, mid widths, near-square windows): copy sits below the car.
+   Keep in sync with STACKED in car.js. */
+@media (max-width: 1099px), (max-aspect-ratio: 5/4) {
   .viewer { height: auto; min-height: 0; display: flex; flex-direction: column; }
   .viewer-stage { position: relative; height: 68svh; min-height: 420px; }
   .viewer-copy { position: relative; left: auto; bottom: auto; padding: 24px var(--gutter) 8px; max-width: none; }

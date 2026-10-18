@@ -11,7 +11,8 @@ const startBtn = viewer.querySelector(".viewer-start");
 const modeButtons = [...viewer.querySelectorAll("[data-mode]")];
 const resetBtn = viewer.querySelector('[data-action="reset"]');
 const reduceMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
-const compactQuery = window.matchMedia("(max-width: 760px)");
+// Stacked viewer layout; keep in sync with car.css.
+const compactQuery = window.matchMedia("(max-width: 1099px), (max-aspect-ratio: 5/4)");
 
 const ILLUSTRATIVE = "Marker position is illustrative; the internal layout is not from CAD.";
 // Car axes: nose +Z, car-left (canopy side) +X, metres.

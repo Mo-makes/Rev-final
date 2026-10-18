@@ -44,9 +44,16 @@
 .stage.is-static .callout, .stage.is-static .stage-rail { display: none; }
 
 /* ---------- Beats ---------- */
-.beat { position: relative; z-index: 1; min-height: 130vh; min-height: 130svh; }
+.beat { position: relative; z-index: 1; min-height: 200vh; min-height: 200svh; }
 .beat-inner { position: relative; min-height: 100vh; min-height: 100svh; padding: calc(var(--bar-h) + 48px) var(--gutter) 64px; display: grid; align-content: center; }
-.beat-last { min-height: 100vh; min-height: 100svh; }
+/* Story beats: each panel pins to the viewport and fades in and out (home.js sets --show), so text
+   never slides across the car at any screen size. Without JS the panels simply stay visible. */
+.beat:not(.beat-hero) .beat-inner {
+  position: sticky; top: 0; height: 100vh; height: 100svh; min-height: 0;
+  opacity: var(--show, 1); transform: translateY(calc((1 - var(--show, 1)) * 18px));
+  will-change: opacity, transform;
+}
+.beat-last { min-height: 150vh; min-height: 150svh; }
 .panel { max-width: 29rem; }
 .panel .h2 { font-size: clamp(2.1rem, 3.6vw, 3.4rem); text-wrap: balance; }
 .panel p { color: var(--soft); max-width: 40ch; text-wrap: pretty; }
@@ -76,14 +83,7 @@
 .note { font: 0.7rem/1.4 var(--mono); color: var(--line) !important; letter-spacing: 0; margin: 0; }
 
 .profile-head { max-width: 34rem; }
-/* Profile beat: the heading and spec row pin to the viewport and fade in and out (home.js sets
-   --show), so they never slide across the car. Without JS they simply stay visible. */
-.beat-bottom { min-height: 170vh; min-height: 170svh; }
-.beat-bottom .beat-inner {
-  position: sticky; top: 0; height: 100vh; height: 100svh; min-height: 0; align-content: space-between;
-  opacity: var(--show, 1); transform: translateY(calc((1 - var(--show, 1)) * 18px));
-  will-change: opacity, transform;
-}
+.beat-bottom .beat-inner { align-content: space-between; }
 
 /* ---------- Feed ---------- */
 .section-top { display: flex; flex-wrap: wrap; justify-content: space-between; align-items: end; gap: 20px; margin-bottom: 40px; }
@@ -142,16 +142,25 @@
 .cta-inner { display: grid; justify-items: center; }
 .cta-inner .actions { justify-content: center; }
 
-/* ---------- Phone ---------- */
-@media (max-width: 760px) {
-  .beat { min-height: 120svh; }
-  .beat-inner { align-content: end; padding: calc(var(--bar-h) + 24px) var(--gutter) 40px; }
+/* ---------- Stacked layout: phones, tablets, mid widths and near-square windows ----------
+   The car is framed in the upper part of the screen (home.js switches camera keys with the same
+   query) and the text sits below it. Keep this query in sync with STACKED in home.js. */
+@media (max-width: 1099px), (max-aspect-ratio: 5/4) {
+  .beat-inner { align-content: end; justify-items: start; padding: calc(var(--bar-h) + 24px) var(--gutter) clamp(28px, 5vh, 48px); }
   .beat-right .beat-inner { justify-items: start; }
   .beat-right .panel { margin-right: 0; }
-  .panel { padding: 22px 0 0; background: linear-gradient(transparent, rgba(5, 5, 6, 0.85) 18%); box-shadow: 0 40px 0 40px rgba(5, 5, 6, 0.85); }
-  .schematic-panel { padding: 20px; box-shadow: none; }
-  .beat-bottom { min-height: 160svh; }
+  .panel { max-width: 36rem; }
+  .panel .h2, .panel p, .profile-head { text-shadow: 0 2px 18px rgba(0, 0, 0, 0.85); }
+  .schematic-panel { padding: 22px; }
   .beat-bottom .beat-inner { align-content: end; gap: 20px; }
+  .stage-rail { display: none; }
+}
+
+/* ---------- Phone ---------- */
+@media (max-width: 760px) {
+  .beat { min-height: 190svh; }
+  .beat-last { min-height: 150svh; }
+  .schematic-panel { padding: 18px; }
   .callout-text { font-size: 1.25rem; }
   .callout.schematic .callout-text { font-size: 0.7rem; }
   .callout-text small { display: none; }

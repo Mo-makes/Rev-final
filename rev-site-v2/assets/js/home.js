@@ -8,10 +8,14 @@ const beats = [...document.querySelectorAll(".beat")];
 const callouts = [...stage.querySelectorAll(".callout")];
 const railItems = [...stage.querySelectorAll(".stage-rail span")];
 const reduceMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
-const compactQuery = window.matchMedia("(max-width: 760px)");
+// Stacked layout (car above the text). Keep in sync with the media query in home.css.
+const STACKED = "(max-width: 1099px), (max-aspect-ratio: 5/4)";
+const compactQuery = window.matchMedia(STACKED);
 
 // Camera keys per beat. Car axes: nose +Z, car-left (canopy side) +X, metres.
-// sx/sy shift the framing (fractions of the viewport) to make room for the text panel.
+// Only the viewing direction, target, up and lens of each key are used as given: the distance and
+// framing are fitted at runtime so the car fills the empty part of the screen beside or above that
+// beat's text (see fitKeys). COMPACT directions are for portrait screens.
 const DESKTOP = [
   { pos: [4.6, 1.55, 8.2], tgt: [0, 0.45, 0.1], fov: 28, sx: 0, sy: 0.16, up: [0, 1, 0] },
   { pos: [4.4, 12, 0.5], tgt: [0, 0.4, 0], fov: 30, sx: -0.15, sy: 0, up: [0, 1, 0] },
@@ -46,18 +50,90 @@ async function boot() {
   const { camera, hotspots } = studio;
   const v3 = (a) => new THREE.Vector3(...a);
 
-  // ---------- Camera path ----------
+  // ---------- Camera path: fit the car into the space each beat's text leaves free ----------
+  const carBox = new THREE.Box3().setFromObject(studio.car);
+  const corners = [];
+  for (const x of [carBox.min.x, carBox.max.x]) for (const y of [carBox.min.y, carBox.max.y]) for (const z of [carBox.min.z, carBox.max.z]) corners.push(new THREE.Vector3(x, y, z));
+  const fitCam = new THREE.PerspectiveCamera();
+  const pTmp = new THREE.Vector3();
+  const projectCar = (k, dir, D, aspect) => {
+    fitCam.fov = k.fov;
+    fitCam.aspect = aspect;
+    fitCam.near = 0.05;
+    fitCam.far = 400;
+    fitCam.updateProjectionMatrix();
+    fitCam.position.copy(k.tgt).addScaledVector(dir, D);
+    fitCam.up.copy(k.up);
+    fitCam.lookAt(k.tgt);
+    fitCam.updateMatrixWorld();
+    const e = { minx: Infinity, maxx: -Infinity, miny: Infinity, maxy: -Infinity };
+    for (const c of corners) {
+      pTmp.copy(c).project(fitCam);
+      e.minx = Math.min(e.minx, pTmp.x); e.maxx = Math.max(e.maxx, pTmp.x);
+      e.miny = Math.min(e.miny, pTmp.y); e.maxy = Math.max(e.maxy, pTmp.y);
+    }
+    return e;
+  };
+  // Distance and view offset that put the car inside an NDC rectangle.
+  const fitInto = (k, dir, rect, aspect) => {
+    let D = Math.max(3, k.dist);
+    let e;
+    for (let i = 0; i < 6; i++) {
+      e = projectCar(k, dir, D, aspect);
+      const s = Math.max((e.maxx - e.minx) / (rect.r - rect.l), (e.maxy - e.miny) / (rect.t - rect.b));
+      D = Math.min(80, Math.max(2.5, D * (0.35 + 0.65 * s)));
+    }
+    e = projectCar(k, dir, D, aspect);
+    const dx = (rect.l + rect.r) / 2 - (e.minx + e.maxx) / 2;
+    const dy = (rect.t + rect.b) / 2 - (e.miny + e.maxy) / 2;
+    return { D, sx: -dx / 2, sy: dy / 2 };
+  };
+  // Free rectangles (px) around a beat's text when its panel is pinned.
+  const freeRects = (i) => {
+    const vw = studio.width;
+    const vh = studio.height;
+    const g = Math.max(16, vw * 0.03);
+    const pad = Math.max(20, vh * 0.04);
+    const A = { l: g, r: vw - g, t: (parseFloat(getComputedStyle(document.documentElement).getPropertyValue("--bar-h")) || 68) + g * 0.5, b: vh - g };
+    const inner = beats[i].querySelector(".beat-inner");
+    const ir = inner.getBoundingClientRect();
+    const kids = i === 0 ? [...inner.children] : [...inner.querySelectorAll(":scope > .panel, :scope > .profile-head, :scope > .specs")];
+    const rects = kids.filter((el) => el.offsetHeight && getComputedStyle(el).display !== "none").map((el) => {
+      const r = el.getBoundingClientRect();
+      return { l: r.left - ir.left, r: r.right - ir.left, t: r.top - ir.top, b: r.bottom - ir.top };
+    }).sort((a, b) => a.t - b.t);
+    if (!rects.length) return [A];
+    const U = rects.reduce((u, r) => ({ l: Math.min(u.l, r.l), r: Math.max(u.r, r.r), t: Math.min(u.t, r.t), b: Math.max(u.b, r.b) }));
+    const out = [
+      { l: A.l, r: A.r, t: A.t, b: U.t - pad },
+      { l: A.l, r: A.r, t: U.b + pad, b: A.b },
+      { l: A.l, r: U.l - pad, t: A.t, b: A.b },
+      { l: U.r + pad, r: A.r, t: A.t, b: A.b },
+    ];
+    for (let j = 1; j < rects.length; j++) out.push({ l: A.l, r: A.r, t: rects[j - 1].b + pad, b: rects[j].t - pad });
+    return out.filter((r) => r.r - r.l > 120 && r.b - r.t > 90);
+  };
   let keys;
   let curve;
   const buildPath = () => {
-    const compact = compactQuery.matches;
-    const src = compact ? COMPACT : DESKTOP;
-    // Narrower than the reference aspect: pull back so the 4.8 m car still fits.
     const aspect = studio.width / Math.max(studio.height, 1);
-    const pull = Math.max(1, Math.pow((compact ? 0.5 : 1.55) / aspect, 0.85));
-    keys = src.map((k) => {
-      const tgt = v3(k.tgt);
-      return { ...k, tgt, pos: v3(k.pos).sub(tgt).multiplyScalar(pull).add(tgt), up: v3(k.up) };
+    const src = aspect < 0.85 ? COMPACT : DESKTOP;
+    const toNdc = (r) => ({ l: (r.l / studio.width) * 2 - 1, r: (r.r / studio.width) * 2 - 1, t: 1 - (r.t / studio.height) * 2, b: 1 - (r.b / studio.height) * 2 });
+    keys = src.map((raw, i) => {
+      const k = { ...raw, tgt: v3(raw.tgt), up: v3(raw.up) };
+      k.dist = v3(raw.pos).distanceTo(k.tgt);
+      const dir = v3(raw.pos).sub(k.tgt).normalize();
+      let best = null;
+      for (const rect of freeRects(i)) {
+        // Leave a little air inside the free area.
+        const n = toNdc(rect);
+        const mx = (n.r - n.l) * 0.04;
+        const my = (n.t - n.b) * 0.06;
+        const fit = fitInto(k, dir, { l: n.l + mx, r: n.r - mx, t: n.t - my, b: n.b + my }, aspect);
+        if (!best || fit.D < best.D) best = fit;
+      }
+      if (!best) best = { D: k.dist, sx: 0, sy: 0 };
+      return { ...k, pos: k.tgt.clone().addScaledVector(dir, best.D), sx: best.sx, sy: best.sy };
     });
     curve = new THREE.CatmullRomCurve3(keys.map((k) => k.pos), false, "centripetal");
   };
@@ -205,7 +281,9 @@ async function boot() {
   const relayout = () => { measure(); buildPath(); studio.wake(); };
   studio.onResize(relayout);
   compactQuery.addEventListener("change", relayout);
-  new ResizeObserver(() => { measure(); studio.wake(); }).observe(document.querySelector(".story"));
+  // Text reflows (fonts arriving, viewport changes) move the free space, so refit then too.
+  new ResizeObserver(relayout).observe(document.querySelector(".story"));
+  document.fonts?.ready.then(relayout);
   window.addEventListener("scroll", () => studio.wake(), { passive: true });
 
   relayout();
@@ -227,24 +305,28 @@ async function boot() {
   }, { timeout: 2500 });
 }
 
-// The profile beat's heading and specs are pinned (CSS sticky). Fade them in as the beat
-// arrives and out before the pin releases, so the text never scrolls across the car.
-const profileBeat = document.querySelector(".beat-bottom");
-if (profileBeat && !reduceMotion) {
+// Story panels are pinned (CSS sticky). Fade each in as its beat arrives and out before its pin
+// releases, so text never scrolls across the car.
+const storyBeats = [...document.querySelectorAll(".beat:not(.beat-hero)")];
+if (storyBeats.length && !reduceMotion) {
   const clamp01 = (x) => Math.min(1, Math.max(0, x));
   let queued = false;
-  const fadeProfile = () => {
+  const fadeBeats = () => {
     queued = false;
-    const r = profileBeat.getBoundingClientRect();
     const vh = window.innerHeight;
-    const fadeIn = clamp01(1 - r.top / (vh * 0.45));
-    const fadeOut = clamp01((r.bottom - vh) / (vh * 0.35));
-    profileBeat.style.setProperty("--show", (fadeIn * fadeOut).toFixed(3));
+    for (const beat of storyBeats) {
+      const r = beat.getBoundingClientRect();
+      if (r.bottom < -vh || r.top > 2 * vh) continue;
+      // Appear only once pinned (no sliding while visible), leave before the pin releases.
+      const fadeIn = clamp01(-r.top / (vh * 0.25));
+      const fadeOut = beat === storyBeats[storyBeats.length - 1] ? 1 : clamp01((r.bottom - vh) / (vh * 0.35));
+      beat.style.setProperty("--show", (fadeIn * fadeOut).toFixed(3));
+    }
   };
-  const queue = () => { if (!queued) { queued = true; requestAnimationFrame(fadeProfile); } };
+  const queue = () => { if (!queued) { queued = true; requestAnimationFrame(fadeBeats); } };
   window.addEventListener("scroll", queue, { passive: true });
   window.addEventListener("resize", queue);
-  fadeProfile();
+  fadeBeats();
 }
 
 if (reduceMotion) {
