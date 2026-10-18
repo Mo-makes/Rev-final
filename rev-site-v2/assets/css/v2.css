@@ -1,11 +1,12 @@
 /* REV v2 design system: a dark photo studio with schematic (blueprint) accents.
    Shared by every v2 page; page-specific rules live in their own files. */
 
-@font-face { font-family: "Cormorant Garamond"; src: url("../fonts/cormorant-garamond-semibold-italic.ttf") format("truetype"); font-weight: 600; font-style: italic; font-display: swap; }
-@font-face { font-family: "Cormorant Garamond"; src: url("../fonts/cormorant-garamond-semibold.ttf") format("truetype"); font-weight: 600; font-style: normal; font-display: swap; }
-@font-face { font-family: "Lato"; src: url("../fonts/lato-regular.ttf") format("truetype"); font-weight: 400; font-display: swap; }
-@font-face { font-family: "Lato"; src: url("../fonts/lato-bold.ttf") format("truetype"); font-weight: 700; font-display: swap; }
-@font-face { font-family: "Lato"; src: url("../fonts/lato-black.ttf") format("truetype"); font-weight: 900; font-display: swap; }
+@font-face { font-family: "Cormorant Garamond"; src: url("../fonts/cormorant-garamond-semibold-italic.woff2") format("woff2"); font-weight: 600; font-style: italic; font-display: swap; }
+@font-face { font-family: "Cormorant Garamond"; src: url("../fonts/cormorant-garamond-semibold.woff2") format("woff2"); font-weight: 600; font-style: normal; font-display: swap; }
+/* "REV Text" is a renamed Latin subset of Lato (see assets/fonts/README.txt). */
+@font-face { font-family: "REV Text"; src: url("../fonts/rev-text-regular.woff2") format("woff2"); font-weight: 400; font-display: swap; }
+@font-face { font-family: "REV Text"; src: url("../fonts/rev-text-bold.woff2") format("woff2"); font-weight: 700; font-display: swap; }
+@font-face { font-family: "REV Text"; src: url("../fonts/rev-text-black.woff2") format("woff2"); font-weight: 900; font-display: swap; }
 
 :root {
   --void: #050506;
@@ -23,7 +24,7 @@
   --line: #8fd0ff;            /* schematic cyan */
   --line-dim: rgba(143, 208, 255, 0.28);
   --serif: "Cormorant Garamond", "Iowan Old Style", Georgia, serif;
-  --sans: "Lato", "Helvetica Neue", Arial, sans-serif;
+  --sans: "REV Text", "Lato", "Helvetica Neue", Arial, sans-serif;
   --mono: ui-monospace, "SF Mono", "Cascadia Mono", Menlo, Consolas, monospace;
   --gutter: clamp(16px, 4.5vw, 72px);
   --max: 1240px;
@@ -43,6 +44,7 @@ body {
   -webkit-font-smoothing: antialiased;
   overflow-x: hidden;
 }
+[hidden] { display: none !important; }
 img, svg, video, canvas { display: block; max-width: 100%; }
 img { height: auto; }
 a { color: inherit; }

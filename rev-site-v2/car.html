@@ -1,0 +1,265 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Carrera | Rice Electric Vehicle (REV)</title>
+  <meta name="description" content="Explore Carrera, the student-built solar racecar Rice Electric Vehicle is preparing for Formula Sun Grand Prix 2027: its solar array, battery, hub motor, suspension and more.">
+  <meta name="robots" content="noindex">
+  <meta name="theme-color" content="#050506">
+  <link rel="icon" type="image/svg+xml" href="assets/brand/favicon.svg">
+  <link rel="stylesheet" href="assets/css/v2.css">
+  <link rel="stylesheet" href="assets/css/car.css">
+  <script type="importmap">{"imports":{"three":"https://cdn.jsdelivr.net/npm/three@0.168.0/build/three.module.min.js","three/addons/":"https://cdn.jsdelivr.net/npm/three@0.168.0/examples/jsm/"}}</script>
+  <script type="module" src="assets/js/site.js"></script>
+  <script type="module" src="assets/js/car.js"></script>
+</head>
+<body class="car-page">
+  <a class="skip" href="#main">Skip to content</a>
+  <svg width="0" height="0" style="position:absolute" aria-hidden="true" focusable="false"><symbol id="rev-mark" viewBox="0 0 235.06 80"><path d="M42.26,0h-31L0,80H17.62l3.43-24.23.35-2.52,2.8-20.14h0l.9-6.29,1.7-11.91H38.3c6.44,0,13.45,1.25,12.32,9.27-1.13,8.7-9.61,8.93-16,8.93H32.92L30.84,48h0L43.05,80H64.18L48.58,46.21c11.64-2,18.76-10.73,20.34-21.92C71.52,5.65,58.64,0,42.26,0Z"/><polygon points="73.89 80 130.28 80 132.54 63.73 93.78 63.73 96.04 47.46 130.73 47.46 133.1 31.19 98.41 31.19 100.45 16.27 137.17 16.27 139.54 0 85.19 0 73.89 80"/><path d="M214.92,15.71h17.64a2.5,2.5,0,0,0,0-5H220.72a2.87,2.87,0,0,1-2.8-3.46A3.12,3.12,0,0,1,220.84,5h11.72a2.5,2.5,0,0,0,0-5H208L180.44,52.42h-.22L167.9,0H147.79l20.68,80h64.09a2.5,2.5,0,0,0,0-5H185.13a2.82,2.82,0,0,1-2-.84,2.86,2.86,0,0,1-.79-2.58,3,3,0,0,1,2.94-2.3h47.3a2.5,2.5,0,0,0,0-5h-41.5a2.86,2.86,0,1,1,0-5.71h41.5a2.5,2.5,0,0,0,0-5H197a2.82,2.82,0,0,1-2-.84,2.85,2.85,0,0,1-.78-2.63,3.13,3.13,0,0,1,2.93-2.25h35.44a2.5,2.5,0,0,0,0-5H202.92a2.85,2.85,0,0,1-2.65-3.9,3,3,0,0,1,2.8-1.81h29.49a2.5,2.5,0,0,0,0-5H208.85a2.8,2.8,0,0,1-2-.84,2.86,2.86,0,0,1,2-4.88h23.71a2.5,2.5,0,0,0,0-5H214.79A2.86,2.86,0,0,1,212,18,2.94,2.94,0,0,1,214.92,15.71Z"/></symbol></svg>
+  <!-- header:start -->
+  <header class="bar">
+    <a class="brand" href="index.html" aria-label="Rice Electric Vehicle home">
+      <svg class="brand-mark" viewBox="0 0 235.06 80" aria-hidden="true" focusable="false"><use href="#rev-mark"/></svg>
+      <span class="brand-name">Rice Electric Vehicle</span>
+    </a>
+    <nav class="nav" aria-label="Primary">
+      <a href="car.html" aria-current="page">Carrera</a>
+      <a href="garage.html">Livery Lab</a>
+      <a href="about.html">Team</a>
+      <a href="sponsorship.html">Sponsors</a>
+      <a href="contact.html">Contact</a>
+      <a class="nav-cta" href="join.html">Join REV</a>
+    </nav>
+    <details class="menu">
+      <summary aria-label="Open menu"><span class="menu-icon" aria-hidden="true"></span>Menu</summary>
+      <nav class="menu-panel" aria-label="Mobile">
+        <a href="index.html">Home</a>
+        <a href="car.html" aria-current="page">Carrera</a>
+        <a href="garage.html">Livery Lab</a>
+        <a href="about.html">Team</a>
+        <a href="join.html">Join REV</a>
+        <a href="sponsorship.html">Sponsors</a>
+        <a href="contact.html">Contact</a>
+      </nav>
+    </details>
+  </header>
+  <!-- header:end -->
+
+  <main id="main">
+    <section class="viewer" aria-labelledby="carrera-title">
+      <div class="viewer-stage">
+        <canvas class="viewer-canvas" aria-label="Interactive 3D model of Carrera. Drag to rotate; use the hotspot buttons to explore its systems."></canvas>
+        <img class="viewer-poster" src="assets/img/v2/carrera-studio-poster.webp" alt="Carrera, a white solar racecar with a dark solar array and an offset canopy, in a dark studio" width="1600" height="1000" fetchpriority="high">
+        <div class="viewer-loader" aria-hidden="true"><span></span></div>
+        <div class="pins" role="group" aria-label="Carrera hotspots"></div>
+        <div class="viewer-tools" role="toolbar" aria-label="Viewer controls">
+          <div class="segmented" role="group" aria-label="View mode">
+            <button type="button" data-mode="studio" aria-pressed="true">Studio</button>
+            <button type="button" data-mode="schematic" aria-pressed="false">Schematic</button>
+          </div>
+          <button type="button" class="tool" data-action="reset">Reset view</button>
+        </div>
+        <p class="viewer-hint" aria-hidden="true">Drag to rotate · tap a marker</p>
+        <button type="button" class="viewer-start btn ghost" hidden>Open the interactive model</button>
+      </div>
+
+      <div class="viewer-copy">
+        <p class="eyebrow">Introducing</p>
+        <h1 class="h1" id="carrera-title">Carrera</h1>
+        <p class="viewer-tag">Rice’s debut into solar racing</p>
+        <p class="viewer-lead">A student-built solar racecar built to get the most performance out of every watt. We’re bringing lightweight structures, efficient propulsion, and race strategy together for Formula Sun Grand Prix 2027.</p>
+      </div>
+
+      <aside class="viewer-panel" aria-live="polite" hidden>
+        <button type="button" class="panel-close" aria-label="Close">×</button>
+        <div class="panel-body"></div>
+      </aside>
+    </section>
+
+    <section class="section tight spec-section" aria-label="Carrera key specifications">
+      <div class="wrap">
+        <!-- KEY FIGURES: retain estimated/simulated labels when updating numbers. -->
+        <dl class="spec-sheet">
+          <div><dt>Estimated driverless weight</dt><dd>400 <small>lbs</small></dd></div>
+          <div><dt>Solar array power</dt><dd>1000 <small>W</small></dd></div>
+          <div><dt>Simulated top speed</dt><dd>75+ <small>mph</small></dd></div>
+          <div><dt>Motor + inverter efficiency</dt><dd>97.2<small>%</small></dd></div>
+          <div><dt>Battery capacity · Design</dt><dd>5.18 <small>kWh</small></dd></div>
+          <div><dt>Chassis</dt><dd class="word">Carbon fiber</dd></div>
+          <div><dt>Suspension</dt><dd class="word">Aluminum</dd></div>
+          <div><dt>Front / rear weight distribution</dt><dd>40% <small>/</small> 60%</dd></div>
+        </dl>
+      </div>
+    </section>
+
+    <nav class="page-nav" aria-label="On this page">
+      <div class="wrap">
+        <a href="#how-it-works">How it works</a><a href="#subsystems">The subsystems</a><a href="#timeline">Timeline</a><a href="#strategy">Our strategy</a><a href="#fsgp">Formula Sun Grand Prix</a><a href="#car-faq">Car FAQs</a>
+      </div>
+    </nav>
+
+    <section class="section blueprint energy" id="how-it-works" aria-labelledby="how-title">
+      <div class="wrap">
+        <p class="eyebrow line">01 / The energy path</p>
+        <h2 class="h2" id="how-title">How does it work?</h2>
+        <ol class="flow">
+          <li class="reveal"><span class="flow-n">A</span><h3 class="h3">Collect</h3><p>The solar array converts sunlight into electrical power.</p></li>
+          <li class="reveal"><span class="flow-n">B</span><h3 class="h3">Store</h3><p>The battery buffers energy as sunlight and demand change.</p></li>
+          <li class="reveal"><span class="flow-n">C</span><h3 class="h3">Drive</h3><p>The inverter controls a hub motor that drives a rear wheel.</p></li>
+          <li class="reveal"><span class="flow-n">D</span><h3 class="h3">Optimize</h3><p>Telemetry and models help us choose an efficient pace based on the competition and current conditions.</p></li>
+        </ol>
+      </div>
+    </section>
+
+    <section class="section" id="subsystems" aria-labelledby="systems-title">
+      <div class="wrap">
+        <p class="eyebrow">02 / Inside Carrera</p>
+        <h2 class="h2" id="systems-title">Key vehicle systems</h2>
+        <div class="systems">
+          <article class="system reveal" id="sys-chassis">
+            <figure class="system-media photo"><img src="assets/img/site/carrera-side.webp" alt="Side view of Carrera’s body and canopy during construction" width="1200" height="900" loading="lazy"></figure>
+            <div class="system-copy"><p class="system-label">01 / A lighter foundation.</p><h3 class="system-title">Chassis &amp; Structures</h3><p>Our carbon-fiber monocoque combines the body and structural chassis. Composite layups, impact protection, packaging requirements, and structural analysis balance low mass with strength.</p></div>
+          </article>
+          <article class="system reveal" id="sys-energy">
+            <figure class="system-media diagram"><img src="assets/img/carrera/battery-design-v2.webp" alt="CAD design render of the custom battery pack, showing cells, fans, circuit boards, and contactors" width="1138" height="781" loading="lazy"></figure>
+            <div class="system-copy"><p class="system-label">02 / Capture. Store. Deploy.</p><h3 class="system-title">Energy &amp; Battery</h3><p>A 1000 W solar array feeds a custom battery system in development. Our silicon-anode pack maximizes the amount of energy we can store and utilize alongside battery monitoring, protection circuitry, and thermal management systems.</p></div>
+          </article>
+          <article class="system reveal" id="sys-drivetrain">
+            <figure class="system-media diagram"><img src="assets/img/carrera/hub-motor-diagram.webp" alt="Exploded design diagram of the hub motor, with its central stator and outer rotor discs" width="902" height="798" loading="lazy"></figure>
+            <div class="system-copy"><p class="system-label">03 / Max per watt</p><h3 class="system-title">Drivetrain</h3><p>A hub motor and efficient inverter turn stored energy into propulsion. Integrating the motor directly into a rear wheel keeps the drive path compact and reduces complexity and the majority of mechanical parasitic losses.</p></div>
+          </article>
+          <article class="system reveal" id="sys-suspension">
+            <figure class="system-media diagram"><img src="assets/img/carrera/suspension-design.webp" alt="Design render of wheel, suspension, and disc-brake assemblies" width="1206" height="654" loading="lazy"></figure>
+            <div class="system-copy"><p class="system-label">04 / Control through the corners.</p><h3 class="system-title">Suspension &amp; Dynamics</h3><p>Our design pairs semi double-wishbone front suspension with a rear swing arm. Steering, low rolling resistance tires, and four-wheel disc braking support handling and efficient laps.</p></div>
+          </article>
+          <article class="system reveal" id="sys-power">
+            <figure class="system-media diagram"><img src="assets/img/carrera/power-distribution-diagram.webp" alt="Electrical design diagram connecting the battery, contactors, fuses, motor controller, MPPT, and low-voltage systems" width="1389" height="862" loading="lazy"></figure>
+            <div class="system-copy"><p class="system-label">05 / Power where it’s needed.</p><h3 class="system-title">Power Distribution</h3><p>High-voltage and low-voltage systems connect the battery, motor controller, lights, and electronics. Custom boards and protection circuits are being developed for dependable operation.</p></div>
+          </article>
+          <article class="system reveal" id="sys-software">
+            <figure class="system-media diagram"><img src="assets/img/carrera/telemetry-example.webp" alt="Illustrative telemetry plot dated July 20, 2021 showing battery voltage, motor power, speed, and solar array production; not Carrera test results" width="1062" height="720" loading="lazy"></figure>
+            <div class="system-copy"><p class="system-label">06 / Data-driven racing</p><h3 class="system-title">Systems &amp; Software</h3><p>Microcontrollers, a driver dashboard, and telemetry bring vehicle data to the driver and team. The illustrative telemetry plot shows the signals we’re working to connect to testing and race decisions.</p></div>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <section class="section graphite" id="timeline" aria-labelledby="timeline-title">
+      <div class="wrap">
+        <div class="grid-2 shop">
+          <div>
+            <p class="eyebrow">Timeline</p>
+            <h2 class="h2" id="timeline-title">Our road to the track</h2>
+          </div>
+          <figure class="figure">
+            <img src="assets/img/carrera/workshop-open.webp" alt="Carrera in the workshop with the upper body raised, exposing the chassis and interior" width="1600" height="1200" loading="lazy">
+            <figcaption>In the shop: Carrera’s monocoque and body.</figcaption>
+          </figure>
+        </div>
+        <ol class="timeline">
+          <li class="is-now"><span class="when"><time datetime="2026-12">December 2026</time></span><span class="what">Complete design phase</span><span class="state">In development</span></li>
+          <li><span class="when"><time datetime="2027-01">January 2027</time></span><span class="what">Chassis integration</span></li>
+          <li><span class="when"><time datetime="2027-02">February 2027</time></span><span class="what">Solar array and battery validation</span></li>
+          <li><span class="when">March–May 2027</span><span class="what">Testing and optimization</span></li>
+          <li class="is-goal"><span class="when"><time datetime="2027-07">July 2027</time></span><span class="what">Formula Sun Grand Prix 2027</span></li>
+        </ol>
+      </div>
+    </section>
+
+    <section class="section" id="strategy" aria-labelledby="strategy-title">
+      <div class="wrap grid-2 strategy">
+        <div>
+          <p class="eyebrow">03 / Our strategy</p>
+          <h2 class="h2" id="strategy-title">Go farther.<br><span class="gold">Use less energy.</span></h2>
+          <p class="lead">Our goal is to use all available energy but no more and no less. Thorough analysis and testing help us set a pace we can sustain and our drivers and strategy team adjust to racing conditions to make sure every last watt-hour from sunlight is spent on track before the race ends.</p>
+        </div>
+        <ol class="steps">
+          <li class="reveal"><span class="step-n" aria-hidden="true">01</span><div><h3 class="h3">Model the lap</h3><p>Estimate how speed, aerodynamic drag, and rolling resistance affect energy use.</p></div></li>
+          <li class="reveal"><span class="step-n" aria-hidden="true">02</span><div><h3 class="h3">Learn from testing</h3><p>Compare model predictions with measured power, speed, and battery behavior.</p></div></li>
+          <li class="reveal"><span class="step-n" aria-hidden="true">03</span><div><h3 class="h3">Adapt the pace</h3><p>Use sunlight, available energy, and track conditions to inform race strategy.</p></div></li>
+        </ol>
+      </div>
+    </section>
+
+    <section class="section graphite" id="fsgp" aria-labelledby="fsgp-title">
+      <div class="wrap race">
+        <div>
+          <p class="eyebrow">04 / The next milestone</p>
+          <h2 class="h2" id="fsgp-title">Formula Sun Grand Prix</h2>
+          <p class="muted">Our goal is to prepare Carrera for FSGP 2027: a closed-course endurance competition where solar cars aim to complete the most laps. Reliability, energy management, and teamwork matter as much as speed.</p>
+          <dl class="race-facts">
+            <div><dt>REV’s race goal</dt><dd>2027</dd></div>
+            <div><dt>Days on track</dt><dd>3</dd></div>
+            <div><dt>Total driving hours</dt><dd>24</dd></div>
+          </dl>
+          <p class="small">The organizer’s general format is three eight-hour race days. Entry depends on completing the required technical and safety checks.</p>
+          <p><a class="link-arrow" href="https://www.americansolarchallenge.org/formula-sun-grand-prix/" target="_blank" rel="noopener noreferrer">Explore the competition ↗</a></p>
+        </div>
+        <div class="race-gallery">
+          <figure class="figure"><img src="assets/img/carrera/brainerd-raceway.webp" alt="Aerial view of the race circuits, paddock, and surrounding lakes at Brainerd International Raceway" width="640" height="400" loading="lazy"><figcaption>Brainerd International Raceway, host of the Electrek Formula Sun Grand Prix 2026</figcaption></figure>
+          <figure class="figure"><img src="assets/img/competition/fsgp-track-2023.webp" alt="Three solar racecars on track at Formula Sun Grand Prix in 2023" width="1672" height="941" loading="lazy"><figcaption>Formula Sun Grand Prix, 2023 · Cora Kennedy, ASC/FSGP Photographer</figcaption></figure>
+        </div>
+      </div>
+    </section>
+
+    <section class="section" id="car-faq" aria-labelledby="car-faq-title">
+      <div class="wrap faq-cols">
+        <div>
+          <p class="eyebrow">05 / Car FAQs</p>
+          <h2 class="h2" id="car-faq-title">A little more<br>under the hood.</h2>
+          <p class="muted">Curious about the car or how to help build it?</p>
+          <p><a class="link-arrow" href="join.html">Join the team →</a></p>
+          <p><a class="link-arrow" href="sponsorship.html">Support Carrera →</a></p>
+        </div>
+        <div class="faq">
+          <details><summary>What happens under a cloud or without sunlight?</summary><div class="answer"><p>That’s what the battery is for: the battery stores energy collected by the array, so the motor does not depend on direct sunlight at every moment.</p></div></details>
+          <details><summary>How fast can it go?</summary><div class="answer"><p>About 70–80 mph according to aerodynamic simulations and our motor’s characteristics. Another important way of looking at it is “how fast can it go on solar power alone?” We’re hoping for that to be &gt;35 mph during testing.</p></div></details>
+          <details><summary>What is a monocoque?</summary><div class="answer"><p>A monocoque combines both the vehicle’s aerodynamic shell and structural chassis as a load-bearing structure. It’s enabled by carbon fiber composites that can be formed into an aerodynamic shape using molds. Similar to Formula 1 and hypercars, Carrera’s carbon-fiber design helps reduce mass while supporting the systems inside.</p></div></details>
+          <details><summary>What does it take to drive the car?</summary><div class="answer"><p>With on-track wheel-to-wheel racing, drivers will be competing on real race circuits, overtaking opponents, and maximizing their use of energy to defend their position while also getting to know the car during our testing phase. Understanding racing strategy like following the racing line and applying power at just the right moment after a corner exit actually goes hand in hand with maximizing efficiency. <a href="join.html">Interested in driving?</a></p></div></details>
+          <details><summary>How does FSGP connect to the American Solar Challenge?</summary><div class="answer"><p>Formula Sun Grand Prix (FSGP) is the track event and serves as the qualifier for the American Solar Challenge (ASC), the cross-country endurance event which will be held in 2028. We’re optimizing our car for track racing in 2027, and planning to use what we learn to upgrade it for cross-country racing in 2028.</p></div></details>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <!-- footer:start -->
+  <footer class="footer">
+    <div class="wrap">
+      <div class="footer-grid">
+        <div>
+          <svg class="brand-mark" viewBox="0 0 235.06 80" aria-hidden="true" focusable="false"><use href="#rev-mark"/></svg>
+          <p class="muted">Rice Electric Vehicle (REV) is Rice University’s student-led solar racing team, building Carrera for Formula Sun Grand Prix 2027.</p>
+          <address>Oshman Engineering Design Kitchen<br>6100 Main Street, MS 390, Houston, Texas 77005</address>
+        </div>
+        <nav aria-labelledby="footer-site">
+          <h2 id="footer-site">Site</h2>
+          <ul>
+            <li><a href="index.html">Home</a></li>
+            <li><a href="car.html">Carrera</a></li>
+            <li><a href="garage.html">Livery Lab</a></li>
+            <li><a href="about.html">Team</a></li>
+            <li><a href="join.html">Join REV</a></li>
+            <li><a href="sponsorship.html">Sponsors</a></li>
+            <li><a href="contact.html">Contact</a></li>
+          </ul>
+        </nav>
+        <nav aria-labelledby="footer-follow">
+          <h2 id="footer-follow">Follow the team</h2>
+          <ul>
+            <li><a href="https://www.instagram.com/rice.rev/" target="_blank" rel="noopener noreferrer">Instagram ↗</a></li>
+            <li><a href="https://www.linkedin.com/company/rice-electric-vehicle/" target="_blank" rel="noopener noreferrer">LinkedIn ↗</a></li>
+            <li><a href="https://owlnest.rice.edu/organization/riceelectricvehicle" target="_blank" rel="noopener noreferrer">OwlNest ↗</a></li>
+            <li><a href="mailto:ricerev@gmail.com">ricerev@gmail.com</a></li>
+          </ul>
+        </nav>
+      </div>
+      <div class="footer-base">
+        <span>© Rice Electric Vehicle · Rice University</span>
+        <span>v2 preview · not the published site</span>
+      </div>
+    </div>
+  </footer>
+  <!-- footer:end -->
+</body>
+</html>

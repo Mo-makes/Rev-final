@@ -45,3 +45,4 @@ deprecate/generated-releases/
 
 # Experimental v2 site build
 dist-v2/
+.dist-v2-building/

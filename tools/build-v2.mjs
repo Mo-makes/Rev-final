@@ -2,15 +2,17 @@
 // Shared, already-approved media (photos, fonts, logos, the sponsorship packet) is copied
 // from rev-site/assets so it isn't duplicated in git; rev-site-v2/ is layered on top.
 // The approved site in rev-site/ and its dist/ build are not touched.
-import { cp, mkdir, rm, writeFile, readdir, stat } from 'node:fs/promises';
+import { cp, mkdir, rm, writeFile, readdir, stat, rename } from 'node:fs/promises';
 import path from 'node:path';
 import { fileURLToPath } from 'node:url';
 
 const root = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..');
 const source = path.join(root, 'rev-site-v2');
 const shared = path.join(root, 'rev-site', 'assets');
-const output = path.join(root, 'dist-v2');
-const sharedFolders = ['brand', 'docs', 'fonts', 'icons', 'img'];
+const finalOutput = path.join(root, 'dist-v2');
+// Build beside the live folder and swap at the end, so a running server never sees a half-built site.
+const output = path.join(root, '.dist-v2-building');
+const sharedFolders = ['brand', 'docs', 'icons', 'img']; // v2 ships its own WOFF2 fonts
 const skip = new Set(['README.md', 'PERFORMANCE.md']);
 
 await rm(output, { recursive: true, force: true });
@@ -33,6 +35,9 @@ await writeFile(path.join(output, 'serve.json'), JSON.stringify({
   ],
 }, null, 2));
 
+await rm(finalOutput, { recursive: true, force: true });
+await rename(output, finalOutput);
+
 let files = 0;
 let bytes = 0;
 async function walk(dir) {
@@ -42,5 +47,5 @@ async function walk(dir) {
     else { files += 1; bytes += (await stat(full)).size; }
   }
 }
-await walk(output);
+await walk(finalOutput);
 console.log(`dist-v2: ${files} files, ${(bytes / 1048576).toFixed(1)} MB`);
