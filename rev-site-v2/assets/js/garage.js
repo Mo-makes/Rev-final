@@ -20,7 +20,7 @@ const viewButtons = [...stage.querySelectorAll(".lab-views button")];
 const reduceMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
 
 // ---------- State ----------
-const PATTERNS = ["clean", "twin", "fade", "speed", "split", "sunburst", "carbon"];
+const PATTERNS = ["clean", "twin", "fade", "speed", "split", "carbon"];
 const DEFAULTS = Object.freeze({ base: "#0b2a4a", accent: "#f2c15b", pattern: "twin", number: "27", logo: true });
 const state = { ...DEFAULTS };
 let art = null; // { img, url, size, z, y } — local only, never encoded in links
@@ -224,28 +224,6 @@ const PAINTERS = {
     ctx.lineTo(-2.1, high + 0.04);
     ctx.lineTo(2.1, low + 0.04);
     ctx.lineTo(3, low + 0.04);
-    ctx.fill();
-  },
-
-  sunburst(ctx, v, c) {
-    // Rays fanning out from behind the race number, outer sides only.
-    if (!(isSide(v) && v.outer)) return;
-    const { z, y } = ROUNDEL;
-    const g = ctx.createRadialGradient(z, y, 0.16, z, y, 2.2);
-    g.addColorStop(0, rgba(c.accent, 1));
-    g.addColorStop(0.45, rgba(c.accent, 0.75));
-    g.addColorStop(1, rgba(c.accent, 0));
-    ctx.fillStyle = g;
-    ctx.beginPath();
-    const n = 15;
-    for (let i = 0; i < n; i++) {
-      const a0 = (i / n) * Math.PI * 2 + 0.06;
-      const a1 = a0 + Math.PI / n;
-      ctx.moveTo(z, y);
-      ctx.lineTo(z + Math.cos(a0) * 3.2, y + Math.sin(a0) * 3.2);
-      ctx.lineTo(z + Math.cos(a1) * 3.2, y + Math.sin(a1) * 3.2);
-      ctx.closePath();
-    }
     ctx.fill();
   },
 
@@ -785,7 +763,8 @@ document.getElementById("reset").addEventListener("click", () => {
 });
 
 // Start after first paint so text and images win the bandwidth race.
-const start = () => boot().catch(fail);
+// Wait for the page slide to finish first; building the 3D mid-slide makes it stutter.
+const start = () => (window.__pageTransition || Promise.resolve()).then(boot).catch(fail);
 const idle = window.requestIdleCallback || ((fn) => setTimeout(fn, 150));
 if (document.readyState === "complete") idle(start, { timeout: 1200 });
 else window.addEventListener("load", () => idle(start, { timeout: 1200 }), { once: true });
