@@ -2,7 +2,7 @@
   "mode": "production",
   "hostingProfile": "standard",
   "fileCount": 67,
-  "bytes": 15268769,
+  "bytes": 14298737,
   "checks": [
     "Artifact hashes match; originals, source CAD, archives and private/runtime files excluded.",
     "Six page titles/descriptions, canonicals, JSON-LD, alt text, IDs, timeline and sitemap validated.",

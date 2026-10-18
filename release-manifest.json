@@ -9,7 +9,7 @@
     "sponsorship.html",
     "contact.html"
   ],
-  "bytes": 15268769,
+  "bytes": 14298737,
   "assets": [
     {
       "source": "assets/brand/favicon.svg",
@@ -342,9 +342,9 @@
     },
     {
       "source": "assets/js/car-viewer.js",
-      "output": "assets/js/car-viewer.292dd945befe.js",
+      "output": "assets/js/car-viewer.0451dfd4c612.js",
       "bytes": 11295,
-      "sha256": "292dd945befe502dad409f8aa359e0a6ad0a9e50d7b819979eb5a882574f21fa",
+      "sha256": "0451dfd4c61210221d58fe5e4139dda07e841d62b021a8237274700ea66bd921",
       "immutable": true
     },
     {
@@ -377,9 +377,9 @@
     },
     {
       "source": "assets/models/carrera.glb",
-      "output": "assets/models/carrera.0b2a83b775d3.glb",
-      "bytes": 6389772,
-      "sha256": "0b2a83b775d304a37c2e79606182b702824eba18ea46c267910b3a22152b2b03",
+      "output": "assets/models/carrera.26df2573a949.glb",
+      "bytes": 5419740,
+      "sha256": "26df2573a949ee037244677f5886d3093f378f8ffccc3250ca447650ea287770",
       "immutable": true
     }
   ],
@@ -387,7 +387,7 @@
     {
       "path": "_headers",
       "bytes": 5568,
-      "sha256": "acfc8db401256fc78493da2f63ee8573efffaa73fc1c39baa4095649523444d8"
+      "sha256": "7608c1cfbd2a0f5e17dd03a233aea2a644b7bca0ac27299ba0507d499edbcdca"
     },
     {
       "path": "_redirects",
@@ -640,9 +640,9 @@
       "sha256": "ee020caf4240f9c3a1e76bfc1f6c832308d37e0abc3a5a3202cce224c87e26ba"
     },
     {
-      "path": "assets/js/car-viewer.292dd945befe.js",
+      "path": "assets/js/car-viewer.0451dfd4c612.js",
       "bytes": 11295,
-      "sha256": "292dd945befe502dad409f8aa359e0a6ad0a9e50d7b819979eb5a882574f21fa"
+      "sha256": "0451dfd4c61210221d58fe5e4139dda07e841d62b021a8237274700ea66bd921"
     },
     {
       "path": "assets/js/contact.f28099126bc1.js",
@@ -665,9 +665,9 @@
       "sha256": "fa343b35abccce170e53e3738ff1c0c05e854cb3fde8fff574b6689301780fe0"
     },
     {
-      "path": "assets/models/carrera.0b2a83b775d3.glb",
-      "bytes": 6389772,
-      "sha256": "0b2a83b775d304a37c2e79606182b702824eba18ea46c267910b3a22152b2b03"
+      "path": "assets/models/carrera.26df2573a949.glb",
+      "bytes": 5419740,
+      "sha256": "26df2573a949ee037244677f5886d3093f378f8ffccc3250ca447650ea287770"
     },
     {
       "path": "car.html",
@@ -682,7 +682,7 @@
     {
       "path": "index.html",
       "bytes": 25388,
-      "sha256": "07badadd9fff5fad6b84d22abb203d3d3bb907962975976857635cf2b52833e8"
+      "sha256": "6ee29663f355bd81e2323d5adf315296dd1af9b5343bc9f6cc71ded985955d43"
     },
     {
       "path": "join.html",
