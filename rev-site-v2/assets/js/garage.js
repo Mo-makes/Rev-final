@@ -569,7 +569,7 @@ async function boot() {
   // Canvas text only uses a web font once it has loaded: wait for the number face (and the caption face).
   try {
     await Promise.race([
-      Promise.all([document.fonts.load('900 64px "REV Text"'), document.fonts.load('italic 600 34px "Cormorant Garamond"')]),
+      Promise.all([document.fonts.load('900 64px "REV Text"'), document.fonts.load('700 34px "Martian Mono"')]),
       new Promise((r) => setTimeout(r, 1500)),
     ]);
   } catch { /* system font fallback */ }
@@ -719,7 +719,7 @@ async function boot() {
       c.fillStyle = "rgba(236, 238, 241, 0.92)";
       c.fill(getMark());
       c.restore();
-      c.font = '600 italic 34px "Cormorant Garamond", Georgia, serif';
+      c.font = '700 28px "Martian Mono", ui-monospace, monospace';
       c.fillStyle = "rgba(236, 238, 241, 0.92)";
       c.textBaseline = "alphabetic";
       c.fillText("Livery Lab concept", 136, H - 48);

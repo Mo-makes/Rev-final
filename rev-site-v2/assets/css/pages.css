@@ -13,7 +13,7 @@
 
 /* Contact */
 .contact-grid { align-items: start; }
-.contact-address { display: inline-block; font: italic 600 clamp(1.8rem, 4vw, 2.8rem)/1.1 var(--serif); text-decoration: none; border-bottom: 1px solid var(--hair-strong); word-break: break-word; }
+.contact-address { display: inline-block; font: 700 calc(clamp(1.8rem, 4vw, 2.8rem) * 0.6)/1.18 var(--display); font-stretch: 112.5%; letter-spacing: -0.035em; text-decoration: none; border-bottom: 1px solid var(--hair-strong); word-break: break-word; }
 .contact-address:hover { color: var(--gold); border-color: var(--gold); }
 .people { list-style: none; margin: 40px 0 0; padding: 0; border-top: 1px solid var(--hair); }
 .people li { display: flex; flex-wrap: wrap; justify-content: space-between; gap: 6px 20px; padding: 16px 0; border-bottom: 1px solid var(--hair); }
@@ -41,7 +41,7 @@
 
 /* ---------- Team (about.html) ---------- */
 .team-head-grid { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1.05fr); gap: clamp(32px, 5vw, 80px); align-items: end; }
-.team-tagline { margin: 26px 0 0; font: italic 600 clamp(1.4rem, 2.2vw, 1.8rem)/1.2 var(--serif); color: var(--gold); }
+.team-tagline { margin: 26px 0 0; font: 700 calc(clamp(1.4rem, 2.2vw, 1.8rem) * 0.6)/1.28 var(--display); font-stretch: 112.5%; letter-spacing: -0.035em; color: var(--gold); }
 .team-head .lead { margin-top: 14px; }
 .team-head .actions { margin-top: 26px; }
 .team-jump { margin: 26px 0 0; }
@@ -97,7 +97,7 @@
 /* Roster: leadership and sub-team leads with schematic placeholder portraits. */
 .roster-section { background: var(--graphite); }
 .roster-head { display: flex; flex-wrap: wrap; align-items: end; justify-content: space-between; gap: 12px 32px; }
-.roster-note { margin: 0 0 1.6em; font-family: var(--mono); letter-spacing: 0.04em; }
+.roster-note { margin: 0 0 1.6em; font-family: var(--mono); letter-spacing: 0; }
 .roster { list-style: none; margin: 0; padding: 0; display: grid; gap: clamp(16px, 2.2vw, 28px); }
 .roster-leadership { grid-template-columns: repeat(3, minmax(0, 1fr)); }
 .roster-leadership .person { display: grid; grid-template-columns: clamp(96px, 9vw, 128px) minmax(0, 1fr); gap: 0 20px; align-items: center; padding: 16px; border: 1px solid var(--hair); border-radius: var(--radius); background: var(--panel); }
@@ -109,7 +109,7 @@
 .roster-subhead { margin-top: clamp(48px, 6vw, 72px); padding-top: clamp(36px, 5vw, 56px); border-top: 1px solid var(--hair); }
 .person .h3 { margin: 18px 0 4px; }
 .person-role { margin: 0; color: var(--steel); font-size: 0.9rem; }
-.lead-slot .person-role { font-family: var(--mono); font-size: 0.78rem; letter-spacing: 0.04em; }
+.lead-slot .person-role { font-family: var(--mono); font-size: 0.78rem; letter-spacing: 0; }
 .portrait {
   position: relative; aspect-ratio: 4 / 5; overflow: hidden; color: var(--line);
   border: 1px solid var(--hair);
@@ -123,10 +123,10 @@
 /* The outline lives in a <use> shadow tree, so it is tuned through inherited custom properties. */
 .monogram {
   position: absolute; left: 50%; top: 39%; transform: translate(-50%, -50%);
-  font: italic 600 clamp(2.4rem, 4.6vw, 3.6rem)/1 var(--serif); color: var(--gold); letter-spacing: 0.02em;
+  font: 700 calc(clamp(2.4rem, 4.6vw, 3.6rem) * 0.6)/1.08 var(--display); font-stretch: 112.5%; letter-spacing: -0.035em; color: var(--gold); letter-spacing: 0;
 }
 .roster-leadership .portrait { --p-head: 0.18; --p-ring: 0.3; }
-.portrait-group { position: absolute; left: 12px; bottom: 10px; font: 500 0.62rem/1 var(--mono); letter-spacing: 0.16em; text-transform: uppercase; color: var(--steel); }
+.portrait-group { position: absolute; left: 12px; bottom: 10px; font: 500 0.62rem/1 var(--mono); letter-spacing: 0; color: var(--steel); }
 .portrait.is-open { --p-dash: 3 4; --p-head: 0.75; --p-body: 0.75; }
 @media (max-width: 1000px) { .roster-leadership { grid-template-columns: 1fr; max-width: 560px; } }
 @media (max-width: 900px) { .roster-leads { grid-template-columns: repeat(3, minmax(0, 1fr)); } }
@@ -156,7 +156,7 @@
 .apply-grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: clamp(16px, 2.4vw, 28px); margin-top: clamp(28px, 4vw, 44px); }
 .apply-card { display: flex; flex-direction: column; align-items: flex-start; }
 .apply-card .tag { margin: 0 0 26px; text-transform: none; letter-spacing: 0.06em; font-size: 0.74rem; }
-.apply-title { font: italic 600 clamp(1.8rem, 3vw, 2.4rem)/1.05 var(--serif); margin-bottom: 0.5em; }
+.apply-title { font: 700 calc(clamp(1.8rem, 3vw, 2.4rem) * 0.6)/1.13 var(--display); font-stretch: 112.5%; letter-spacing: -0.035em; margin-bottom: 0.5em; }
 .apply-card .btn { margin-top: auto; }
 .apply-card > p.muted { margin-bottom: 28px; }
 .apply-pending { margin: 12px 0 0; }
@@ -178,16 +178,16 @@
 .race-grid { align-items: start; }
 .race-slots { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 12px; margin-top: 28px; }
 .race-slot { display: block; padding: 18px 18px 16px; border: 1px dashed var(--line-dim); border-radius: var(--radius); font-weight: 700; }
-.race-slot small { display: block; margin-top: 8px; font: 500 0.7rem/1.2 var(--mono); letter-spacing: 0.12em; text-transform: uppercase; color: var(--line); }
+.race-slot small { display: block; margin-top: 8px; font: 500 0.7rem/1.2 var(--mono); letter-spacing: 0; color: var(--line); }
 @media (max-width: 520px) { .race-slots { grid-template-columns: 1fr; } }
 
 /* ---------- Sponsors (sponsorship.html) ---------- */
 .sponsor-head-grid { display: grid; grid-template-columns: minmax(0, 1.25fr) minmax(0, 0.85fr); gap: clamp(32px, 6vw, 96px); align-items: end; }
 .sponsor-head-link { margin: 28px 0 0; }
 .packet { position: relative; padding: clamp(26px, 3vw, 38px); border: 1px solid var(--line-dim); border-radius: var(--radius); background: rgba(13, 14, 17, 0.86); }
-.packet-title { font: italic 600 clamp(1.9rem, 3vw, 2.6rem)/1.04 var(--serif); margin-bottom: 0.5em; }
+.packet-title { font: 700 calc(clamp(1.9rem, 3vw, 2.6rem) * 0.6)/1.12 var(--display); font-stretch: 112.5%; letter-spacing: -0.035em; margin-bottom: 0.5em; }
 .packet .btn { margin-top: 8px; }
-.packet-note { margin: 14px 0 0; font: 0.72rem/1.4 var(--mono); letter-spacing: 0.06em; color: var(--steel); }
+.packet-note { margin: 14px 0 0; font: 0.72rem/1.4 var(--mono); letter-spacing: 0; color: var(--steel); }
 @media (max-width: 900px) { .sponsor-head-grid { grid-template-columns: 1fr; } }
 
 /* Partner wall: logos are dark-on-transparent artwork, so each sits on a lit paper plate. */
@@ -195,7 +195,7 @@
 .plate { grid-column: span 2; display: grid; place-items: center; min-height: clamp(120px, 12vw, 160px); padding: clamp(18px, 2.4vw, 30px); background: #fff; border-radius: 2px; box-shadow: inset 0 0 0 1px rgba(0, 0, 0, 0.06), 0 30px 60px -40px rgba(242, 193, 91, 0.35); }
 .plate:nth-child(4) { grid-column: 2 / span 2; }
 .plate img { width: 100%; max-width: 320px; max-height: 76px; object-fit: contain; }
-.plate-name span { font: italic 600 clamp(1.7rem, 2.6vw, 2.2rem)/1 var(--serif); color: #00205b; }
+.plate-name span { font: 700 calc(clamp(1.7rem, 2.6vw, 2.2rem) * 0.6)/1.08 var(--display); font-stretch: 112.5%; letter-spacing: -0.035em; color: #00205b; }
 @media (max-width: 860px) {
   .partner-wall { grid-template-columns: repeat(2, minmax(0, 1fr)); }
   .plate, .plate:nth-child(4) { grid-column: auto; }
@@ -207,7 +207,7 @@
 }
 
 .support-grid { margin-top: clamp(28px, 4vw, 44px); }
-.support-title { font: italic 600 clamp(1.7rem, 2.6vw, 2.1rem)/1.05 var(--serif); margin-bottom: 0.55em; }
+.support-title { font: 700 calc(clamp(1.7rem, 2.6vw, 2.1rem) * 0.6)/1.13 var(--display); font-stretch: 112.5%; letter-spacing: -0.035em; margin-bottom: 0.55em; }
 .support-close { display: flex; flex-wrap: wrap; align-items: baseline; justify-content: space-between; gap: 12px 32px; margin-top: clamp(32px, 4vw, 48px); padding-top: 24px; border-top: 1px solid var(--hair); }
 .support-close p { margin: 0; color: var(--soft); max-width: 60ch; }
 
@@ -222,7 +222,7 @@
 .lost-track .lt-line { fill: none; stroke: var(--line); stroke-width: 1.2; stroke-dasharray: 6 6; opacity: 0.8; }
 .lost-track .lt-run { fill: none; stroke: var(--gold); stroke-width: 1.4; stroke-dasharray: 2 4; }
 .lost-track .lt-car { fill: var(--gold); }
-.lost-track .lt-label { font: 500 10px var(--mono); letter-spacing: 0.16em; fill: var(--steel); }
+.lost-track .lt-label { font: 500 10px var(--mono); letter-spacing: 0; fill: var(--steel); }
 @media (prefers-reduced-motion: no-preference) {
   .lost-track .lt-line { animation: lt-flow 2.4s linear infinite; }
   .lost-track .lt-car { animation: lt-pulse 2.4s ease-in-out infinite; transform-origin: 458px 88px; }
@@ -233,3 +233,30 @@
   .lost-grid { grid-template-columns: 1fr; }
   .lost-track { order: -1; max-width: 420px; }
 }
+
+/* ---------- Team shortcodes (timing-tower codes) ---------- */
+.team-decals { margin-top: clamp(28px, 4vw, 44px); }
+.code-chip { display: inline-block; min-width: 3.6em; margin-right: 14px; padding: 4px 8px 3px; border-radius: 3px; background: var(--paper); color: #000; font: 800 0.78em/1 var(--display); font-stretch: 112.5%; letter-spacing: -0.04em; text-align: center; vertical-align: 0.12em; }
+.h2.coded .code-chip { font-size: 0.42em; vertical-align: 0.5em; }
+.tower { list-style: none; margin: 0; padding: 0; border-top: 2px solid var(--paper); }
+.tower-row { display: grid; grid-template-columns: 96px 8px minmax(0, 1fr) minmax(0, 0.9fr); gap: 0 20px; align-items: center; min-height: 76px; border-bottom: 1px solid var(--hair); }
+.tower-code { padding-left: 6px; font: 800 1.9rem/1 var(--display); font-stretch: 112.5%; letter-spacing: -0.05em; }
+.tower-stripe { align-self: stretch; background: var(--stripe, var(--gold)); }
+.tower-row[data-group="mech"] { --stripe: #4d9ad4; }
+.tower-row[data-group="elec"] { --stripe: #f2c15b; }
+.tower-row[data-group="hv"] { --stripe: #ff7a1a; }
+.tower-row[data-group="ops"] { --stripe: #e8eaed; }
+.tower-row[data-group="mkt"] { --stripe: #00205b; box-shadow: none; }
+.tower-name strong { display: block; font-size: 1.05rem; }
+.tower-name small { color: var(--steel); font: 400 0.78rem/1.3 var(--mono); }
+.tower-lead { display: flex; align-items: center; gap: 12px; color: var(--soft); font: 400 0.82rem/1.3 var(--mono); }
+.tower-avatar { flex: none; width: 40px; height: 40px; border-radius: 50%; border: 1px dashed var(--hair-strong); background: radial-gradient(circle at 50% 38%, var(--hair-strong) 0 7px, transparent 8px), radial-gradient(ellipse at 50% 100%, var(--hair-strong) 0 13px, transparent 14px); }
+@media (max-width: 700px) {
+  .tower-row { grid-template-columns: 68px 6px 1fr; padding-block: 12px; }
+  .tower-code { font-size: 1.4rem; }
+  .tower-lead { grid-column: 3; margin-top: 8px; }
+}
+.team-decals { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); align-items: start; }
+.team-decals .decal-face { width: 100%; }
+@media (max-width: 1000px) { .team-decals { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
+@media (max-width: 520px) { .team-decals { grid-template-columns: 1fr; } }
