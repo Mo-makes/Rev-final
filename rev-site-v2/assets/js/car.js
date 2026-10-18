@@ -171,6 +171,7 @@ async function boot() {
     panel.setAttribute("aria-labelledby", "viewer-panel-title");
     panel.classList.toggle("schematic", !!pin.schematic);
     panel.hidden = false;
+    viewer.classList.add("has-panel");
     pins.forEach((p) => p.btn.setAttribute("aria-expanded", String(p.btn === btn)));
     setMode(pin.schematic ? "schematic" : "studio");
     flyTo(resolveView(pin.view));
@@ -178,6 +179,7 @@ async function boot() {
   }
   function closePanel() {
     panel.hidden = true;
+    viewer.classList.remove("has-panel");
     pins.forEach((p) => p.btn.setAttribute("aria-expanded", "false"));
     offsetTarget = desiredOffset();
     studio.wake();

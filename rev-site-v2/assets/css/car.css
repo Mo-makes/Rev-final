@@ -14,6 +14,8 @@
 
 .viewer-copy { position: absolute; left: var(--gutter); bottom: clamp(32px, 7vh, 72px); max-width: 30rem; z-index: 2; pointer-events: none; }
 .viewer-copy a { pointer-events: auto; }
+.viewer-copy { transition: opacity 0.4s ease; }
+.viewer.has-panel .viewer-copy { opacity: 0.12; }
 .viewer-copy .h1 { font-size: clamp(3.4rem, 8vw, 7rem); text-shadow: 0 6px 40px rgba(0, 0, 0, 0.7); }
 .viewer-tag { margin: 10px 0 16px; font: 700 calc(clamp(1.3rem, 2vw, 1.7rem) * 0.6)/1.28 var(--display); font-stretch: 112.5%; letter-spacing: -0.035em; color: var(--gold); }
 .viewer-lead { color: var(--soft); max-width: 42ch; margin: 0; }

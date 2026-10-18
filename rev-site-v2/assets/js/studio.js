@@ -285,7 +285,7 @@ export async function createStudio({ stage, canvas, quality = pickQuality(), onP
       mats.body = mat;
     } else if (/solar/i.test(name)) {
       mat = new THREE.MeshPhysicalMaterial({
-        name, map: src.map, color: 0x6f86a6, roughness: 0.35, metalness: 0.2, clearcoat: 1, clearcoatRoughness: 0.08,
+        name, map: src.map, color: 0x6f86a6, roughness: 0.42, metalness: 0.2, clearcoat: 0.55, clearcoatRoughness: 0.12, envMapIntensity: 0.75,
         emissive: 0x000000, transparent: true,
       });
       if (mat.map) mat.map.anisotropy = high ? 8 : 2;
