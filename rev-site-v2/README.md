@@ -1,6 +1,6 @@
 # REV website v2 (experimental)
 
-An alternative REV site built around the 3D model of Carrera: a dark photo studio with schematic touches. It is for the team to review next to the approved site. It is **not** the published site and doesn't change it: `rev-site/`, `dist/`, `npm start` and `npm test` behave exactly as before. Every v2 page carries `noindex`.
+An alternative REV site built around the 3D model of Carrera: a dark photo studio with schematic touches. Display type is Martian Mono; lists are set as vinyl decals on carbon fibre or as timing-tower rows with team shortcodes (SUS, CHS, SIM, BAT, PWR, SWS, OPS, MKT) instead of cards. It is for the team to review next to the approved site. It is **not** the published site and doesn't change it: `rev-site/`, `dist/`, `npm start` and `npm test` behave exactly as before. Every v2 page carries `noindex`.
 
 ## Run it
 
@@ -20,7 +20,7 @@ Open http://localhost:3002. To compare, run `npm start` in another terminal for 
 | `index.html` | Studio reveal (a light sweeps the car), then a scroll-driven camera: the array, an x-ray "inside" view with the energy path, a spec profile, and FSGP 2027. Then a "Paddock notes" updates feed, Who we are, The road ahead, partners, FAQ. |
 | `car.html` | An orbit viewer with hotspots (monocoque, array, dashboard, suspension, hub motor, battery, power distribution). Each opens the matching system write-up. There is a Studio/Schematic toggle, then the full Carrera content. |
 | `garage.html` | Livery Lab: try colours, stripes, a race number and the REV mark on the car, then save an image or share a link. |
-| `about.html` | Team: the eight teams, leadership, and sub-team lead cards with placeholder portraits (headshots deferred, names to come). |
+| `about.html` | Team: the eight teams as a decal sheet, then leadership and sub-team leads as timing-tower rows with placeholder avatars (headshots deferred, lead names to come). |
 | `join.html` | Applications with a team banner photo. The banner is a stand-in until the media team supplies a full-team photo. |
 | `sponsorship.html`, `contact.html`, `404.html` | The approved content in the v2 design. |
 
@@ -30,7 +30,7 @@ All copy comes from the approved pages, plus the items from the president's Oct 
 
 - **Updates feed**: in `index.html`, copy an `<article class="post">` inside `.feed`, newest first. Use real dates in `<time datetime>`.
 - **Header and footer**: edit them in `contact.html`, then run `python3 lab/v2-partials.py` on a page that still has the `<!--HEADER-->` placeholders. Existing pages hold their own copy, so change those too.
-- **Lead names and headshots**: replace the `.lead-slot` placeholders in `about.html`.
+- **Lead names and headshots**: in `about.html`, replace "Lead: name coming soon" in each `.tower-row` and swap the `.tower-avatar` placeholder for a photo.
 
 ## How the 3D works
 

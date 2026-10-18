@@ -45,16 +45,6 @@
   <!-- header:end -->
 
   <main id="main">
-    <svg width="0" height="0" style="position:absolute" aria-hidden="true" focusable="false">
-      <symbol id="portrait-outline" viewBox="0 0 160 200">
-        <path d="M80 8v184M8 78h144" stroke-dasharray="2 4" style="opacity:var(--p-axis, 0.3)"/>
-        <circle cx="80" cy="78" r="44" stroke-dasharray="1 5" style="opacity:var(--p-ring, 0.45)"/>
-        <circle cx="80" cy="78" r="27" style="opacity:var(--p-head, 0.7);stroke-dasharray:var(--p-dash, none)"/>
-        <path d="M24 200c0-44 25-70 56-70s56 26 56 70" style="opacity:var(--p-body, 0.7);stroke-dasharray:var(--p-dash, none)"/>
-        <path d="M36 30v-8h8M124 30v-8h-8" style="opacity:var(--p-tick, 0.55)"/>
-      </symbol>
-    </svg>
-
     <header class="page-head team-head">
       <div class="wrap team-head-grid">
         <div class="team-head-copy">
@@ -63,12 +53,12 @@
           <p class="team-tagline">One solar car. A team built across disciplines.</p>
           <p class="lead">REV brings Rice students together to design, build, and prepare for the Formula Sun Grand Prix 2027. Engineering, business, operations, and storytelling all have a part in getting to the track.</p>
           <div class="actions">
-            <a class="btn gold" href="join.html">Join the team <span aria-hidden="true">↗</span></a>
-            <a class="btn ghost" href="contact.html">Get in touch with us <span aria-hidden="true">↗</span></a>
+            <a class="btn gold" href="join.html">Join the team</a>
+            <a class="btn ghost" href="contact.html">Get in touch with us</a>
           </div>
-          <p class="team-jump"><a class="link-arrow" href="#team-structure">Explore the teams <span aria-hidden="true">↓</span></a></p>
+          <p class="team-jump"><a class="link-arrow" href="#team-structure">Explore the teams</a></p>
         </div>
-        <figure class="team-head-photo corner">
+        <figure class="team-head-photo">
           <img src="assets/img/team/elec-action-6.webp" alt="REV students gathered around Carrera with its bodywork raised" width="1200" height="800" fetchpriority="high">
         </figure>
       </div>
@@ -191,28 +181,13 @@
     <section class="section roster-section" id="leads" aria-labelledby="leadership-heading">
       <div class="wrap">
         <div class="roster-head">
-          <div>
-            <p class="eyebrow line">Who leads REV</p>
-            <h2 class="h2" id="leadership-heading">Leadership</h2>
-          </div>
+          <h2 class="h2" id="leadership-heading">Leadership</h2>
           <p class="small roster-note">Headshots coming soon.</p>
         </div>
-        <ul class="roster roster-leadership">
-          <li class="person">
-            <div class="portrait corner" aria-hidden="true"><svg viewBox="0 0 160 200"><use href="#portrait-outline"/></svg><span class="monogram">SS</span></div>
-            <h3 class="h3">Sebastian Sandoval</h3>
-            <p class="person-role">Project Manager / Team Captain</p>
-          </li>
-          <li class="person">
-            <div class="portrait corner" aria-hidden="true"><svg viewBox="0 0 160 200"><use href="#portrait-outline"/></svg><span class="monogram">GB</span></div>
-            <h3 class="h3">Gabriel Berdach</h3>
-            <p class="person-role">Chief Financial Officer</p>
-          </li>
-          <li class="person">
-            <div class="portrait corner" aria-hidden="true"><svg viewBox="0 0 160 200"><use href="#portrait-outline"/></svg><span class="monogram">GW</span></div>
-            <h3 class="h3">Dr. Gary Woods</h3>
-            <p class="person-role">Faculty Advisor, Electrical and Computer Engineering</p>
-          </li>
+        <ul class="tower tower-people" aria-labelledby="leadership-heading">
+          <li class="tower-row" data-group="lead"><span class="tower-code" aria-hidden="true">SAN</span><span class="tower-stripe" aria-hidden="true"></span><span class="tower-avatar" aria-hidden="true"></span><span class="tower-name"><strong>Sebastian Sandoval</strong><small>Project Manager / Team Captain</small></span></li>
+          <li class="tower-row" data-group="lead"><span class="tower-code" aria-hidden="true">BER</span><span class="tower-stripe" aria-hidden="true"></span><span class="tower-avatar" aria-hidden="true"></span><span class="tower-name"><strong>Gabriel Berdach</strong><small>Chief Financial Officer</small></span></li>
+          <li class="tower-row" data-group="advisor"><span class="tower-code" aria-hidden="true">WOO</span><span class="tower-stripe" aria-hidden="true"></span><span class="tower-avatar" aria-hidden="true"></span><span class="tower-name"><strong>Dr. Gary Woods</strong><small>Faculty Advisor, Electrical and Computer Engineering</small></span></li>
         </ul>
 
         <h2 class="h2 roster-subhead" id="leads-heading">Sub-team leads</h2>
@@ -232,14 +207,15 @@
     <section class="section invite" aria-labelledby="invitation-heading">
       <div class="wrap invite-grid">
         <div>
-          <p class="eyebrow">Build with us</p>
           <h2 class="h2" id="invitation-heading">What will you <br>bring to the team?</h2>
           <p class="lead">You can contribute through engineering, software, business, operations, media, design, and more. Explore a team that interests you and tell us where you’d like to get involved.</p>
         </div>
         <div class="invite-actions">
-          <a class="btn gold" href="join.html">Join REV <span aria-hidden="true">↗</span></a>
-          <a class="link-arrow" href="car.html">Meet Carrera <span aria-hidden="true">→</span></a>
-          <a class="link-arrow" href="mailto:ricerev@gmail.com">Ask us a question <span aria-hidden="true">→</span></a>
+          <a class="btn gold" href="join.html">Join REV</a>
+          <ul class="invite-links">
+            <li><a href="car.html">Meet Carrera</a></li>
+            <li><a href="mailto:ricerev@gmail.com">Ask us a question</a></li>
+          </ul>
         </div>
       </div>
     </section>
@@ -277,8 +253,8 @@
         </nav>
       </div>
       <div class="footer-base">
-        <span>© Rice Electric Vehicle · Rice University</span>
-        <span>v2 preview · not the published site</span>
+        <span>© Rice Electric Vehicle, Rice University</span>
+        <span>v2 preview, not the published site</span>
       </div>
     </div>
   </footer>
