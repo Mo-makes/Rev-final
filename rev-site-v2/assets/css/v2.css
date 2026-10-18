@@ -122,7 +122,12 @@ h1, h2, h3, h4 { margin: 0; font-weight: 600; }
 .nav { display: flex; align-items: center; gap: 2px; }
 .nav a { padding: 10px 12px; font: 500 0.8rem/1 var(--mono); font-stretch: 100%; letter-spacing: 0; text-decoration: none; color: var(--soft); border-radius: var(--radius); }
 .nav a:hover { color: var(--paper); }
-.nav a[aria-current="page"] { color: var(--paper); box-shadow: inset 0 -1px 0 var(--gold); border-radius: 0; }
+.nav a { position: relative; }
+.nav a[aria-current="page"] { color: var(--paper); border-radius: 0; }
+/* The gold underline is a real element with its own view-transition name, so on navigation it
+   glides from the old page's menu item to the new one. */
+.nav-indicator { position: absolute; left: 12px; right: 12px; bottom: 2px; height: 2px; border-radius: 2px; background: var(--gold); view-transition-name: nav-indicator; pointer-events: none; }
+.nav a.nav-cta .nav-indicator { bottom: -8px; left: 0; right: 0; }
 .nav a.nav-cta { margin-left: 8px; color: #000; background: var(--gold); }
 .nav a.nav-cta:hover { background: #ffd57c; }
 .menu { display: none; position: relative; }
@@ -273,3 +278,27 @@ a.decal:focus-visible .decal-face { outline: 3px solid var(--gold); outline-offs
 /* Round decals: keep the title inside the circle on phones. */
 .decal.round .decal-title { font-size: clamp(0.95rem, 1.3vw, 1.1rem); }
 .decal.round p { font-size: 0.86rem; max-width: 24ch; }
+
+/* ---------- Page transitions (cross-document view transitions; ignored where unsupported) ----------
+   The header stays put, the gold nav underline slides to the new item, and the page itself slides
+   and fades in the direction of travel through the menu (transitions.js sets forward/back). */
+@view-transition { navigation: auto; }
+.bar { view-transition-name: site-header; }
+::view-transition-group(site-header) { animation: none; z-index: 10; }
+::view-transition-group(nav-indicator) { z-index: 11; animation-duration: 0.6s; animation-timing-function: cubic-bezier(0.3, 0.7, 0.2, 1); }
+::view-transition-old(nav-indicator), ::view-transition-new(nav-indicator) { height: 100%; animation: none; }
+::view-transition-old(nav-indicator):only-child { animation: vt-fade-out 0.3s ease both; }
+::view-transition-new(nav-indicator):only-child { animation: vt-fade-in 0.4s ease 0.1s both; }
+::view-transition-old(root) { animation: vt-out 0.24s cubic-bezier(0.4, 0, 1, 1) both; }
+::view-transition-new(root) { animation: vt-in 0.52s cubic-bezier(0.16, 0.8, 0.24, 1) 0.17s both; }
+html:active-view-transition-type(back)::view-transition-old(root) { animation-name: vt-out-back; }
+html:active-view-transition-type(back)::view-transition-new(root) { animation-name: vt-in-back; }
+@keyframes vt-out { to { opacity: 0; transform: translateX(-72px); } }
+@keyframes vt-in { from { opacity: 0; transform: translateX(72px); } }
+@keyframes vt-out-back { to { opacity: 0; transform: translateX(72px); } }
+@keyframes vt-in-back { from { opacity: 0; transform: translateX(-72px); } }
+@keyframes vt-fade-out { to { opacity: 0; } }
+@keyframes vt-fade-in { from { opacity: 0; } }
+@media (prefers-reduced-motion: reduce) {
+  ::view-transition-group(*), ::view-transition-old(*), ::view-transition-new(*) { animation: none !important; }
+}

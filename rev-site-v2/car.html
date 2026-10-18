@@ -9,6 +9,7 @@
   <meta name="theme-color" content="#050506">
   <link rel="icon" type="image/svg+xml" href="assets/brand/favicon.svg">
   <link rel="preload" href="assets/fonts/martian-mono.woff2" as="font" type="font/woff2" crossorigin>
+  <script src="assets/js/transitions.js"></script>
   <link rel="stylesheet" href="assets/css/v2.css">
   <link rel="stylesheet" href="assets/css/car.css">
   <script type="importmap">{"imports":{"three":"https://cdn.jsdelivr.net/npm/three@0.168.0/build/three.module.min.js","three/addons/":"https://cdn.jsdelivr.net/npm/three@0.168.0/examples/jsm/"}}</script>
@@ -25,7 +26,7 @@
       <span class="brand-name">Rice Electric Vehicle</span>
     </a>
     <nav class="nav" aria-label="Primary">
-      <a href="car.html" aria-current="page">Carrera</a>
+      <a href="car.html" aria-current="page">Carrera<span class="nav-indicator" aria-hidden="true"></span></a>
       <a href="garage.html">Livery Lab</a>
       <a href="about.html">Team</a>
       <a href="sponsorship.html">Sponsors</a>
@@ -51,7 +52,7 @@
     <section class="viewer" aria-labelledby="carrera-title">
       <div class="viewer-stage">
         <canvas class="viewer-canvas" aria-label="Interactive 3D model of Carrera. Drag to rotate; use the hotspot buttons to explore its systems."></canvas>
-        <img class="viewer-poster" src="assets/img/v2/carrera-studio-poster.webp" alt="Carrera, a white solar racecar with a dark solar array and an offset canopy, in a dark studio" width="1600" height="1000" fetchpriority="high">
+        <picture class="viewer-poster"><source media="(max-width: 1099px), (max-aspect-ratio: 5/4)" srcset="assets/img/v2/carrera-viewer-poster-stacked.webp"><img src="assets/img/v2/carrera-viewer-poster.webp" alt="Carrera, a white solar racecar with a dark solar array and an offset canopy, in a dark studio" width="1600" height="1000" fetchpriority="high"></picture>
         <div class="viewer-loader" aria-hidden="true"><span></span></div>
         <div class="pins" role="group" aria-label="Carrera hotspots"></div>
         <div class="viewer-tools" role="toolbar" aria-label="Viewer controls">
