@@ -1,0 +1,269 @@
+{
+  "model": "carrera-v2.glb",
+  "units": "metres",
+  "axes": {
+    "up": "+Y",
+    "nose": "+Z",
+    "car_left": "+X",
+    "origin": "ground plane, centre of the car's bounding box"
+  },
+  "hotspots": {
+    "Hotspot_Nose": {
+      "position": [
+        0.0,
+        0.673,
+        2.4058
+      ],
+      "normal": [
+        0.0,
+        0.0,
+        1.0
+      ],
+      "kind": "surface",
+      "note": "Leading edge of the nose, on the centreline."
+    },
+    "Hotspot_SolarArray": {
+      "position": [
+        -0.1015,
+        0.862,
+        -0.0635
+      ],
+      "normal": [
+        -0.0108,
+        0.9997,
+        -0.0223
+      ],
+      "kind": "surface",
+      "note": "Top of the solar array near its area centre."
+    },
+    "Hotspot_Canopy": {
+      "position": [
+        0.6293,
+        1.3084,
+        -0.3806
+      ],
+      "normal": [
+        -0.0305,
+        0.9929,
+        -0.1152
+      ],
+      "kind": "surface",
+      "note": "Top of the canopy over the driver's cockpit (car-left pod)."
+    },
+    "Hotspot_WheelFront": {
+      "position": [
+        -0.8504,
+        0.313,
+        1.3839
+      ],
+      "normal": [
+        -0.9834,
+        -0.0784,
+        0.1636
+      ],
+      "kind": "surface",
+      "note": "Fairing wall over the front-right axle (hub inside: see wheels.Wheel_FR)."
+    },
+    "Hotspot_WheelRear": {
+      "position": [
+        -0.886,
+        0.313,
+        -0.384
+      ],
+      "normal": [
+        -0.9934,
+        -0.0716,
+        -0.0895
+      ],
+      "kind": "surface",
+      "note": "Fairing wall over the rear-right axle (hub inside: see wheels.Wheel_RR)."
+    },
+    "Hotspot_Motor": {
+      "position": [
+        0.9009,
+        0.313,
+        -0.384
+      ],
+      "normal": [
+        0.9935,
+        -0.0838,
+        -0.0774
+      ],
+      "kind": "surface",
+      "note": "Fairing wall over the rear-left hub. Carrera drives one rear wheel with a hub motor; which side is an assumption (left)."
+    },
+    "Hotspot_BatteryPack": {
+      "position": [
+        -0.6667,
+        0.1971,
+        0.4999
+      ],
+      "normal": [
+        -1.0,
+        0.0,
+        -0.0
+      ],
+      "kind": "interior",
+      "note": "ESTIMATE, not from CAD: low in the car-right pod between the axles, 12 cm above the pod floor."
+    }
+  },
+  "wheels": {
+    "Wheel_FL": {
+      "axle_center": [
+        0.6633,
+        0.313,
+        1.3839
+      ],
+      "axis": [
+        1,
+        0,
+        0
+      ],
+      "radius": 0.313,
+      "tyre_width": 0.0768,
+      "type": "Y-spoke (procedural)"
+    },
+    "Wheel_FR": {
+      "axle_center": [
+        -0.6667,
+        0.313,
+        1.3839
+      ],
+      "axis": [
+        1,
+        0,
+        0
+      ],
+      "radius": 0.313,
+      "tyre_width": 0.0768,
+      "type": "Y-spoke (procedural)"
+    },
+    "Wheel_RL": {
+      "axle_center": [
+        0.6591,
+        0.313,
+        -0.384
+      ],
+      "axis": [
+        1,
+        0,
+        0
+      ],
+      "radius": 0.313,
+      "tyre_width": 0.0768,
+      "type": "hub-motor disc (procedural)"
+    },
+    "Wheel_RR": {
+      "axle_center": [
+        -0.6879,
+        0.313,
+        -0.384
+      ],
+      "axis": [
+        1,
+        0,
+        0
+      ],
+      "radius": 0.313,
+      "tyre_width": 0.0768,
+      "type": "hub-motor disc (procedural)"
+    }
+  },
+  "wheel_spin": "rotate each Wheel_* node about its local X axis; positive rotation.x rolls the car forward (+Z). Angle per metre travelled = 1 / radius.",
+  "body_uv_atlas": {
+    "size_m": 8.234,
+    "faces_per_region": {
+      "bottom": 26588,
+      "top": 13021,
+      "front": 829,
+      "right": 9190,
+      "back": 24,
+      "left": 9503,
+      "innerR": 5194,
+      "innerL": 5651
+    },
+    "convention": "One square texture, same scale everywhere (size_m metres per texture side). origin_uv/size_uv are measured from the image's bottom-left corner, so 'top' is the top band of the image. Paint an image in this layout and use it as a glTF texture (three: texture.flipY = false, as GLTFLoader does). top: seen from above, nose left; left/right: outer sides seen from outside (nose left on the left side, nose right on the right side); bottom: seen from below; innerL/innerR: tunnel-facing pod walls; front/back: nose and tail faces seen from outside.",
+    "regions": {
+      "top": {
+        "origin_uv": [
+          0.0073,
+          0.7658
+        ],
+        "size_uv": [
+          0.585,
+          0.227
+        ]
+      },
+      "left": {
+        "origin_uv": [
+          0.0073,
+          0.6081
+        ],
+        "size_uv": [
+          0.585,
+          0.1504
+        ]
+      },
+      "right": {
+        "origin_uv": [
+          0.0073,
+          0.4504
+        ],
+        "size_uv": [
+          0.585,
+          0.1504
+        ]
+      },
+      "bottom": {
+        "origin_uv": [
+          0.0073,
+          0.2162
+        ],
+        "size_uv": [
+          0.585,
+          0.227
+        ]
+      },
+      "innerL": {
+        "origin_uv": [
+          0.0073,
+          0.1117
+        ],
+        "size_uv": [
+          0.585,
+          0.0972
+        ]
+      },
+      "innerR": {
+        "origin_uv": [
+          0.0073,
+          0.0073
+        ],
+        "size_uv": [
+          0.585,
+          0.0972
+        ]
+      },
+      "front": {
+        "origin_uv": [
+          0.5996,
+          0.8423
+        ],
+        "size_uv": [
+          0.227,
+          0.1504
+        ]
+      },
+      "back": {
+        "origin_uv": [
+          0.5996,
+          0.6847
+        ],
+        "size_uv": [
+          0.227,
+          0.1504
+        ]
+      }
+    }
+  }
+}

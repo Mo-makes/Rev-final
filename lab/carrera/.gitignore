@@ -1,2 +1,5 @@
 # Candidate models are rebuilt from scripts/refine.py; keep them out of git.
 *.glb
+# Blender scenes saved by scripts/refine_v2.py --blend
+*.blend
+*.blend1

@@ -10,7 +10,9 @@
     "start": "node tools/start-release.mjs",
     "preview": "node tools/start-release.mjs --preview",
     "test": "node tools/check-all-releases.mjs",
-    "build:cloudflare": "node tools/build-release.mjs --cloudflare-pages"
+    "build:cloudflare": "node tools/build-release.mjs --cloudflare-pages",
+    "build:v2": "node tools/build-v2.mjs",
+    "start:v2": "node tools/build-v2.mjs && node tools/start-v2.mjs"
   },
   "repository": {
     "type": "git",

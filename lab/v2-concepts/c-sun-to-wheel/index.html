@@ -1,0 +1,136 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Sun to Wheel | Rice Electric Vehicle</title>
+  <meta name="description" content="Follow the energy through Carrera, Rice Electric Vehicle's solar race car in development for Formula Sun Grand Prix 2027: collect, store, drive, optimize.">
+  <meta name="robots" content="noindex">
+  <meta name="theme-color" content="#0a2a4c">
+  <link rel="icon" type="image/svg+xml" href="/rev-site/assets/brand/favicon.svg">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@400;500;600&display=swap">
+  <link rel="preload" href="/rev-site/assets/models/carrera.glb" as="fetch" crossorigin>
+  <link rel="stylesheet" href="style.css?v=8">
+  <script type="importmap">{"imports":{"three":"https://cdn.jsdelivr.net/npm/three@0.168.0/build/three.module.js","three/addons/":"https://cdn.jsdelivr.net/npm/three@0.168.0/examples/jsm/"}}</script>
+  <script type="module" src="main.js?v=8"></script>
+</head>
+<body>
+  <a class="skip" href="#main">Skip to content</a>
+
+  <!-- Fixed stage: sky, drawing grid, WebGL canvas and drawing annotations. Purely visual. -->
+  <div class="stage" aria-hidden="true">
+    <div class="sky"></div>
+    <div class="sun"></div>
+    <div class="paper"></div>
+    <canvas id="scene"></canvas>
+    <img class="fallback" src="/rev-site/assets/img/site/carrera-model-fallback-transparent-start.png" alt="">
+    <svg class="leaders" width="100%" height="100%"></svg>
+    <div class="callouts">
+      <div class="callout" data-anchor="1.45,0.78,0.9" data-off="70,-120" data-beat="-1,0.42">Carbon fiber monocoque chassis</div>
+      <div class="callout desk" data-anchor="0.383,0.313,0.7" data-off="120,96" data-beat="-1,0.42">Semi double-wishbone<br>front suspension</div>
+      <div class="callout desk" data-anchor="-1.385,0.313,0.68" data-off="-120,96" data-beat="-1,0.42">Rear swing arm</div>
+      <div class="callout" data-anchor="0.6,0.86,0.25" data-off="60,-130" data-beat="0.7,1.6">1000 W solar array</div>
+      <div class="callout" data-anchor="-0.3,0.27,0.34" data-off="-90,120" data-beat="1.75,2.6">5.18 kWh battery<br><span>design capacity</span></div>
+      <div class="callout" data-anchor="-1.385,0.313,0.72" data-off="-90,-190" data-beat="2.7,3.6">Hub motor, rear wheel<br><span>97.2% motor + inverter efficiency</span></div>
+      <div class="callout" data-anchor="0.383,0.313,0.7" data-off="110,110" data-beat="2.85,3.6">Four-wheel disc brakes</div>
+      <div class="callout" data-anchor="0.45,1.12,0.62" data-off="90,-110" data-beat="3.7,4.55">Driver dashboard<br>+ telemetry</div>
+    </div>
+    <div class="dimension">
+      <span class="dim-len">≈ 4.8 m overall length</span>
+      <span class="dim-front">40% front</span>
+      <span class="dim-rear">60% rear</span>
+    </div>
+    <div class="titleblock">
+      <div class="tb-row"><span class="tb-k">Project</span><span class="tb-v">Carrera</span></div>
+      <div class="tb-row"><span class="tb-k">Drawn by</span><span class="tb-v">Rice Electric Vehicle</span></div>
+      <div class="tb-row"><span class="tb-k">Target</span><span class="tb-v">FSGP 2027</span></div>
+      <div class="tb-row tb-sheet"><span class="tb-k">Sheet</span><span class="tb-v"><b class="tb-n">1</b> of 6, <i class="tb-name">General arrangement</i></span></div>
+    </div>
+    <div class="sundial">
+      <svg viewBox="0 0 120 64"><path class="arc" d="M8 58 A52 52 0 0 1 112 58"/><line x1="2" y1="58" x2="118" y2="58" class="hz"/><circle class="dot" cx="8" cy="58" r="4.5"/></svg>
+      <span class="sd-label">Dawn</span>
+    </div>
+  </div>
+
+  <header class="top">
+    <a class="brand" href="/rev-site/" aria-label="Rice Electric Vehicle home"><span class="mark"></span></a>
+    <nav aria-label="Primary">
+      <a href="/rev-site/car.html">Meet Carrera</a>
+      <a href="/rev-site/join.html">Join</a>
+      <a href="/rev-site/sponsorship.html">Partner</a>
+    </nav>
+  </header>
+
+  <main id="main">
+    <section class="beat hero" data-beat="0" id="drawing">
+      <div class="hero-copy">
+        <h1>1500 miles on sunlight</h1>
+        <p class="lede">Introducing Rice's first American Solar Challenge car—and the team needed to take it racing, both cross-country and on track.</p>
+        <p class="hint">Scroll to raise the sun and follow the energy from the array to the rear wheel.</p>
+      </div>
+      <div class="hero-spec">
+        <p>Carrera, side elevation. 400 lbs estimated driverless weight, 40% / 60% front/rear weight distribution, aluminum suspension.</p>
+      </div>
+    </section>
+
+    <section class="beat" data-beat="1" id="collect">
+      <article class="panel">
+        <p class="step"><span class="balloon">1</span>Collect</p>
+        <h2>1000 W solar array</h2>
+        <p>Sunlight lands on the array that covers Carrera's top surface. Its cells convert that light into electricity while the car drives.</p>
+      </article>
+    </section>
+
+    <section class="beat" data-beat="2" id="store">
+      <article class="panel">
+        <p class="step"><span class="balloon">2</span>Store</p>
+        <h2>5.18 kWh battery <small>(design)</small></h2>
+        <p>The battery buffers energy between the array and the motor, so power is there when the car needs it. A silicon-anode battery pack is in development.</p>
+      </article>
+    </section>
+
+    <section class="beat" data-beat="3" id="drive">
+      <article class="panel">
+        <p class="step"><span class="balloon">3</span>Drive</p>
+        <h2>Hub motor, rear wheel</h2>
+        <p>The inverter controls a hub motor that drives a rear wheel, with 97.2% motor + inverter efficiency. Low rolling resistance tires keep losses down where the car meets the road.</p>
+        <p class="note">X-ray view: the body turns transparent so you can follow the power to the wheel.</p>
+      </article>
+    </section>
+
+    <section class="beat" data-beat="4" id="optimize">
+      <article class="panel">
+        <p class="step"><span class="balloon">4</span>Optimize</p>
+        <h2>Go farther. Use less energy.</h2>
+        <p>Telemetry and models choose an efficient pace. The driver dashboard and custom power boards keep the whole energy path visible to the team.</p>
+        <figure class="spark">
+          <svg viewBox="0 0 300 84" preserveAspectRatio="none" role="img" aria-label="Illustrative telemetry trace">
+            <path class="spark-grid" d="M0 21H300M0 42H300M0 63H300"/>
+            <path class="spark-line" d="M0 60 C 18 58, 30 40, 48 38 S 78 52, 96 50 S 124 28, 144 30 S 170 46, 190 44 S 214 34, 232 35 S 270 41, 300 39"/>
+            <path class="spark-pace" d="M0 46 H300"/>
+          </svg>
+          <figcaption>Illustrative trace, not race data: power draw against a target pace.</figcaption>
+        </figure>
+      </article>
+    </section>
+
+    <section class="beat finale" data-beat="5" id="join">
+      <div class="finale-copy">
+        <h2>Rice's only <span class="nb">student-built</span> <span class="nb">wheel-to-wheel</span> racing team</h2>
+        <p>Carrera is in development for Formula Sun Grand Prix 2027: three eight-hour race days on a closed course, and the qualifier for the American Solar Challenge.</p>
+        <div class="ctas">
+          <a class="btn btn-gold" href="/rev-site/join.html">Join REV</a>
+          <a class="btn btn-line" href="/rev-site/sponsorship.html">Partner with us</a>
+        </div>
+      </div>
+      <footer class="foot">
+        <a href="mailto:ricerev@gmail.com">ricerev@gmail.com</a>
+        <a href="https://www.instagram.com/rice.rev/" rel="noopener">@rice.rev</a>
+        <span>Concept C, prototype. 3D model in development.</span>
+      </footer>
+    </section>
+  </main>
+</body>
+</html>

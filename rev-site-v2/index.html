@@ -1,0 +1,327 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Rice Solar Racing | Rice Electric Vehicle (REV)</title>
+  <meta name="description" content="Rice Electric Vehicle (REV) is Rice University’s student-led solar racing team, building Carrera for Formula Sun Grand Prix 2027. Join or support us.">
+  <meta name="robots" content="noindex">
+  <meta name="theme-color" content="#050506">
+  <link rel="icon" type="image/svg+xml" href="assets/brand/favicon.svg">
+  <link rel="preload" href="assets/fonts/cormorant-garamond-semibold-italic.ttf" as="font" type="font/ttf" crossorigin>
+  <link rel="stylesheet" href="assets/css/v2.css">
+  <link rel="stylesheet" href="assets/css/home.css">
+  <script type="importmap">{"imports":{"three":"https://cdn.jsdelivr.net/npm/three@0.168.0/build/three.module.min.js","three/addons/":"https://cdn.jsdelivr.net/npm/three@0.168.0/examples/jsm/"}}</script>
+  <script type="module" src="assets/js/site.js"></script>
+  <script type="module" src="assets/js/home.js"></script>
+</head>
+<body class="home" data-solid-at="0.6">
+  <a class="skip" href="#main">Skip to content</a>
+  <svg width="0" height="0" style="position:absolute" aria-hidden="true" focusable="false"><symbol id="rev-mark" viewBox="0 0 235.06 80"><path d="M42.26,0h-31L0,80H17.62l3.43-24.23.35-2.52,2.8-20.14h0l.9-6.29,1.7-11.91H38.3c6.44,0,13.45,1.25,12.32,9.27-1.13,8.7-9.61,8.93-16,8.93H32.92L30.84,48h0L43.05,80H64.18L48.58,46.21c11.64-2,18.76-10.73,20.34-21.92C71.52,5.65,58.64,0,42.26,0Z"/><polygon points="73.89 80 130.28 80 132.54 63.73 93.78 63.73 96.04 47.46 130.73 47.46 133.1 31.19 98.41 31.19 100.45 16.27 137.17 16.27 139.54 0 85.19 0 73.89 80"/><path d="M214.92,15.71h17.64a2.5,2.5,0,0,0,0-5H220.72a2.87,2.87,0,0,1-2.8-3.46A3.12,3.12,0,0,1,220.84,5h11.72a2.5,2.5,0,0,0,0-5H208L180.44,52.42h-.22L167.9,0H147.79l20.68,80h64.09a2.5,2.5,0,0,0,0-5H185.13a2.82,2.82,0,0,1-2-.84,2.86,2.86,0,0,1-.79-2.58,3,3,0,0,1,2.94-2.3h47.3a2.5,2.5,0,0,0,0-5h-41.5a2.86,2.86,0,1,1,0-5.71h41.5a2.5,2.5,0,0,0,0-5H197a2.82,2.82,0,0,1-2-.84,2.85,2.85,0,0,1-.78-2.63,3.13,3.13,0,0,1,2.93-2.25h35.44a2.5,2.5,0,0,0,0-5H202.92a2.85,2.85,0,0,1-2.65-3.9,3,3,0,0,1,2.8-1.81h29.49a2.5,2.5,0,0,0,0-5H208.85a2.8,2.8,0,0,1-2-.84,2.86,2.86,0,0,1,2-4.88h23.71a2.5,2.5,0,0,0,0-5H214.79A2.86,2.86,0,0,1,212,18,2.94,2.94,0,0,1,214.92,15.71Z"/></symbol></svg>
+  <!-- header:start -->
+  <header class="bar">
+    <a class="brand" href="index.html" aria-label="Rice Electric Vehicle home">
+      <svg class="brand-mark" viewBox="0 0 235.06 80" aria-hidden="true" focusable="false"><use href="#rev-mark"/></svg>
+      <span class="brand-name">Rice Electric Vehicle</span>
+    </a>
+    <nav class="nav" aria-label="Primary">
+      <a href="car.html">Carrera</a>
+      <a href="garage.html">Livery Lab</a>
+      <a href="about.html">Team</a>
+      <a href="sponsorship.html">Sponsors</a>
+      <a href="contact.html">Contact</a>
+      <a class="nav-cta" href="join.html">Join REV</a>
+    </nav>
+    <details class="menu">
+      <summary aria-label="Open menu"><span class="menu-icon" aria-hidden="true"></span>Menu</summary>
+      <nav class="menu-panel" aria-label="Mobile">
+        <a href="index.html">Home</a>
+        <a href="car.html">Carrera</a>
+        <a href="garage.html">Livery Lab</a>
+        <a href="about.html">Team</a>
+        <a href="join.html">Join REV</a>
+        <a href="sponsorship.html">Sponsors</a>
+        <a href="contact.html">Contact</a>
+      </nav>
+    </details>
+  </header>
+  <!-- header:end -->
+
+  <main id="main">
+    <div class="story">
+      <div class="stage" aria-hidden="true">
+        <canvas class="stage-canvas"></canvas>
+        <picture class="stage-poster"><source media="(max-width: 760px)" srcset="assets/img/v2/carrera-studio-poster-phone.webp"><img src="assets/img/v2/carrera-studio-poster.webp" alt="" width="1600" height="1000" decoding="async" fetchpriority="high"></picture>
+        <div class="stage-loader"><span></span></div>
+        <div class="callout" data-anchor="SolarArray" data-beat="1"><span class="callout-ring"></span><span class="callout-text">1000 W array</span></div>
+        <div class="callout schematic" data-anchor="BatteryPack" data-beat="2"><span class="callout-ring"></span><span class="callout-text">5.18 kWh battery<small>design capacity · placement illustrative</small></span></div>
+        <div class="callout schematic" data-anchor="Motor" data-beat="2"><span class="callout-ring"></span><span class="callout-text">Hub motor<small>97.2% motor + inverter</small></span></div>
+        <div class="stage-rail" role="presentation">
+          <span data-beat="0">Reveal</span><span data-beat="1">Array</span><span data-beat="2">Inside</span><span data-beat="3">Profile</span><span data-beat="4">Race</span>
+        </div>
+      </div>
+
+      <section class="beat beat-hero" aria-labelledby="hero-title">
+        <div class="beat-inner">
+          <p class="eyebrow">Rice University · Solar racing</p>
+          <h1 class="display" id="hero-title">Carrera</h1>
+          <p class="hero-tag">Rice’s only student-built wheel-to-wheel racing team</p>
+          <div class="actions hero-actions">
+            <a class="btn gold" href="join.html">Join REV</a>
+            <a class="btn ghost" href="car.html">Explore the car</a>
+          </div>
+          <p class="scroll-cue"><span></span>Scroll to walk around the car</p>
+        </div>
+      </section>
+
+      <section class="beat beat-left" aria-labelledby="beat-array">
+        <div class="beat-inner">
+        <div class="panel">
+          <p class="eyebrow">01 · Collect</p>
+          <h2 class="h2" id="beat-array">1500 miles on sunlight</h2>
+          <p>Introducing Rice’s first American Solar Challenge car—and the team needed to take it racing, both cross-country and on track.</p>
+          <p class="muted">The solar array converts sunlight into electrical power. Ours is rated at 1000 W.</p>
+        </div>
+        </div>
+      </section>
+
+      <section class="beat beat-right" aria-labelledby="beat-inside">
+        <div class="beat-inner">
+        <div class="panel schematic-panel">
+          <p class="eyebrow line">02 · Store &amp; drive</p>
+          <h2 class="h2" id="beat-inside">From the array to a rear wheel</h2>
+          <p>The battery buffers energy as sunlight and demand change. The inverter controls a hub motor that drives a rear wheel.</p>
+          <dl class="mini-specs">
+            <div><dt>Battery capacity · design</dt><dd>5.18 <small>kWh</small></dd></div>
+            <div><dt>Motor + inverter efficiency</dt><dd>97.2 <small>%</small></dd></div>
+          </dl>
+          <p class="note">Schematic view. Internal positions are illustrative, not from CAD.</p>
+        </div>
+        </div>
+      </section>
+
+      <section class="beat beat-bottom" aria-labelledby="beat-profile">
+        <div class="beat-inner">
+          <div class="profile-head">
+            <p class="eyebrow">03 · Built light</p>
+            <h2 class="h2" id="beat-profile">Carbon fiber monocoque, aluminum suspension.</h2>
+          </div>
+          <div class="specs">
+            <div class="spec"><div class="spec-value">400<small>lbs</small></div><div class="spec-label">Estimated driverless weight</div></div>
+            <div class="spec"><div class="spec-value">1000<small>W</small></div><div class="spec-label">Solar array power</div></div>
+            <div class="spec"><div class="spec-value">75+<small>mph</small></div><div class="spec-label">Simulated top speed</div></div>
+            <div class="spec"><div class="spec-value">40/60</div><div class="spec-label">Front / rear weight distribution</div></div>
+          </div>
+        </div>
+      </section>
+
+      <section class="beat beat-left beat-last" aria-labelledby="beat-race">
+        <div class="beat-inner">
+        <div class="panel">
+          <p class="eyebrow">04 · The next milestone</p>
+          <h2 class="h2" id="beat-race">Formula Sun Grand Prix 2027</h2>
+          <p>A closed-course endurance competition where solar cars aim to complete the most laps: three eight-hour race days, and the qualifier for the American Solar Challenge.</p>
+          <div class="actions">
+            <a class="btn gold" href="join.html">Join REV</a>
+            <a class="btn ghost" href="sponsorship.html">Partner with us</a>
+          </div>
+        </div>
+        </div>
+      </section>
+    </div>
+
+    <section class="section feed-section" id="updates" aria-labelledby="updates-title">
+      <div class="wrap">
+        <div class="section-top">
+          <div>
+            <p class="eyebrow">Paddock notes</p>
+            <h2 class="h2" id="updates-title">Latest from the team.</h2>
+          </div>
+          <a class="link-arrow" href="https://www.instagram.com/rice.rev/" target="_blank" rel="noopener noreferrer">More on Instagram ↗</a>
+        </div>
+        <!-- Updates feed. Newest first. To post, copy an <article class="post"> and edit it. -->
+        <div class="feed">
+          <article class="post post-feature reveal">
+            <div class="post-media"><img src="assets/img/team/mech-action-3.webp" alt="REV mechanical team members working in the workshop" width="1200" height="800" loading="lazy"></div>
+            <div class="post-body">
+              <p class="post-meta"><time datetime="2026-10-25">Due Oct 25, 2026</time><span class="tag gold">Applications</span></p>
+              <h3 class="post-title">Lead applications are due October 25</h3>
+              <p>Help lead one of our team projects alongside existing leads and help coordinate projects between other members. Lead applications are due October 25, 2026 at 11:59 PM, and leads will receive a decision on their application by November 7th.</p>
+              <a class="link-arrow" href="join.html">Application details</a>
+            </div>
+          </article>
+          <article class="post reveal">
+            <p class="post-meta"><time datetime="2026-11">November 2026</time><span class="tag">Planned</span></p>
+            <h3 class="post-title">Livery design competition</h3>
+            <p>A livery design competition is planned for the November general body meeting. Try colours and stripes on Carrera in the Livery Lab.</p>
+            <a class="link-arrow" href="garage.html">Open the Livery Lab</a>
+          </article>
+          <article class="post reveal">
+            <p class="post-meta"><span>Fall 2026</span><span class="tag">Join</span></p>
+            <h3 class="post-title">Member applications: rolling</h3>
+            <p>Open to current Rice undergraduate and graduate students. Member applications will be reviewed on a rolling basis.</p>
+            <a class="link-arrow" href="join.html">How to join</a>
+          </article>
+          <article class="post reveal">
+            <p class="post-meta"><time datetime="2026-12">December 2026</time><span class="tag">Race team</span></p>
+            <h3 class="post-title">Driver &amp; Race Team applications</h3>
+            <p>Driver and Race Team applications are coming in December for members who will attend the race and represent Rice on the international stage.</p>
+            <a class="link-arrow" href="join.html">Check back for details</a>
+          </article>
+          <article class="post reveal">
+            <p class="post-meta"><span>2027 season</span><span class="tag">Partners</span></p>
+            <h3 class="post-title">Sponsorship packet 2027</h3>
+            <p>Bronze, Silver, Gold, and Founding tiers, with recognition, logos on the car or team apparel, and engagement with students.</p>
+            <a class="link-arrow" href="assets/docs/REV-Sponsorship-Packet-2027.pdf" target="_blank" rel="noopener noreferrer">Open the packet (PDF)</a>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <section class="section who" aria-labelledby="who-title">
+      <div class="wrap grid-2">
+        <div>
+          <p class="eyebrow">Rice Electric Vehicle</p>
+          <h2 class="h2" id="who-title">Who are we?</h2>
+          <p class="lead">We are a student-led team at Rice University building the engineering skill, operational discipline, and community needed to race a solar car.</p>
+          <p class="muted">As an engineering design project and a student-run racing team, our goal is to give Rice students access to one of the most rewarding collegiate competitions for the first time. Our members design, build, and validate every system on the car using industry-standard tools and analysis. We connect our members with careers in industry while pushing the boundaries of what current technology can achieve.</p>
+          <div class="actions"><a class="btn ghost" href="about.html">Meet the team</a></div>
+        </div>
+        <div class="who-grid">
+          <img class="reveal" src="assets/img/site/home-who-electrical-team.webp" alt="REV electrical team members posing in front of a whiteboard" loading="lazy">
+          <img class="reveal" src="assets/img/site/home-who-mechanical-action.webp" alt="REV students working with composite materials during a mechanical team session" loading="lazy">
+          <img class="reveal" src="assets/img/site/home-who-electrical-action.webp" alt="REV electrical team members reviewing work on laptops in the lab" loading="lazy">
+          <img class="reveal" src="assets/img/site/carrera-workshop.webp" alt="Carrera under development in the workshop" loading="lazy">
+        </div>
+      </div>
+    </section>
+
+    <section class="section road graphite" aria-labelledby="road-title">
+      <div class="wrap">
+        <p class="eyebrow">The road ahead</p>
+        <h2 class="h2" id="road-title">Our challenge.</h2>
+        <div class="grid-2 road-grid">
+          <article class="card corner reveal">
+            <img class="race-logo" src="assets/img/competition/fsgp-color-logo.svg" alt="Formula Sun Grand Prix" width="220" height="80" loading="lazy">
+            <p>The Formula Sun Grand Prix (FSGP) is an annual closed-course competition that tests solar car handling, braking, acceleration, and reliability — and serves as the qualifier for the American Solar Challenge.</p>
+          </article>
+          <article class="card corner reveal">
+            <img class="race-logo" src="assets/img/competition/asc-color-logo.svg" alt="American Solar Challenge" width="220" height="80" loading="lazy">
+            <p>The American Solar Challenge (ASC) is a multi-day, 1,500–2,000 mile cross-country endurance competition for collegiate solar car teams from around the world.</p>
+          </article>
+        </div>
+        <figure class="figure track reveal">
+          <img src="assets/img/competition/fsgp-track-2023.webp" alt="Solar cars racing on track during Formula Sun Grand Prix" loading="lazy">
+          <figcaption>Formula Sun Grand Prix · Cora Kennedy, ASC/FSGP Photographer, 2023</figcaption>
+        </figure>
+        <div class="race-facts">
+          <div><span class="fact-num">3</span><span class="fact-label">Days on track</span></div>
+          <div><span class="fact-num">24</span><span class="fact-label">Total driving hours</span></div>
+          <div><span class="fact-num">~1,200<small>ft</small></span><span class="fact-label">Elevation change on the 2027 circuit</span></div>
+        </div>
+        <ol class="timeline">
+          <li class="is-now"><span class="when">December 2026</span><span class="what">Complete design phase</span><span class="state">In development</span></li>
+          <li><span class="when">January 2027</span><span class="what">Chassis integration</span></li>
+          <li><span class="when">February 2027</span><span class="what">Solar array and battery validation</span></li>
+          <li><span class="when">March–May 2027</span><span class="what">Testing and optimization</span></li>
+          <li class="is-goal"><span class="when">July 2027</span><span class="what">Formula Sun Grand Prix 2027</span></li>
+        </ol>
+        <div class="actions">
+          <a class="btn ghost" href="https://www.americansolarchallenge.org/formula-sun-grand-prix/" target="_blank" rel="noopener noreferrer">Learn more about the Formula Sun Grand Prix ↗</a>
+          <a class="btn" href="car.html">Discover our unique approach</a>
+        </div>
+      </div>
+    </section>
+
+    <section class="section partners" aria-labelledby="partners-title">
+      <div class="wrap">
+        <div class="section-top">
+          <div>
+            <p class="eyebrow">Made possible by your support</p>
+            <h2 class="h2" id="partners-title">A special thank you to our first partners</h2>
+          </div>
+          <a class="btn gold" href="sponsorship.html">Partner with us</a>
+        </div>
+        <ul class="partner-row" aria-label="REV partners">
+          <li><img src="assets/img/sponsors/rice-ece.webp" alt="Rice Electrical and Computer Engineering" loading="lazy"></li>
+          <li><img src="assets/img/sponsors/rice-engineering-computing.webp" alt="Rice Engineering and Computing" loading="lazy"></li>
+          <li><img src="assets/img/sponsors/rice-mechanical-engineering.webp" alt="Rice Mechanical Engineering" loading="lazy"></li>
+          <li><img src="assets/img/sponsors/rice-engineering-alumni.webp" alt="Rice Engineering Alumni" loading="lazy"></li>
+          <li><span class="sponsor-name">Shannon Caraway</span></li>
+        </ul>
+      </div>
+    </section>
+
+    <section class="section faq-section" id="faq" aria-labelledby="faq-title">
+      <div class="wrap faq-layout">
+        <div>
+          <p class="eyebrow">FAQ</p>
+          <h2 class="h2" id="faq-title">Frequently asked questions.</h2>
+          <p class="muted">More on the <a href="car.html#car-faq">Carrera</a>, <a href="join.html">Join</a> and <a href="sponsorship.html">Sponsors</a> pages.</p>
+        </div>
+        <div class="faq">
+          <details><summary>What happens under a cloud or without sunlight?</summary><div class="answer"><p>That’s what the battery is for: the battery stores energy collected by the array, so the motor does not depend on direct sunlight at every moment.</p></div></details>
+          <details><summary>How fast can it go?</summary><div class="answer"><p>About 70–80 mph according to aerodynamic simulations and our motor’s characteristics. Another important way of looking at it is “how fast can it go on solar power alone?” We’re hoping for that to be &gt;35 mph during testing.</p></div></details>
+          <details><summary>What is a monocoque?</summary><div class="answer"><p>A monocoque combines both the vehicle’s aerodynamic shell and structural chassis as a load-bearing structure. It’s enabled by carbon fiber composites that can be formed into an aerodynamic shape using molds. Similar to Formula 1 and hypercars, Carrera’s carbon-fiber design helps reduce mass while supporting the systems inside.</p></div></details>
+          <details><summary>What does it take to drive the car?</summary><div class="answer"><p>With on-track wheel-to-wheel racing, drivers will be competing on real race circuits, overtaking opponents, and maximizing their use of energy to defend their position while also getting to know the car during our testing phase. Understanding racing strategy like following the racing line and applying power at just the right moment after a corner exit actually goes hand in hand with maximizing efficiency. <a href="join.html">Interested in driving?</a></p></div></details>
+          <details><summary>How does FSGP connect to the American Solar Challenge?</summary><div class="answer"><p>Formula Sun Grand Prix (FSGP) is the track event and serves as the qualifier for the American Solar Challenge (ASC), the cross-country endurance event which will be held in 2028. We’re optimizing our car for track racing in 2027, and planning to use what we learn to upgrade it for cross-country racing in 2028.</p></div></details>
+          <details><summary>Who can join REV?</summary><div class="answer"><p>Rice undergraduate and graduate students across all majors are welcome. Engineering, business, operations, media, and marketing all contribute to the program.</p></div></details>
+          <details><summary>Do I need experience with cars or engineering?</summary><div class="answer"><p>No prior solar car experience is needed to apply as a member. Bring curiosity, a willingness to learn, and an interest in contributing.</p></div></details>
+          <details><summary>Can we contribute parts or services instead of funding?</summary><div class="answer"><p>Absolutely. We welcome conversations about materials, components, software, equipment, and manufacturing services. Share what you can provide so we can check it against current needs and discuss how it fits into a sponsorship.</p></div></details>
+        </div>
+      </div>
+    </section>
+
+    <section class="section cta-band blueprint" aria-labelledby="cta-title">
+      <div class="wrap cta-inner">
+        <p class="eyebrow line">Build with us</p>
+        <h2 class="h1" id="cta-title">Help put Carrera on track.</h2>
+        <div class="actions">
+          <a class="btn gold" href="join.html">Join REV</a>
+          <a class="btn ghost" href="sponsorship.html">Partner with us</a>
+          <a class="btn ghost" href="garage.html">Design a livery</a>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <!-- footer:start -->
+  <footer class="footer">
+    <div class="wrap">
+      <div class="footer-grid">
+        <div>
+          <svg class="brand-mark" viewBox="0 0 235.06 80" aria-hidden="true" focusable="false"><use href="#rev-mark"/></svg>
+          <p class="muted">Rice Electric Vehicle (REV) is Rice University’s student-led solar racing team, building Carrera for Formula Sun Grand Prix 2027.</p>
+          <address>Oshman Engineering Design Kitchen<br>6100 Main Street, MS 390, Houston, Texas 77005</address>
+        </div>
+        <nav aria-labelledby="footer-site">
+          <h2 id="footer-site">Site</h2>
+          <ul>
+            <li><a href="index.html">Home</a></li>
+            <li><a href="car.html">Carrera</a></li>
+            <li><a href="garage.html">Livery Lab</a></li>
+            <li><a href="about.html">Team</a></li>
+            <li><a href="join.html">Join REV</a></li>
+            <li><a href="sponsorship.html">Sponsors</a></li>
+            <li><a href="contact.html">Contact</a></li>
+          </ul>
+        </nav>
+        <nav aria-labelledby="footer-follow">
+          <h2 id="footer-follow">Follow the team</h2>
+          <ul>
+            <li><a href="https://www.instagram.com/rice.rev/" target="_blank" rel="noopener noreferrer">Instagram ↗</a></li>
+            <li><a href="https://www.linkedin.com/company/rice-electric-vehicle/" target="_blank" rel="noopener noreferrer">LinkedIn ↗</a></li>
+            <li><a href="https://owlnest.rice.edu/organization/riceelectricvehicle" target="_blank" rel="noopener noreferrer">OwlNest ↗</a></li>
+            <li><a href="mailto:ricerev@gmail.com">ricerev@gmail.com</a></li>
+          </ul>
+        </nav>
+      </div>
+      <div class="footer-base">
+        <span>© Rice Electric Vehicle · Rice University</span>
+        <span>v2 preview · not the published site</span>
+      </div>
+    </div>
+  </footer>
+  <!-- footer:end -->
+</body>
+</html>

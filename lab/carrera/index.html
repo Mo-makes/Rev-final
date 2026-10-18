@@ -28,7 +28,14 @@
       <button data-view="side">Side</button>
       <button data-view="front">Front</button>
       <button data-view="corner">Panel corner</button>
+      <button data-view="rear">Rear 3/4</button>
+      <button data-view="wheel">Wheel</button>
+      <button data-view="under">Under</button>
       <button id="wire" aria-pressed="false">Wireframe</button>
+      <button id="env" aria-pressed="false">Env light</button>
+      <button id="hot" aria-pressed="false">Hotspots</button>
+      <button id="spin" aria-pressed="false">Spin wheels</button>
+      <button id="clay" aria-pressed="false">Clay</button>
     </div>
     <div id="info">Loading…</div>
   </div>
@@ -36,12 +43,20 @@
     import * as THREE from "three";
     import { GLTFLoader } from "three/addons/loaders/GLTFLoader.js";
     import { OrbitControls } from "three/addons/controls/OrbitControls.js";
+    import { DRACOLoader } from "three/addons/loaders/DRACOLoader.js";
+    import { MeshoptDecoder } from "three/addons/libs/meshopt_decoder.module.js";
+    import { RoomEnvironment } from "three/addons/environments/RoomEnvironment.js";
 
     // Models to compare. Add candidates here as they are produced.
     const MODELS = [
       { id: "original", label: "Original", url: "../../rev-site/assets/models/carrera.glb" },
       { id: "refined", label: "Refined", url: "./carrera-refined.glb" },
       { id: "cells", label: "Refined + cells", url: "./carrera-refined-cells.glb" },
+      // v2 models carry their own PBR materials (raw: no site overrides). Their nose points to +Z,
+      // so they are turned -90 deg about Y to line up with the original (nose -X) for comparisons.
+      { id: "v2raw", label: "v2 (uncompressed)", url: "./carrera-v2-raw.glb", v2: true },
+      { id: "v2", label: "v2 meshopt", url: "../../rev-site-v2/assets/models/carrera-v2.glb", v2: true },
+      { id: "v2draco", label: "v2 Draco", url: "./carrera-v2-draco.glb", v2: true },
     ];
 
     const renderer = new THREE.WebGLRenderer({ antialias: true, alpha: true });
@@ -81,8 +96,15 @@
     }
 
     const loader = new GLTFLoader();
+    const draco = new DRACOLoader();
+    draco.setDecoderPath("https://cdn.jsdelivr.net/npm/three@0.168.0/examples/jsm/libs/draco/gltf/");
+    loader.setDRACOLoader(draco);
+    loader.setMeshoptDecoder(MeshoptDecoder);
+    const pmrem = new THREE.PMREMGenerator(renderer);
+    const envTex = pmrem.fromScene(new RoomEnvironment(), 0.04).texture;
     const cache = new Map();
     let current = null;
+    let pair = null;   // side-by-side compare (see compare() below)
     let wireframe = false;
     const info = document.getElementById("info");
 
@@ -97,12 +119,14 @@
           gltf.scene.traverse((o) => {
             if (!o.isMesh) return;
             if (!o.geometry.attributes.normal) o.geometry.computeVertexNormals();
-            o.material = o.material.clone(); styleMaterial(o.material);
+            if (!entry.v2) { o.material = o.material.clone(); styleMaterial(o.material); }
             tris += (o.geometry.index ? o.geometry.index.count : o.geometry.attributes.position.count) / 3;
           });
-          const box = new THREE.Box3().setFromObject(gltf.scene);
-          gltf.scene.position.sub(box.getCenter(new THREE.Vector3()));
-          return { root: gltf.scene, bytes: buf.byteLength, tris };
+          let root = gltf.scene;
+          if (entry.v2) { root = new THREE.Group(); root.add(gltf.scene); gltf.scene.rotation.y = -Math.PI / 2; root.updateMatrixWorld(true); }
+          const box = new THREE.Box3().setFromObject(root);
+          root.position.sub(box.getCenter(new THREE.Vector3()));
+          return { root, gltf, bytes: buf.byteLength, tris };
         })());
       }
       return cache.get(entry.id);
@@ -113,7 +137,7 @@
       try {
         const m = await load(entry);
         if (current) scene.remove(current.root);
-        current = m; scene.add(m.root); applyWire();
+        m.root.visible = true; current = m; scene.add(m.root); applyWire(); drawHotspots();
         info.textContent = `${entry.label}: ${(m.bytes / 1e6).toFixed(2)} MB · ${Math.round(m.tris).toLocaleString()} triangles`;
       } catch (err) {
         info.textContent = `${entry.label}: not available (${err.message})`;
@@ -133,6 +157,9 @@
       side: { pos: [0, 0.3, 8], target: [0, 0, 0] },
       front: { pos: [8, 0.4, 0], target: [0, 0, 0] },
       corner: { pos: [3.4, 1.9, 2.0], target: [2.0, 0.25, 0.8] },
+      rear: { pos: [5.2, 2.4, -4.4], target: [0, 0, 0] },
+      wheel: { pos: [-0.35, -0.72, -2.3], target: [-1.38, -0.6, -0.67] },
+      under: { pos: [0.01, -7.5, 2.5], target: [0, 0, 0] },
     };
     function setView(name) {
       const v = VIEWS[name];
@@ -156,15 +183,70 @@
 
     function resize() {
       renderer.setSize(innerWidth, innerHeight, false);
-      camera.aspect = innerWidth / innerHeight; camera.updateProjectionMatrix();
+      camera.aspect = innerWidth / (pair ? 2 : 1) / innerHeight; camera.updateProjectionMatrix();
     }
     addEventListener("resize", resize); resize();
     setView("hero");
     show(location.hash.slice(1) || "original");
-    renderer.setAnimationLoop(() => { controls.update(); renderer.render(scene, camera); });
 
     // Handy for scripted screenshots: window.lab.show("refined"), window.lab.setView("corner").
-    window.lab = { show, setView, VIEWS, camera, controls };
+    document.getElementById("env").onclick = (e) => {
+      const on = e.currentTarget.getAttribute("aria-pressed") !== "true";
+      e.currentTarget.setAttribute("aria-pressed", String(on)); scene.environment = on ? envTex : null;
+    };
+    // Hotspot markers from the named Hotspot_* nodes (v2 only).
+    const markers = new THREE.Group(); scene.add(markers);
+    function drawHotspots() {
+      markers.clear();
+      if (document.getElementById("hot").getAttribute("aria-pressed") !== "true" || !current?.gltf) return;
+      current.root.updateMatrixWorld(true);
+      current.gltf.scene.traverse((o) => {
+        if (!o.name.startsWith("Hotspot_")) return;
+        const m = new THREE.Mesh(new THREE.SphereGeometry(0.035, 16, 12), new THREE.MeshBasicMaterial({ color: 0xff3366, depthTest: false }));
+        m.renderOrder = 10; o.getWorldPosition(m.position); markers.add(m);
+      });
+    }
+    document.getElementById("hot").onclick = (e) => {
+      e.currentTarget.setAttribute("aria-pressed", String(e.currentTarget.getAttribute("aria-pressed") !== "true")); drawHotspots();
+    };
+    // Clay: one grey material for every mesh, to judge surface quality without the white blow-out.
+    const clay = new THREE.MeshStandardMaterial({ color: 0x9aa3ad, roughness: 0.32, metalness: 0 });
+    document.getElementById("clay").onclick = (e) => {
+      const on = e.currentTarget.getAttribute("aria-pressed") !== "true";
+      e.currentTarget.setAttribute("aria-pressed", String(on)); scene.overrideMaterial = on ? clay : null;
+    };
+    let spinning = false;
+    document.getElementById("spin").onclick = (e) => { spinning = !spinning; e.currentTarget.setAttribute("aria-pressed", String(spinning)); };
+    // Side-by-side compare: lab.compare("original", "v2") renders A on the left and B on the right
+    // with the same camera. lab.compare() turns it off.
+    const tags = document.createElement("div");
+    tags.style.cssText = "position:fixed;bottom:12px;left:0;right:0;display:none;justify-content:space-around;color:#e8eef7;font:600 14px system-ui;pointer-events:none";
+    document.body.append(tags);
+    async function compare(a, b) {
+      if (pair) { pair.forEach((m) => scene.remove(m.root)); pair = null; tags.style.display = "none"; }
+      if (!a) { if (current) scene.add(current.root); resize(); return; }
+      const [A, B] = await Promise.all([a, b].map((id) => load(MODELS.find((m) => m.id === id))));
+      if (current) scene.remove(current.root);
+      A.root.visible = B.root.visible = true; scene.add(A.root, B.root); pair = [A, B]; current = B;
+      tags.innerHTML = `<span>${MODELS.find((m) => m.id === a).label}</span><span>${MODELS.find((m) => m.id === b).label}</span>`;
+      tags.style.display = "flex"; resize();
+    }
+    const clock = new THREE.Clock();
+    renderer.setAnimationLoop(() => {
+      const dt = clock.getDelta();
+      const spinTargets = pair ? pair.map((m) => m.gltf.scene) : current?.gltf ? [current.gltf.scene] : [];
+      if (spinning) spinTargets.forEach((r) => r.traverse((o) => { if (/^Wheel_(FL|FR|RL|RR)$/.test(o.name)) o.rotation.x += dt * 4; }));
+      controls.update();
+      if (!pair) { renderer.setScissorTest(false); renderer.setViewport(0, 0, innerWidth, innerHeight); renderer.render(scene, camera); return; }
+      const w = innerWidth / 2, h = innerHeight;
+      renderer.setScissorTest(true);
+      pair.forEach((m, i) => {
+        pair.forEach((n) => (n.root.visible = n === m));
+        renderer.setViewport(i * w, 0, w, h); renderer.setScissor(i * w, 0, w, h); renderer.render(scene, camera);
+      });
+    });
+
+    window.lab = { show, setView, VIEWS, camera, controls, drawHotspots, scene, renderer, compare };
   </script>
 </body>
 </html>

@@ -1,0 +1,148 @@
+<!doctype html>
+<html lang="en" class="intro-pending">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Carrera | Rice Electric Vehicle</title>
+  <meta name="description" content="Carrera is the solar race car Rice Electric Vehicle (REV) is building for Formula Sun Grand Prix 2027. Rice's only student-built wheel-to-wheel racing team.">
+  <meta name="robots" content="noindex">
+  <meta name="theme-color" content="#000000">
+  <link rel="icon" href="/rev-site/assets/brand/favicon.svg" type="image/svg+xml">
+  <link rel="preload" href="/rev-site/assets/fonts/cormorant-garamond-semibold-italic.ttf" as="font" type="font/ttf" crossorigin>
+  <link rel="stylesheet" href="studio.css?v=4">
+  <script>
+    // Text is in the HTML for crawlers. The intro only hides it until the light sweep,
+    // and this timer makes sure it shows even if the 3D scene never loads.
+    (function () {
+      var root = document.documentElement;
+      if (window.matchMedia("(prefers-reduced-motion: reduce)").matches || window.scrollY > 40) {
+        root.classList.remove("intro-pending");
+        root.classList.add("intro-done");
+        return;
+      }
+      window.__revIntroTimer = setTimeout(function () {
+        root.classList.remove("intro-pending");
+        root.classList.add("intro-done");
+      }, 6500);
+    })();
+  </script>
+  <script type="importmap">
+    {"imports":{"three":"https://cdn.jsdelivr.net/npm/three@0.168.0/build/three.module.js","three/addons/":"https://cdn.jsdelivr.net/npm/three@0.168.0/examples/jsm/"}}
+  </script>
+</head>
+<body>
+  <a class="skip" href="#main">Skip to content</a>
+
+  <header class="bar">
+    <a class="brand" href="/rev-site/" aria-label="Rice Electric Vehicle home">
+      <svg class="brand-mark" viewBox="0 0 235.06 80" aria-hidden="true" focusable="false"><path d="M42.26,0h-31L0,80H17.62l3.43-24.23.35-2.52,2.8-20.14h0l.9-6.29,1.7-11.91H38.3c6.44,0,13.45,1.25,12.32,9.27-1.13,8.7-9.61,8.93-16,8.93H32.92L30.84,48h0L43.05,80H64.18L48.58,46.21c11.64-2,18.76-10.73,20.34-21.92C71.52,5.65,58.64,0,42.26,0Z"/><polygon points="73.89 80 130.28 80 132.54 63.73 93.78 63.73 96.04 47.46 130.73 47.46 133.1 31.19 98.41 31.19 100.45 16.27 137.17 16.27 139.54 0 85.19 0 73.89 80"/><path d="M214.92,15.71h17.64a2.5,2.5,0,0,0,0-5H220.72a2.87,2.87,0,0,1-2.8-3.46A3.12,3.12,0,0,1,220.84,5h11.72a2.5,2.5,0,0,0,0-5H208L180.44,52.42h-.22L167.9,0H147.79l20.68,80h64.09a2.5,2.5,0,0,0,0-5H185.13a2.82,2.82,0,0,1-2-.84,2.86,2.86,0,0,1-.79-2.58,3,3,0,0,1,2.94-2.3h47.3a2.5,2.5,0,0,0,0-5h-41.5a2.86,2.86,0,1,1,0-5.71h41.5a2.5,2.5,0,0,0,0-5H197a2.82,2.82,0,0,1-2-.84,2.85,2.85,0,0,1-.78-2.63,3.13,3.13,0,0,1,2.93-2.25h35.44a2.5,2.5,0,0,0,0-5H202.92a2.85,2.85,0,0,1-2.65-3.9,3,3,0,0,1,2.8-1.81h29.49a2.5,2.5,0,0,0,0-5H208.85a2.8,2.8,0,0,1-2-.84,2.86,2.86,0,0,1,2-4.88h23.71a2.5,2.5,0,0,0,0-5H214.79A2.86,2.86,0,0,1,212,18,2.94,2.94,0,0,1,214.92,15.71Z"/></svg>
+      <span class="brand-name">Rice Electric Vehicle</span>
+    </a>
+    <nav class="bar-nav" aria-label="Primary">
+      <a class="hide-sm" href="/rev-site/car.html">Meet Carrera</a>
+      <a href="/rev-site/join.html">Join REV</a>
+      <a class="hide-sm" href="/rev-site/sponsorship.html">Partner with us</a>
+    </nav>
+  </header>
+
+  <main id="main">
+    <div class="story">
+      <div class="stage" aria-hidden="true">
+        <canvas class="stage-canvas"></canvas>
+        <img class="stage-fallback" src="/rev-site/assets/img/site/carrera-model-fallback-transparent-start.png" alt="" width="1600" height="900" decoding="async">
+        <div class="stage-loader"><span></span></div>
+        <div class="callout" data-anchor="array">
+          <span class="callout-ring"></span>
+          <span class="callout-line"></span>
+          <span class="callout-text">1000 W</span>
+        </div>
+      </div>
+
+      <section class="beat beat-hero" id="reveal" aria-labelledby="hero-title">
+        <div class="beat-inner">
+          <h1 class="nameplate" id="hero-title"><span class="nameplate-word">Carrera</span></h1>
+          <p class="tagline">Rice's only student-built wheel-to-wheel racing team</p>
+          <a class="scroll-cue" href="#array"><span class="scroll-cue-line" aria-hidden="true"></span>Scroll to walk around the car</a>
+        </div>
+      </section>
+
+      <section class="beat beat-array" id="array" aria-labelledby="array-title">
+        <div class="beat-inner">
+          <div class="panel">
+            <p class="kicker">Collect</p>
+            <h2 id="array-title">A 1000&nbsp;W solar array across the whole upper body</h2>
+            <p>The array converts sunlight into the energy Carrera runs on. A battery buffers it, and telemetry and models choose an efficient pace for the day.</p>
+            <dl class="spec-pair">
+              <div><dt>Solar array</dt><dd>1000&nbsp;W</dd></div>
+              <div><dt>Battery capacity (design)</dt><dd>5.18&nbsp;kWh</dd></div>
+            </dl>
+          </div>
+        </div>
+      </section>
+
+      <section class="beat beat-profile" id="profile" aria-labelledby="profile-title">
+        <div class="beat-inner">
+          <div class="panel">
+            <h2 id="profile-title">Carbon fiber monocoque, aluminum suspension</h2>
+            <p>A hub motor in a rear wheel drives the car, with 40% of the weight on the front wheels and 60% on the rear.</p>
+          </div>
+          <dl class="readouts" aria-label="Carrera specifications">
+            <div class="readout">
+              <dt>Estimated driverless weight</dt>
+              <dd><span class="num">400</span><span class="unit">lbs</span></dd>
+            </div>
+            <div class="readout">
+              <dt>Simulated top speed</dt>
+              <dd><span class="num">75+</span><span class="unit">mph</span></dd>
+            </div>
+            <div class="readout">
+              <dt>Motor + inverter efficiency</dt>
+              <dd><span class="num">97.2</span><span class="unit">%</span></dd>
+            </div>
+          </dl>
+        </div>
+      </section>
+
+      <section class="beat beat-rear" id="race" aria-labelledby="race-title">
+        <div class="beat-inner">
+          <div class="panel">
+            <p class="kicker">July 2027</p>
+            <h2 id="race-title">Formula Sun Grand Prix 2027</h2>
+            <p>Three eight-hour race days on a closed course, 24 hours of driving in all. FSGP is also the qualifier for the American Solar Challenge, a cross-country race of 1,500 to 2,000 miles.</p>
+            <div class="ctas">
+              <a class="btn btn-primary" href="/rev-site/join.html">Join REV</a>
+              <a class="btn" href="/rev-site/sponsorship.html">Partner with us</a>
+            </div>
+          </div>
+        </div>
+      </section>
+    </div>
+
+    <section class="road" aria-labelledby="road-title">
+      <h2 id="road-title">The road to July 2027</h2>
+      <ol class="road-list">
+        <li><time datetime="2026-12">Dec 2026</time><span>Complete the design phase</span></li>
+        <li><time datetime="2027-01">Jan 2027</time><span>Chassis integration</span></li>
+        <li><time datetime="2027-02">Feb 2027</time><span>Solar array and battery validation</span></li>
+        <li><time datetime="2027-03">Mar to May 2027</time><span>Testing and optimization</span></li>
+        <li><time datetime="2027-07">Jul 2027</time><span>Formula Sun Grand Prix</span></li>
+      </ol>
+    </section>
+  </main>
+
+  <footer class="foot">
+    <p>Rice Electric Vehicle is Rice University's student-led solar racing team.</p>
+    <p><a href="mailto:ricerev@gmail.com">ricerev@gmail.com</a><a href="https://www.instagram.com/rice.rev/">Instagram @rice.rev</a></p>
+    <p class="foot-note">Concept A, Night Studio. A design prototype for review, not the live site.</p>
+  </footer>
+
+  <nav class="views" aria-label="Camera views">
+    <a href="#reveal" data-view="0">Front</a>
+    <a href="#array" data-view="1">Array</a>
+    <a href="#profile" data-view="2">Profile</a>
+    <a href="#race" data-view="3">Rear</a>
+  </nav>
+
+  <script type="module" src="studio.js?v=4"></script>
+</body>
+</html>

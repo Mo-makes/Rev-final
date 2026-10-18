@@ -1,0 +1,163 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>REV Race Day (concept B)</title>
+  <meta name="description" content="Rice Electric Vehicle is Rice's only student-built wheel-to-wheel racing team, building the solar race car Carrera for Formula Sun Grand Prix 2027.">
+  <meta name="robots" content="noindex">
+  <link rel="icon" href="/rev-site/assets/brand/favicon.svg" type="image/svg+xml">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:ital,wght@0,600;0,700;1,600;1,700;1,800;1,900&display=swap">
+  <link rel="stylesheet" href="raceday.css">
+  <link rel="modulepreload" href="raceday.js">
+  <script type="importmap">{"imports":{"three":"https://cdn.jsdelivr.net/npm/three@0.168.0/build/three.module.js","three/addons/":"https://cdn.jsdelivr.net/npm/three@0.168.0/examples/jsm/"}}</script>
+  <script type="module" src="raceday.js"></script>
+</head>
+<body>
+  <a class="skip" href="#beat-grid">Skip to content</a>
+
+  <div class="stage" aria-hidden="true">
+    <canvas id="track"></canvas>
+    <img class="stage-fallback" src="/rev-site/assets/img/site/carrera-model-fallback-transparent-start.png" alt="" width="1536" height="1024">
+  </div>
+
+  <header class="topbar">
+    <nav class="topnav" aria-label="Primary">
+      <a href="/rev-site/car.html">Meet Carrera</a>
+      <a href="/rev-site/join.html">Join REV</a>
+      <a class="topnav-partner" href="/rev-site/sponsorship.html">Partner with us</a>
+    </nav>
+  </header>
+
+  <!-- Broadcast graphics. Values are simulated: Carrera is still being built. -->
+  <aside class="hud" aria-label="Simulated telemetry, demo values only">
+    <div class="tower">
+      <a class="tower-mark" href="/rev-site/index.html" aria-label="Rice Electric Vehicle home"><span class="mark"></span></a>
+      <div class="tower-event"><span>FSGP</span><b>2027</b></div>
+      <div class="tower-row"><span>Day</span><b><span id="hud-day">1</span><small>/3</small></b></div>
+      <div class="tower-row"><span>Clock</span><b id="hud-clock">2:14:07</b></div>
+      <div class="tower-row"><span>Sector</span><b id="hud-sector">S1</b></div>
+      <div class="tower-cam" id="hud-cam">Chase cam</div>
+    </div>
+
+    <div class="onboard">
+      <p class="sim-tag"><span class="sim-dot"></span><b>Simulated telemetry</b><span class="sim-note">Demo values. Carrera is not running yet.</span></p>
+      <div class="ob-row">
+        <div class="ob-car"><span class="ob-num">REV</span><span class="ob-name">Carrera</span></div>
+        <div class="ob-speed">
+          <div class="ob-shift" id="hud-shift"><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i></div>
+          <span class="ob-label">Speed</span>
+          <b id="v-speed">33</b><span class="ob-unit">mph</span>
+        </div>
+        <div class="ob-cell ob-array"><span class="ob-label">Array W</span><b id="v-array">952</b><i class="ob-bar"><i></i></i></div>
+        <div class="ob-cell ob-batt"><span class="ob-label">Battery %</span><b id="v-batt">96.4</b><i class="ob-bar"><i></i></i></div>
+        <div class="ob-cell ob-temp"><span class="ob-label">Motor temp</span><b><span id="v-temp">40</span><small>°C</small></b><i class="ob-bar"><i></i></i></div>
+      </div>
+    </div>
+    <p class="loading-chip" id="hud-loading">Car on track shortly</p>
+  </aside>
+
+  <main>
+    <section class="beat beat-grid" id="beat-grid" data-cam="Chase cam" data-sector="S1">
+      <div class="panel panel-left">
+        <p class="strip">Formula Sun Grand Prix 2027</p>
+        <h1>Rice's only student-built wheel-to-wheel racing team</h1>
+        <p class="lede">Rice Electric Vehicle (REV) is designing and building Carrera, a solar race car, to take it racing at Formula Sun Grand Prix in July 2027.</p>
+        <p class="scroll-cue"><span></span>Scroll to go green</p>
+      </div>
+    </section>
+
+    <section class="beat beat-speed" id="beat-speed" data-cam="Trackside" data-sector="S2">
+      <div class="panel panel-right">
+        <p class="strip strip-blue">Sector 2</p>
+        <h2>From sunlight to 75+ mph</h2>
+        <p>A 1000 W solar array feeds the battery, and an inverter drives a hub motor in a rear wheel. Aero simulations put Carrera's top speed at about 70 to 80 mph. In testing, the team hopes to hold more than 35 mph on solar power alone.</p>
+        <dl class="specs">
+          <div><dt>Solar array</dt><dd>1000 <small>W</small></dd></div>
+          <div><dt>Simulated top speed</dt><dd>75+ <small>mph</small></dd></div>
+          <div><dt>Motor + inverter efficiency</dt><dd>97.2 <small>%</small></dd></div>
+          <div><dt>Battery capacity (design)</dt><dd>5.18 <small>kWh</small></dd></div>
+          <div><dt>Estimated driverless weight</dt><dd>400 <small>lbs</small></dd></div>
+          <div><dt>Front / rear weight</dt><dd>40/60</dd></div>
+        </dl>
+      </div>
+    </section>
+
+    <section class="beat beat-track" id="beat-track" data-cam="Crane" data-sector="S3">
+      <div class="panel panel-left panel-wide">
+        <p class="strip">Sector 3</p>
+        <h2>A circuit that climbs about 1,200 feet</h2>
+        <p>The FSGP 2027 track has about 1,200 ft of elevation change, closer to the Nürburgring than a flat oval. Climbs drain the battery and descents give some back, so telemetry and models choose an efficient pace for every part of the lap.</p>
+        <figure class="profile">
+          <svg viewBox="0 0 600 214" role="img" aria-labelledby="profile-title profile-desc">
+            <title id="profile-title">Illustrative elevation profile of one lap</title>
+            <desc id="profile-desc">A made-up curve showing a lap that rises and falls by about 1,200 feet. It is not measured track data.</desc>
+            <defs>
+              <linearGradient id="profile-fill" x1="0" y1="0" x2="0" y2="1">
+                <stop offset="0" stop-color="#1467aa" stop-opacity="0.75"/>
+                <stop offset="1" stop-color="#1467aa" stop-opacity="0.05"/>
+              </linearGradient>
+            </defs>
+            <g class="profile-grid">
+              <line x1="56" y1="28" x2="584" y2="28"/>
+              <line x1="56" y1="102" x2="584" y2="102"/>
+              <line x1="56" y1="176" x2="584" y2="176"/>
+              <line x1="232" y1="22" x2="232" y2="182"/>
+              <line x1="408" y1="22" x2="408" y2="182"/>
+            </g>
+            <g class="profile-axis">
+              <text x="48" y="32" text-anchor="end">1,200</text>
+              <text x="48" y="106" text-anchor="end">600</text>
+              <text x="48" y="180" text-anchor="end">0 ft</text>
+              <text x="144" y="202" text-anchor="middle">S1</text>
+              <text x="320" y="202" text-anchor="middle">S2</text>
+              <text x="496" y="202" text-anchor="middle">S3</text>
+            </g>
+            <path class="profile-area" d="M56 29.8 60 28.2 65 28.1 69 29.3 74 31.4 78 34.2 82 37.3 87 40.4 91 43.3 96 45.7 100 47.7 104 49.4 109 50.8 113 52.3 118 54.1 122 56.4 126 59.3 131 62.9 135 67.2 140 72.0 144 77.1 148 82.0 153 86.5 157 90.2 162 92.7 166 93.9 170 93.6 175 91.9 179 88.9 184 84.9 188 80.3 192 75.4 197 70.6 201 66.2 206 62.5 210 59.7 214 57.6 219 56.4 223 55.6 228 55.3 232 54.9 236 54.5 241 53.7 245 52.5 250 51.1 254 49.4 258 47.8 263 46.6 267 46.0 272 46.5 276 48.2 280 51.2 285 55.7 289 61.6 294 68.5 298 76.2 302 84.2 307 92.3 311 100.0 316 107.0 320 113.1 324 118.3 329 122.6 333 126.0 338 129.0 342 131.7 346 134.4 351 137.4 355 140.8 360 144.8 364 149.3 368 154.2 373 159.1 377 163.9 382 168.2 386 171.7 390 174.3 395 175.7 399 176.0 404 175.2 408 173.7 412 171.7 417 169.5 421 167.5 426 165.9 430 165.1 434 165.0 439 165.6 443 166.9 448 168.5 452 170.2 456 171.5 461 172.2 465 171.9 470 170.5 474 167.9 478 164.1 483 159.2 487 153.7 492 147.6 496 141.4 500 135.4 505 129.7 509 124.6 514 120.0 518 115.9 522 112.0 527 108.2 531 104.2 536 99.7 540 94.5 544 88.5 549 81.7 553 74.2 558 66.3 562 58.3 566 50.6 571 43.6 575 37.6 580 33.0 584 29.8 L584 176 L56 176Z"/>
+            <path class="profile-line" d="M56 29.8 60 28.2 65 28.1 69 29.3 74 31.4 78 34.2 82 37.3 87 40.4 91 43.3 96 45.7 100 47.7 104 49.4 109 50.8 113 52.3 118 54.1 122 56.4 126 59.3 131 62.9 135 67.2 140 72.0 144 77.1 148 82.0 153 86.5 157 90.2 162 92.7 166 93.9 170 93.6 175 91.9 179 88.9 184 84.9 188 80.3 192 75.4 197 70.6 201 66.2 206 62.5 210 59.7 214 57.6 219 56.4 223 55.6 228 55.3 232 54.9 236 54.5 241 53.7 245 52.5 250 51.1 254 49.4 258 47.8 263 46.6 267 46.0 272 46.5 276 48.2 280 51.2 285 55.7 289 61.6 294 68.5 298 76.2 302 84.2 307 92.3 311 100.0 316 107.0 320 113.1 324 118.3 329 122.6 333 126.0 338 129.0 342 131.7 346 134.4 351 137.4 355 140.8 360 144.8 364 149.3 368 154.2 373 159.1 377 163.9 382 168.2 386 171.7 390 174.3 395 175.7 399 176.0 404 175.2 408 173.7 412 171.7 417 169.5 421 167.5 426 165.9 430 165.1 434 165.0 439 165.6 443 166.9 448 168.5 452 170.2 456 171.5 461 172.2 465 171.9 470 170.5 474 167.9 478 164.1 483 159.2 487 153.7 492 147.6 496 141.4 500 135.4 505 129.7 509 124.6 514 120.0 518 115.9 522 112.0 527 108.2 531 104.2 536 99.7 540 94.5 544 88.5 549 81.7 553 74.2 558 66.3 562 58.3 566 50.6 571 43.6 575 37.6 580 33.0 584 29.8"/>
+            <g class="profile-marker" id="profile-marker" transform="translate(56 30)">
+              <line x1="0" y1="0" x2="0" y2="150"/>
+              <circle r="7"/>
+            </g>
+          </svg>
+          <figcaption>Illustrative profile, drawn to show the scale of the climbs. It is not measured FSGP 2027 track data.</figcaption>
+        </figure>
+      </div>
+    </section>
+
+    <section class="beat beat-format" id="beat-format" data-cam="Front quarter" data-sector="S1">
+      <div class="panel panel-right panel-wide">
+        <p class="strip">Race format</p>
+        <h2>Three days on track, eight hours a day</h2>
+        <div class="sum" aria-label="3 days times 8 hours equals 24 driving hours">
+          <div class="sum-term"><b>3</b><span>race days</span></div>
+          <span class="sum-op" aria-hidden="true">×</span>
+          <div class="sum-term"><b>8</b><span>hours each</span></div>
+          <span class="sum-op" aria-hidden="true">=</span>
+          <div class="sum-term sum-total"><b>24</b><span>driving hours</span></div>
+        </div>
+        <p>FSGP is a closed-course endurance competition and the qualifier for the American Solar Challenge, a 1,500 to 2,000 mile cross-country race.</p>
+        <h3>Road to the grid</h3>
+        <ol class="schedule">
+          <li><time>Dec 2026</time><span>Complete design phase</span></li>
+          <li><time>Jan 2027</time><span>Chassis integration</span></li>
+          <li><time>Feb 2027</time><span>Solar array and battery validation</span></li>
+          <li><time>Mar–May 2027</time><span>Testing and optimization</span></li>
+          <li class="is-race"><time>Jul 2027</time><span>Formula Sun Grand Prix</span></li>
+        </ol>
+        <div class="ctas">
+          <a class="btn btn-gold" href="/rev-site/join.html">Join the race team</a>
+          <a class="btn btn-line" href="/rev-site/sponsorship.html">Partner with us</a>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer class="foot">
+    <p>Concept B prototype for the REV v2 site. On-screen telemetry is simulated for illustration; Carrera is still in development.</p>
+    <p><a href="mailto:ricerev@gmail.com">ricerev@gmail.com</a> <a href="https://www.instagram.com/rice.rev/">Instagram @rice.rev</a></p>
+  </footer>
+</body>
+</html>

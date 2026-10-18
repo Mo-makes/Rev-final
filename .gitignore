@@ -42,3 +42,6 @@ preview-validation.json
 deprecate/2026-10-08/release-source-before/
 
 deprecate/generated-releases/
+
+# Experimental v2 site build
+dist-v2/
