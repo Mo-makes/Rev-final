@@ -205,27 +205,50 @@ async function boot() {
     studio.setXray(x, smooth(1.35, 2.0, u));
   };
 
-  // ---------- Intro: dark, a strip light sweeps nose to tail, the studio comes up ----------
+  // Build the x-ray layer now, behind the poster and before the car moves for the intro: it is
+  // placed from the car's resting position, and building it mid-scroll would stall a frame.
+  void studio.schematic;
+  studio.setXray(0.001, 0);
+  await studio.compile();
+  studio.setXray(0, 0);
+
+  // ---------- Intro: Carrera drives in under a fixed overhead light, then the showroom comes up ----------
+  // The light bar hangs still just behind the car's final spot. As the car rolls forward beneath it
+  // the highlight travels along the body from nose to tail, and the car brakes to a stop on its mark.
+  const DRIVE_FROM = -14; // metres behind the mark (the car approaches nose first, toward +Z)
+  const LIGHT_Z = -2.9; // the overhead light, just behind where the tail comes to rest
+  const DRIVE_START = 0.25;
+  const DRIVE_TIME = 3.4;
+  const INTRO_END = DRIVE_START + DRIVE_TIME + 1.1;
   const playIntro = window.scrollY < 40;
-  const intro = { active: playIntro, t0: 0 };
+  const intro = { active: playIntro, t0: 0, z: playIntro ? DRIVE_FROM : 0 };
   studio.setStudioLevel(playIntro ? 0 : 1);
   studio.setLight(playIntro ? 0 : 1);
+  studio.setCarOffset(intro.z);
+  stage.classList.toggle("drive-in", playIntro);
   const ease = (x) => 1 - Math.pow(1 - THREE.MathUtils.clamp(x, 0, 1), 3);
+  const finishIntro = () => {
+    intro.active = false;
+    studio.rollWheels(-intro.z);
+    intro.z = 0;
+    studio.setCarOffset(0);
+    studio.setSweep(99, 0);
+    studio.setStudioLevel(1);
+    studio.setLight(1);
+  };
   const runIntro = (now) => {
     if (!intro.t0) intro.t0 = now;
     const t = (now - intro.t0) / 1000;
-    const s = THREE.MathUtils.clamp((t - 0.3) / 2.4, 0, 1);
-    const z = THREE.MathUtils.lerp(4, -4, THREE.MathUtils.smootherstep(s, 0, 1));
-    const amount = THREE.MathUtils.smoothstep(t, 0.2, 0.7) * (1 - THREE.MathUtils.smoothstep(s, 0.85, 1));
-    studio.setSweep(z, amount);
-    studio.setStudioLevel(ease((t - 1.2) / 2));
-    studio.setLight(ease((t - 2.6) / 0.5));
-    if (t > 3.6) {
-      intro.active = false;
-      studio.setSweep(99, 0);
-      studio.setStudioLevel(1);
-      studio.setLight(1);
-    }
+    if (t >= INTRO_END) return finishIntro();
+    // Ease-out: rolling in, then braking smoothly to a stop on the mark.
+    const z = THREE.MathUtils.lerp(DRIVE_FROM, 0, ease((t - DRIVE_START) / DRIVE_TIME));
+    studio.rollWheels(z - intro.z);
+    intro.z = z;
+    studio.setCarOffset(z);
+    const settle = DRIVE_START + DRIVE_TIME;
+    studio.setSweep(LIGHT_Z, THREE.MathUtils.smoothstep(t, 0.05, 0.5) * (1 - THREE.MathUtils.smoothstep(t, settle - 0.2, settle + 0.9)));
+    studio.setLight(0.45 + 0.55 * ease((t - settle + 0.4) / 0.5));
+    studio.setStudioLevel(ease((t - settle + 0.9) / 1.8));
   };
 
   // ---------- Handheld drift: a barely-there sway on the hero shot, so it reads as filmed ----------
@@ -266,7 +289,7 @@ async function boot() {
     currentBeat += (targetBeat - currentBeat) * (1 - Math.exp(-dt * 4.2));
     if (Math.abs(targetBeat - currentBeat) < 0.0005) currentBeat = targetBeat;
     // Scrolling away mid-intro jumps to the lit studio rather than leaving a dark car.
-    if (intro.active && intro.t0 && currentBeat > 0.25) intro.t0 = now - 3400;
+    if (intro.active && intro.t0 && currentBeat > 0.25) finishIntro();
     if (intro.active) runIntro(now);
     const u = placeCamera(currentBeat);
     const drifting = applyDrift(dt, now, currentBeat);
@@ -292,17 +315,7 @@ async function boot() {
   stage.classList.remove("is-loading");
   stage.classList.add("is-ready");
   studio.wake();
-  // Build the schematic layer and compile its shaders while idle, so the x-ray beat
-  // doesn't stall the first time someone scrolls into it.
-  const idle = window.requestIdleCallback || ((fn) => setTimeout(fn, 600));
-  idle(async () => {
-    void studio.schematic;
-    studio.setXray(0.001, 0);
-    await studio.compile();
-    studio.renderer.render(studio.scene, studio.camera);
-    studio.setXray(0, 0);
-    studio.wake();
-  }, { timeout: 2500 });
+
 }
 
 // Story panels are pinned (CSS sticky). Fade each in as its beat arrives and out before its pin

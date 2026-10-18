@@ -305,6 +305,7 @@ export async function createStudio({ stage, canvas, quality = pickQuality(), onP
     ${withReflection ? "uniform sampler2D tDiffuse; uniform vec2 uTexel; varying vec4 vUv;" : ""}
     uniform sampler2D tShadow;
     uniform float uShadowSize;
+    uniform vec2 uShadowOffset;
     uniform float uStrength;
     uniform float uGlow;
     uniform float uGrid;
@@ -338,7 +339,7 @@ export async function createStudio({ stage, canvas, quality = pickQuality(), onP
       float gloss = 1.0 - 0.55 * rough;
 
       // Baked contact shadow: r = tight contact, g = wide soft occlusion.
-      vec2 suv = vec2(P.x, P.z) / uShadowSize + 0.5;
+      vec2 suv = (vec2(P.x, P.z) - uShadowOffset) / uShadowSize + 0.5;
       vec2 sh = (suv.x > 0.0 && suv.x < 1.0 && suv.y > 0.0 && suv.y < 1.0) ? texture2D(tShadow, suv).rg : vec2(0.0);
       float occ = (1.0 - 0.92 * sh.r) * (1.0 - 0.7 * sh.g);
 
@@ -388,6 +389,7 @@ export async function createStudio({ stage, canvas, quality = pickQuality(), onP
   const floorCommon = () => ({
     tShadow: { value: null },
     uShadowSize: { value: SHADOW_SIZE },
+    uShadowOffset: { value: new THREE.Vector2() },
     uStrength: { value: 0.2 },
     uGlow: { value: 1 },
     uGrid: { value: 0 },
@@ -568,6 +570,14 @@ export async function createStudio({ stage, canvas, quality = pickQuality(), onP
       spinQ.setFromAxisAngle(axleX, w.angle);
       w.node.quaternion.copy(w.base).multiply(spinQ);
     }
+  };
+
+  // Drive the car along its length (intro). The baked contact shadow follows it.
+  const carBaseZ = car.position.z;
+  const setCarOffset = (dz) => {
+    car.position.z = carBaseZ + dz;
+    car.updateMatrixWorld(true);
+    if (floorUniforms?.uShadowOffset) floorUniforms.uShadowOffset.value.set(0, dz);
   };
 
   // Hotspot anchors exported as empties.
@@ -1092,6 +1102,7 @@ export async function createStudio({ stage, canvas, quality = pickQuality(), onP
     compile,
     toScreen,
     rollWheels,
+    setCarOffset,
     setStudioLevel,
     setLight,
     setSweep,

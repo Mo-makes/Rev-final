@@ -78,6 +78,14 @@ Frame rate, same 8-second scroll through the story (MacBook M3 Pro, headless Chr
 
 Across repeated runs an occasional single 67–167 ms frame showed up at random points; the previous build did the same on this machine while it was busy, so it comes from the machine rather than the scene. On the Carrera page and in the Livery Lab, rendering still stops when the turntable ends (0 frames in a 3-second sample after it), and the homepage stops once the hero sway times out.
 
+## Drive-in intro and layout at every width (18 October 2026)
+
+- **The drive-in intro** renders every frame for its ~4.8 seconds, then stops.
+  - The x-ray layer and its shaders are now prepared at load, behind the poster, so nothing heavy happens once the car starts moving or you start scrolling.
+  - This adds about 0.1 s (desktop) to 1 s (phone with the CPU slowed 4×) before the 3D appears; the page and poster are already visible during that time.
+- **Scroll test after the change:** 60 fps with no frames over 33 ms at 1440×900 (high), 900×700 (high) and 390×844 (light, CPU slowed 4×).
+- **Camera framing is fitted at runtime** from where each beat's text sits. It is a handful of projections per resize, so it has no per-frame cost.
+
 ## Honest caveats
 
 - **Not yet tried on real budget phones.** I tested on a MacBook (GPU) and with simulated slow CPUs. Before adopting v2, someone should open it on an older Android phone and an older iPhone and scroll the homepage. If it stutters, the light level can be made lighter (lower resolution, no x-ray glow) without touching the design.
