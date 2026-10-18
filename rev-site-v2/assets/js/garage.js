@@ -555,7 +555,7 @@ async function boot() {
     onProgress: (p) => loaderBar.style.setProperty("--p", p.toFixed(3)),
   });
   window.__studio = studio; // for debugging and screenshots
-  const { camera, renderer, scene } = studio;
+  const { camera, renderer } = studio;
 
   // Livery texture.
   const S = 2048;
@@ -690,8 +690,7 @@ async function boot() {
       const H = 1200;
       const scale = studio.quality === "high" ? 1 : 1.5; // supersample when there is no MSAA
       const keep = { pos: camera.position.clone(), fov: camera.fov };
-      renderer.setPixelRatio(1);
-      renderer.setSize(Math.round(W * scale), Math.round(H * scale), false);
+      studio.setRenderSize(Math.round(W * scale), Math.round(H * scale), 1);
       camera.aspect = W / H;
       camera.fov = 26;
       camera.clearViewOffset();
@@ -701,7 +700,7 @@ async function boot() {
       camera.lookAt(shotTarget);
       camera.updateProjectionMatrix();
       studio.fadeRig(camera.position.y);
-      renderer.render(scene, camera);
+      studio.render(); // through the camera finish on the high tier, like the live view
       const out = document.createElement("canvas");
       out.width = W;
       out.height = H;

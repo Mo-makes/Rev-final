@@ -1,0 +1,146 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Carrera Showroom Check</title>
+  <!--
+    Review page for the showroom pass (enhance_v2.py). Not part of any site. It rebuilds the materials the way
+    rev-site-v2/assets/js/studio.js does (same environment strips, softbox and material values) and, with carry=1,
+    carries the GLB's texture slots over: aoMap (occlusionTexture, its UV channel kept), normalMap, roughnessMap,
+    clearcoatNormalMap. Interior* materials are kept as exported.
+
+    URL parameters (all optional):
+      model=../../../rev-site-v2/assets/models/carrera-v2.glb   GLB to show
+      carry=1|0      carry the GLB texture slots (0 = how studio.js behaved before)
+      glass=0.6      canopy opacity (studio.js used 0.92)
+      cockpit=1|0    show the Cockpit node
+      view=front34|side|rear34|top|canopy|wheel|nose|tail|lip|blade
+      ao=1           aoMapIntensity
+    Served from the repo root, e.g. http://localhost:3020/lab/carrera/scripts/preview?view=canopy (npx serve drops the
+    query string when it redirects preview.html to preview, so use the short form)
+  -->
+  <script type="importmap">{"imports":{"three":"https://cdn.jsdelivr.net/npm/three@0.168.0/build/three.module.js","three/addons/":"https://cdn.jsdelivr.net/npm/three@0.168.0/examples/jsm/"}}</script>
+  <style>
+    html, body { margin: 0; height: 100%; background: #000; overflow: hidden; color: #9aa; font: 12px system-ui; }
+    canvas { display: block; width: 100vw; height: 100vh; }
+    #info { position: fixed; left: 10px; bottom: 8px; }
+  </style>
+</head>
+<body>
+  <div id="info">Loading…</div>
+  <script type="module">
+    import * as THREE from "three";
+    import { GLTFLoader } from "three/addons/loaders/GLTFLoader.js";
+    import { OrbitControls } from "three/addons/controls/OrbitControls.js";
+    import { MeshoptDecoder } from "three/addons/libs/meshopt_decoder.module.js";
+    import { RoomEnvironment } from "three/addons/environments/RoomEnvironment.js";
+    import { RectAreaLightUniformsLib } from "three/addons/lights/RectAreaLightUniformsLib.js";
+
+    const P = new URLSearchParams(location.search);
+    const MODEL = P.get("model") || "../../../rev-site-v2/assets/models/carrera-v2.glb";
+    const CARRY = P.get("carry") !== "0";
+    const GLASS = parseFloat(P.get("glass") || "0.6");
+    const COCKPIT = P.get("cockpit") !== "0";
+    const AO = parseFloat(P.get("ao") || "1");
+
+    const renderer = new THREE.WebGLRenderer({ antialias: true });
+    renderer.setPixelRatio(Math.min(devicePixelRatio, 2));
+    renderer.outputColorSpace = THREE.SRGBColorSpace;
+    renderer.toneMapping = THREE.ACESFilmicToneMapping;
+    renderer.toneMappingExposure = 1;
+    renderer.shadowMap.enabled = true;
+    document.body.prepend(renderer.domElement);
+    RectAreaLightUniformsLib.init();
+    const scene = new THREE.Scene();
+    scene.background = new THREE.Color(0x0b0b0d);
+    const camera = new THREE.PerspectiveCamera(22, 1, 0.05, 200);
+    const controls = new OrbitControls(camera, renderer.domElement);
+
+    // Environment and lights: a copy of studio.js.
+    const pmrem = new THREE.PMREMGenerator(renderer);
+    const room = new RoomEnvironment();
+    room.traverse((o) => {
+      if (o.isMesh && o.material.isMeshStandardMaterial) o.material.color.setScalar(0.015);
+      else if (o.isMesh && o.material.isMeshBasicMaterial) o.material.color.multiplyScalar(0.22);
+      if (o.isPointLight) o.intensity = 60;
+    });
+    const envBox = new THREE.BoxGeometry();
+    const strip = (level, pos, scale) => {
+      const m = new THREE.Mesh(envBox, new THREE.MeshBasicMaterial({ color: new THREE.Color().setScalar(level) }));
+      m.position.set(...pos); m.scale.set(...scale); room.add(m);
+    };
+    strip(36, [-2.6, 15, 0], [0.7, 0.1, 22]);
+    strip(36, [2.6, 15, 0], [0.7, 0.1, 22]);
+    strip(70, [13, 2.6, 0], [0.1, 0.18, 26]);
+    strip(40, [-13, 2.6, 0], [0.1, 0.18, 26]);
+    strip(18, [0, 4, 13.5], [9, 0.5, 0.1]);
+    strip(12, [0, 4, -13.5], [9, 0.5, 0.1]);
+    scene.environment = pmrem.fromScene(room, 0.035).texture;
+    const softbox = new THREE.RectAreaLight(0xffffff, 5, 1.6, 6.5);
+    softbox.position.set(0, 3.4, 0); softbox.rotation.x = -Math.PI / 2; scene.add(softbox);
+    const rim = new THREE.DirectionalLight(0xdfe8ff, 0.6); rim.position.set(-6, 3, -6); scene.add(rim);
+    const floor = new THREE.Mesh(new THREE.PlaneGeometry(60, 60), new THREE.MeshStandardMaterial({ color: 0x141416, roughness: 0.55 }));
+    floor.rotation.x = -Math.PI / 2; scene.add(floor);
+
+    const carry = (src, mat) => {
+      if (!CARRY) return;
+      for (const k of ["aoMap", "normalMap", "roughnessMap", "clearcoatNormalMap"]) if (src[k]) mat[k] = src[k];
+      if (src.aoMap) mat.aoMapIntensity = AO;
+    };
+    const loader = new GLTFLoader(); loader.setMeshoptDecoder(MeshoptDecoder);
+    const gltf = await loader.loadAsync(MODEL);
+    const car = gltf.scene;
+    car.traverse((child) => {
+      if (!child.isMesh) return;
+      const src = child.material, name = src.name || "";
+      let mat;
+      if (/body/i.test(name)) {
+        mat = new THREE.MeshPhysicalMaterial({ name, color: 0xd4d7dc, roughness: 0.34, metalness: 0, clearcoat: 1, clearcoatRoughness: 0.04, side: THREE.DoubleSide });
+      } else if (/solar/i.test(name)) {
+        mat = new THREE.MeshPhysicalMaterial({ name, map: src.map, color: 0x6f86a6, roughness: 0.42, metalness: 0.2, clearcoat: 0.55, clearcoatRoughness: 0.12, envMapIntensity: 0.75 });
+        if (mat.map) mat.map.anisotropy = 8;
+      } else if (/glass|canopy|window/i.test(name)) {
+        mat = new THREE.MeshPhysicalMaterial({ name, color: 0x040506, roughness: 0.04, metalness: 0.1, clearcoat: 1, transparent: true, opacity: GLASS });
+      } else if (/light/i.test(name)) {
+        mat = new THREE.MeshStandardMaterial({ name, color: 0x120204, emissive: 0xff2436, emissiveIntensity: 2.2 });
+      } else if (/tire|tyre/i.test(name)) {
+        mat = new THREE.MeshStandardMaterial({ name, color: 0x0a0a0c, roughness: 0.82, metalness: 0 });
+      } else {
+        mat = src; if (mat.isMeshStandardMaterial) mat.envMapIntensity = 1;
+      }
+      if (mat !== src) carry(src, mat);
+      child.material = mat;
+    });
+    const cockpit = car.getObjectByName("Cockpit");
+    if (cockpit) cockpit.visible = COCKPIT;
+    const box = new THREE.Box3().setFromObject(car);
+    const c = box.getCenter(new THREE.Vector3());
+    car.position.set(-c.x, -box.min.y, -c.z);
+    scene.add(car);
+
+    // Same framings as render_views.py (Blender frame converted to three: x, z, -y).
+    const VIEWS = {
+      front34: [[4.3, 2.1, 6.4], [0.05, 0.55, 0.2], 20.9],
+      side: [[8.6, 0.95, 0.05], [0, 0.62, 0.05], 22.9],
+      rear34: [[-4.4, 2.3, -6.3], [0, 0.55, -0.2], 20.9],
+      top: [[0, 12, 0.001], [0, 0, 0], 25],
+      canopy: [[2.6, 1.75, 1.95], [0.62, 1.02, -0.15], 16.5],
+      wheel: [[2.2, 0.42, 2.75], [0.72, 0.24, 1.38], 16.5],
+      nose: [[1.7, 1.25, 3.9], [0, 0.6, 1.9], 24],
+      tail: [[-1.9, 1.5, -4.0], [0, 0.7, -1.9], 24],
+      lip: [[-1.6, 0.95, 3.3], [-0.6, 0.66, 2.35], 18],
+      blade: [[-1.2, 1.3, -3.3], [-0.5, 0.66, -2.35], 18],
+    };
+    function setView(n) {
+      const [p, t, fov] = VIEWS[n] || VIEWS.front34;
+      camera.position.set(...p); controls.target.set(...t); camera.fov = fov; camera.updateProjectionMatrix(); controls.update();
+    }
+    function resize() { renderer.setSize(innerWidth, innerHeight, false); camera.aspect = innerWidth / innerHeight; camera.updateProjectionMatrix(); }
+    addEventListener("resize", resize); resize(); setView(P.get("view") || "front34");
+    document.getElementById("info").textContent = `${MODEL.split("/").pop()} · carry=${CARRY ? 1 : 0} · glass=${GLASS}`;
+    renderer.setAnimationLoop(() => { controls.update(); renderer.render(scene, camera); });
+    window.preview = { setView, scene, car, camera, ready: true };
+  </script>
+</body>
+</html>

@@ -152,6 +152,35 @@ async function boot() {
     }
   };
 
+  // ---------- Handheld drift: a barely-there sway on the hero shot, so it reads as filmed ----------
+  // High tier only. It runs while the hero frame is on screen (the loop only renders while the stage
+  // is in view and the tab is visible), fades out after DRIFT_SECONDS without scrolling, and stops.
+  const DRIFT_SECONDS = 25;
+  const drift = { on: studio.quality === "high" && !reduceMotion, amount: 0, since: 0 };
+  const swayed = new THREE.Euler();
+  const swayQ = new THREE.Quaternion();
+  const applyDrift = (dt, now, beat) => {
+    if (!drift.on) return false;
+    if (!drift.since) drift.since = now;
+    const wanted = !intro.active && beat < 0.12 && now - drift.since < DRIFT_SECONDS * 1000 ? 1 : 0;
+    drift.amount += (wanted - drift.amount) * (1 - Math.exp(-dt * (wanted ? 0.8 : 1.6)));
+    if (!wanted && drift.amount < 0.002) drift.amount = 0;
+    if (drift.amount === 0) return false;
+    const t = now / 1000;
+    const a = drift.amount;
+    const wave = (f1, p1, f2, p2, f3, p3) => 0.62 * Math.sin(t * f1 + p1) + 0.28 * Math.sin(t * f2 + p2) + 0.1 * Math.sin(t * f3 + p3);
+    swayed.set(
+      0.0016 * a * wave(0.37, 0.4, 0.83, 2.1, 2.3, 0.7),
+      0.0024 * a * wave(0.29, 1.3, 0.71, 0.2, 1.9, 2.6),
+      0.0009 * a * wave(0.23, 2.2, 0.61, 1.1, 1.7, 0.3),
+      "YXZ",
+    );
+    camera.position.y += 0.006 * a * wave(0.41, 0.9, 1.07, 2.4, 2.9, 1.5);
+    camera.quaternion.multiply(swayQ.setFromEuler(swayed));
+    return true;
+  };
+  window.addEventListener("scroll", () => { drift.since = performance.now(); }, { passive: true });
+
   // ---------- Loop ----------
   let targetBeat = scrollBeat();
   let currentBeat = targetBeat;
@@ -164,12 +193,13 @@ async function boot() {
     if (intro.active && intro.t0 && currentBeat > 0.25) intro.t0 = now - 3400;
     if (intro.active) runIntro(now);
     const u = placeCamera(currentBeat);
+    const drifting = applyDrift(dt, now, currentBeat);
     // Roll the wheels while the camera tracks the profile, as if the car were rolling.
     if (u > 2.5 && u < 4) studio.rollWheels((u - lastU) * 6);
     lastU = u;
     updateXray(u);
     updateOverlay(u);
-    return intro.active || currentBeat !== targetBeat;
+    return intro.active || currentBeat !== targetBeat || drifting;
   });
 
   const relayout = () => { measure(); buildPath(); studio.wake(); };

@@ -45,14 +45,38 @@ The test script scrolls the whole homepage 3D story (reveal, array, x-ray, profi
 ## What keeps it from lagging
 
 - **Content first.** Text, photos and fonts load before any 3D. three.js and the model start only after the page has finished loading, and a still poster of the car fills the space until the 3D is ready.
-- **Renders only when needed.** The 3D draws a frame only while something is moving: you're scrolling, the intro is playing, or you're dragging the car. When it's still, it uses no GPU. It also stops completely when it's scrolled out of view or the tab is in the background.
+- **Renders only when needed.** The 3D draws a frame only while something is moving: you're scrolling, the intro is playing, or you're dragging the car. When it's still, it uses no GPU. It also stops completely when it's scrolled out of view or the tab is in the background. The one exception is a deliberate one: on capable devices the homepage's opening shot has a faint handheld sway, which renders while that shot is on screen and stops by itself 25 seconds after the last scroll (never on the light level or with reduced motion).
+- **Contact shadow baked once.** The soft shadow under the car is rendered once when the model loads, not every frame.
 - **Two quality levels, picked automatically.**
-  - **Light** is used on phones, devices with 4 or fewer CPU cores or 4 GB or less of memory, Data Saver users, and browsers without hardware graphics. It drops the live floor reflection and anti-aliasing and caps resolution at 1.25× instead of 1.5×.
-  - **Safety net:** if the full level drops frames during the first second and a half, it switches the reflection off by itself.
+  - **Light** is used on phones, devices with 4 or fewer CPU cores or 4 GB or less of memory, Data Saver users, and browsers without hardware graphics. It drops the live floor reflection, the camera finish (bloom, grain, vignette) and anti-aliasing, and caps resolution at 1.25× instead of 1.5×. It keeps the studio reflections, the floor's softbox gloss and the contact shadow, which cost nothing per frame once loaded.
+  - **Safety net:** if the full level drops frames during the first second and a half, it switches the bloom and the reflection off by itself.
   - **For testing:** `?quality=low` or `?quality=high` forces a level.
 - **Short turntables.** The slow auto-spin on the Carrera page and the Livery Lab runs only on capable devices and stops after 14 seconds or on first touch.
 - **Reduced motion respected.** People who set "reduce motion" on their device get the still poster on the homepage and choose whether to open the 3D viewer on the Carrera page.
 - **No-WebGL fallback.** Browsers that can't do 3D get the poster image and the full text.
+
+## Showroom update (18 October 2026)
+
+The 3D now looks like a night showroom: a photographed studio for reflections, a polished floor with softbox reflections and a contact shadow, a dark wall around the room and, on the full level, a camera finish (anti-aliasing, gentle bloom, film grain, vignette). Re-measured the same day, with the new model from the mech/model pass in place:
+
+| What it adds | Size over the wire |
+| --- | --- |
+| Studio reflection photo (`assets/env/showroom-env.webp`) | 31 KB, both levels, loaded after the model |
+| Camera-finish code (bloom pass and helpers from three.js) | 6 KB, full level only |
+| Larger `studio.js` / `home.js` | +8 KB |
+
+The new model itself grew from about 400 KB to 627 KB over the wire, so the homepage's 3D now totals about 0.99 MB (full level) or 0.98 MB (light level) including three.js; the page tables above predate both changes.
+
+Frame rate, same 8-second scroll through the story (MacBook M3 Pro, headless Chrome, other jobs running on the machine):
+
+| Setup | Average fps | 95th-percentile frame | Frames over 33 ms |
+| --- | --- | --- | --- |
+| Desktop 1440×900, full quality, 1× and 2× pixel density | 60 | 16.7–16.8 ms | 0 |
+| Desktop, full quality, 2× density, CPU slowed 4× | 60 | 16.7 ms | 0 |
+| Desktop, `?quality=low` | 60 | 16.7–16.8 ms | 0 |
+| Phone 390×844, light quality, CPU slowed 4× | 60 | 16.7 ms | 0 |
+
+Across repeated runs an occasional single 67–167 ms frame showed up at random points; the previous build did the same on this machine while it was busy, so it comes from the machine rather than the scene. On the Carrera page and in the Livery Lab, rendering still stops when the turntable ends (0 frames in a 3-second sample after it), and the homepage stops once the hero sway times out.
 
 ## Honest caveats
 

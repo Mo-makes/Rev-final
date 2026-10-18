@@ -173,8 +173,8 @@
   "body_uv_atlas": {
     "size_m": 8.234,
     "faces_per_region": {
-      "bottom": 26588,
-      "top": 13021,
+      "bottom": 26587,
+      "top": 13022,
       "front": 829,
       "right": 9190,
       "back": 24,
@@ -265,5 +265,40 @@
         ]
       }
     }
+  },
+  "textures": {
+    "note": "Texture slots in carrera-v2.glb, for renderers that rebuild the materials (studio.js).",
+    "CarBody": {
+      "occlusionTexture": "baked AO, TEXCOORD_1 (texCoord 1)",
+      "normalTexture": "orange-peel paint, TEXCOORD_0 with KHR_texture_transform repeat 91.5; strength baked in (scale 1)",
+      "clearcoatNormalTexture": "same image as normalTexture (three: clearcoatNormalMap)",
+      "baseColorTexture": "none; TEXCOORD_0 is the livery atlas (body_uv_atlas)"
+    },
+    "SolarArray": {
+      "baseColorTexture": "4 x 4 cell tile, TEXCOORD_0",
+      "normalTexture": "encapsulant grooves and cell pillowing, TEXCOORD_0",
+      "clearcoatNormalTexture": "same image as normalTexture",
+      "occlusionTexture": "baked AO, TEXCOORD_1 (texCoord 1)"
+    },
+    "Tire": {
+      "metallicRoughnessTexture": "G = roughness factor (tread 0.68, sidewall 1.0), TEXCOORD_0"
+    },
+    "Interior*": {
+      "COLOR_0": "baked cabin AO in vertex colours (multiplies base colour)"
+    }
+  },
+  "cockpit": {
+    "node": "Cockpit",
+    "parts": [
+      "Cockpit_Liner",
+      "Cockpit_Seat",
+      "Cockpit_RollHoop",
+      "Cockpit_WheelHousings",
+      "Cockpit_Dash",
+      "Cockpit_Screen",
+      "Cockpit_SteeringWheel",
+      "Cockpit_SteeringHub"
+    ],
+    "note": "ILLUSTRATIVE interior (seat, roll hoop, wheel housings, dash, steering wheel, dark liner), not from CAD. Hide the Cockpit node in x-ray/cutaway views."
   }
 }
