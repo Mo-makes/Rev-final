@@ -1,7 +1,7 @@
 /* Home: sticky studio stage with scroll beats, then the content sections. */
 
 /* ---------- Stage ---------- */
-.story { position: relative; }
+.story { position: relative; overflow: clip; }
 .stage {
   position: sticky; top: 0; z-index: 0;
   height: 100vh; height: 100lvh;
@@ -79,25 +79,25 @@
 .profile-head { max-width: 34rem; }
 .beat-bottom .specs { background: linear-gradient(transparent, rgba(5, 5, 6, 0.65)); }
 
-/* ---------- Feed ---------- */
-.section-top { display: flex; flex-wrap: wrap; justify-content: space-between; align-items: end; gap: 20px; margin-bottom: 40px; }
+/* ---------- Feed: a dated log, newest first ---------- */
+.section-top { display: flex; flex-wrap: wrap; justify-content: space-between; align-items: end; gap: 20px; margin-bottom: 36px; }
 .section-top .h2 { margin-bottom: 0; }
-.feed { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 1px; background: var(--hair); border: 1px solid var(--hair); }
-.post { background: var(--void); padding: 26px; display: flex; flex-direction: column; min-height: 260px; }
-.post .link-arrow { margin-top: auto; align-self: flex-start; font-size: 0.88rem; }
-.post p { color: var(--soft); font-size: 0.95rem; }
-.post-meta { display: flex; flex-wrap: wrap; align-items: center; gap: 10px; font: 500 0.68rem/1 var(--mono) !important; letter-spacing: 0; color: var(--steel) !important; margin-bottom: 18px; }
-.post-title { font: 700 calc(1.7rem * 0.6)/1.16 var(--display); font-stretch: 112.5%; letter-spacing: -0.035em; margin-bottom: 12px; }
-.post-feature { grid-column: 1 / -1; display: grid; grid-template-columns: 1.1fr 1fr; padding: 0; min-height: 0; }
-.post-feature .post-media { min-height: 280px; background: #000; }
+.feed { list-style: none; margin: 0; padding: 0; border-top: 2px solid var(--paper); }
+.post { display: grid; grid-template-columns: minmax(150px, 0.32fr) 1fr; gap: 8px 32px; padding: 26px 0 28px; border-bottom: 1px solid var(--hair); }
+.post-when { margin: 4px 0 0; display: flex; flex-direction: column; gap: 8px; align-items: flex-start; font: 600 0.86rem/1.3 var(--mono); color: var(--gold); }
+.post-tag { font: 500 0.74rem/1 var(--mono); color: var(--soft); padding: 4px 7px; border: 1px solid var(--hair-strong); border-radius: 3px; }
+.post-body { max-width: 66ch; }
+.post-title { margin-bottom: 10px; font: 700 calc(clamp(1.3rem, 2vw, 1.7rem) * 0.85)/1.15 var(--display); font-stretch: 112.5%; letter-spacing: -0.035em; }
+.post p { color: var(--soft); }
+.post .link-arrow { font-size: 0.9rem; }
+.post-feature { grid-template-columns: minmax(150px, 0.32fr) 1fr; }
+.post-feature .post-media { grid-column: 1 / -1; aspect-ratio: 21 / 8; overflow: hidden; margin-bottom: 12px; background: #000; }
 .post-feature .post-media img { width: 100%; height: 100%; object-fit: cover; }
-.post-feature .post-body { padding: clamp(24px, 3.4vw, 44px); display: flex; flex-direction: column; }
-.post-feature .post-title { font-size: clamp(2rem, 3.4vw, 2.8rem); }
-@media (max-width: 1000px) { .feed { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
+.post-feature .post-title { font-size: calc(clamp(1.8rem, 3vw, 2.6rem) * 0.8); }
 @media (max-width: 700px) {
-  .feed { grid-template-columns: 1fr; }
-  .post-feature { grid-template-columns: 1fr; }
-  .post-feature .post-media { min-height: 200px; aspect-ratio: 16 / 10; }
+  .post, .post-feature { grid-template-columns: 1fr; }
+  .post-when { flex-direction: row; align-items: center; }
+  .post-feature .post-media { aspect-ratio: 16 / 9; }
 }
 
 /* ---------- Who ---------- */
@@ -109,6 +109,7 @@
 
 /* ---------- Road ahead ---------- */
 .road-grid { align-items: stretch; margin-top: 12px; }
+.road-grid .race { padding-top: 22px; border-top: 1px solid var(--hair-strong); }
 .race-logo { height: 64px; width: auto; margin-bottom: 22px; padding: 10px 14px; background: #fff; border-radius: 3px; }
 .road-grid p { color: var(--soft); }
 .track { margin-top: clamp(28px, 4vw, 48px); }
@@ -121,12 +122,11 @@
 .road .timeline { margin-bottom: 40px; }
 @media (max-width: 600px) { .race-facts { grid-template-columns: 1fr; } }
 
-/* ---------- Partners ---------- */
-.partner-row { list-style: none; margin: 0; padding: 0; display: grid; grid-template-columns: repeat(5, minmax(0, 1fr)); gap: 1px; background: var(--hair); border: 1px solid var(--hair); }
-.partner-row li { display: grid; place-items: center; min-height: 140px; padding: 24px; background: #f4f5f7; }
-.partner-row img { max-height: 70px; width: auto; }
-.sponsor-name { font: 700 1.05rem/1.2 var(--sans); color: #1b2230; text-align: center; }
-@media (max-width: 900px) { .partner-row { grid-template-columns: repeat(2, minmax(0, 1fr)); } .partner-row li:last-child { grid-column: 1 / -1; } }
+/* ---------- Partners: sponsor decals ---------- */
+.partner-decals { list-style: none; margin: 0; }
+.partner-decals .decal.white .decal-face { display: grid; place-items: center; min-height: 104px; padding: 16px 22px; }
+.partner-decals img { max-height: 64px; width: auto; }
+.partner-decals .decal.tab .decal-face { min-height: 104px; display: grid; place-items: center; }
 
 /* ---------- FAQ / CTA ---------- */
 .faq-layout { display: grid; grid-template-columns: 0.8fr 1.2fr; gap: clamp(28px, 5vw, 80px); align-items: start; }

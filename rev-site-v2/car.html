@@ -60,7 +60,7 @@
           </div>
           <button type="button" class="tool" data-action="reset">Reset view</button>
         </div>
-        <p class="viewer-hint" aria-hidden="true">Drag to rotate · tap a marker</p>
+        <p class="viewer-hint" aria-hidden="true">Drag to rotate, tap a marker</p>
         <button type="button" class="viewer-start btn ghost" hidden>Open the interactive model</button>
       </div>
 
@@ -85,7 +85,7 @@
           <div><dt>Solar array power</dt><dd>1000 <small>W</small></dd></div>
           <div><dt>Simulated top speed</dt><dd>75+ <small>mph</small></dd></div>
           <div><dt>Motor + inverter efficiency</dt><dd>97.2<small>%</small></dd></div>
-          <div><dt>Battery capacity · Design</dt><dd>5.18 <small>kWh</small></dd></div>
+          <div><dt>Battery capacity (design)</dt><dd>5.18 <small>kWh</small></dd></div>
           <div><dt>Chassis</dt><dd class="word">Carbon fiber</dd></div>
           <div><dt>Suspension</dt><dd class="word">Aluminum</dd></div>
           <div><dt>Front / rear weight distribution</dt><dd>40% <small>/</small> 60%</dd></div>
@@ -101,45 +101,51 @@
 
     <section class="section blueprint energy" id="how-it-works" aria-labelledby="how-title">
       <div class="wrap">
-        <p class="eyebrow line">01 / The energy path</p>
+        <p class="eyebrow line">01 The energy path</p>
         <h2 class="h2" id="how-title">How does it work?</h2>
         <ol class="flow">
-          <li class="reveal"><span class="flow-n">A</span><h3 class="h3">Collect</h3><p>The solar array converts sunlight into electrical power.</p></li>
-          <li class="reveal"><span class="flow-n">B</span><h3 class="h3">Store</h3><p>The battery buffers energy as sunlight and demand change.</p></li>
-          <li class="reveal"><span class="flow-n">C</span><h3 class="h3">Drive</h3><p>The inverter controls a hub motor that drives a rear wheel.</p></li>
-          <li class="reveal"><span class="flow-n">D</span><h3 class="h3">Optimize</h3><p>Telemetry and models help us choose an efficient pace based on the competition and current conditions.</p></li>
+          <li><span class="flow-n">A</span><h3 class="h3">Collect</h3><p>The solar array converts sunlight into electrical power.</p></li>
+          <li><span class="flow-n">B</span><h3 class="h3">Store</h3><p>The battery buffers energy as sunlight and demand change.</p></li>
+          <li><span class="flow-n">C</span><h3 class="h3">Drive</h3><p>The inverter controls a hub motor that drives a rear wheel.</p></li>
+          <li><span class="flow-n">D</span><h3 class="h3">Optimize</h3><p>Telemetry and models help us choose an efficient pace based on the competition and current conditions.</p></li>
         </ol>
       </div>
     </section>
 
     <section class="section" id="subsystems" aria-labelledby="systems-title">
       <div class="wrap">
-        <p class="eyebrow">02 / Inside Carrera</p>
+        <p class="eyebrow">02 Inside Carrera</p>
         <h2 class="h2" id="systems-title">Key vehicle systems</h2>
         <div class="systems">
-          <article class="system reveal" id="sys-chassis">
+          <article class="system" id="sys-chassis">
+            <span class="system-code" aria-hidden="true">CHS</span>
             <figure class="system-media photo"><img src="assets/img/site/carrera-side.webp" alt="Side view of Carrera’s body and canopy during construction" width="1200" height="900" loading="lazy"></figure>
-            <div class="system-copy"><p class="system-label">01 / A lighter foundation.</p><h3 class="system-title">Chassis &amp; Structures</h3><p>Our carbon-fiber monocoque combines the body and structural chassis. Composite layups, impact protection, packaging requirements, and structural analysis balance low mass with strength.</p></div>
+            <div class="system-copy"><p class="system-label">A lighter foundation.</p><h3 class="system-title">Chassis &amp; Structures</h3><p>Our carbon-fiber monocoque combines the body and structural chassis. Composite layups, impact protection, packaging requirements, and structural analysis balance low mass with strength.</p></div>
           </article>
-          <article class="system reveal" id="sys-energy">
+          <article class="system" id="sys-energy">
+            <span class="system-code" aria-hidden="true">BAT</span>
             <figure class="system-media diagram"><img src="assets/img/carrera/battery-design-v2.webp" alt="CAD design render of the custom battery pack, showing cells, fans, circuit boards, and contactors" width="1138" height="781" loading="lazy"></figure>
-            <div class="system-copy"><p class="system-label">02 / Capture. Store. Deploy.</p><h3 class="system-title">Energy &amp; Battery</h3><p>A 1000 W solar array feeds a custom battery system in development. Our silicon-anode pack maximizes the amount of energy we can store and utilize alongside battery monitoring, protection circuitry, and thermal management systems.</p></div>
+            <div class="system-copy"><p class="system-label">Capture. Store. Deploy.</p><h3 class="system-title">Energy &amp; Battery</h3><p>A 1000 W solar array feeds a custom battery system in development. Our silicon-anode pack maximizes the amount of energy we can store and utilize alongside battery monitoring, protection circuitry, and thermal management systems.</p></div>
           </article>
-          <article class="system reveal" id="sys-drivetrain">
+          <article class="system" id="sys-drivetrain">
+            <span class="system-code" aria-hidden="true">DRV</span>
             <figure class="system-media diagram"><img src="assets/img/carrera/hub-motor-diagram.webp" alt="Exploded design diagram of the hub motor, with its central stator and outer rotor discs" width="902" height="798" loading="lazy"></figure>
-            <div class="system-copy"><p class="system-label">03 / Max per watt</p><h3 class="system-title">Drivetrain</h3><p>A hub motor and efficient inverter turn stored energy into propulsion. Integrating the motor directly into a rear wheel keeps the drive path compact and reduces complexity and the majority of mechanical parasitic losses.</p></div>
+            <div class="system-copy"><p class="system-label">Max per watt</p><h3 class="system-title">Drivetrain</h3><p>A hub motor and efficient inverter turn stored energy into propulsion. Integrating the motor directly into a rear wheel keeps the drive path compact and reduces complexity and the majority of mechanical parasitic losses.</p></div>
           </article>
-          <article class="system reveal" id="sys-suspension">
+          <article class="system" id="sys-suspension">
+            <span class="system-code" aria-hidden="true">SUS</span>
             <figure class="system-media diagram"><img src="assets/img/carrera/suspension-design.webp" alt="Design render of wheel, suspension, and disc-brake assemblies" width="1206" height="654" loading="lazy"></figure>
-            <div class="system-copy"><p class="system-label">04 / Control through the corners.</p><h3 class="system-title">Suspension &amp; Dynamics</h3><p>Our design pairs semi double-wishbone front suspension with a rear swing arm. Steering, low rolling resistance tires, and four-wheel disc braking support handling and efficient laps.</p></div>
+            <div class="system-copy"><p class="system-label">Control through the corners.</p><h3 class="system-title">Suspension &amp; Dynamics</h3><p>Our design pairs semi double-wishbone front suspension with a rear swing arm. Steering, low rolling resistance tires, and four-wheel disc braking support handling and efficient laps.</p></div>
           </article>
-          <article class="system reveal" id="sys-power">
+          <article class="system" id="sys-power">
+            <span class="system-code" aria-hidden="true">PWR</span>
             <figure class="system-media diagram"><img src="assets/img/carrera/power-distribution-diagram.webp" alt="Electrical design diagram connecting the battery, contactors, fuses, motor controller, MPPT, and low-voltage systems" width="1389" height="862" loading="lazy"></figure>
-            <div class="system-copy"><p class="system-label">05 / Power where it’s needed.</p><h3 class="system-title">Power Distribution</h3><p>High-voltage and low-voltage systems connect the battery, motor controller, lights, and electronics. Custom boards and protection circuits are being developed for dependable operation.</p></div>
+            <div class="system-copy"><p class="system-label">Power where it’s needed.</p><h3 class="system-title">Power Distribution</h3><p>High-voltage and low-voltage systems connect the battery, motor controller, lights, and electronics. Custom boards and protection circuits are being developed for dependable operation.</p></div>
           </article>
-          <article class="system reveal" id="sys-software">
+          <article class="system" id="sys-software">
+            <span class="system-code" aria-hidden="true">SWS</span>
             <figure class="system-media diagram"><img src="assets/img/carrera/telemetry-example.webp" alt="Illustrative telemetry plot dated July 20, 2021 showing battery voltage, motor power, speed, and solar array production; not Carrera test results" width="1062" height="720" loading="lazy"></figure>
-            <div class="system-copy"><p class="system-label">06 / Data-driven racing</p><h3 class="system-title">Systems &amp; Software</h3><p>Microcontrollers, a driver dashboard, and telemetry bring vehicle data to the driver and team. The illustrative telemetry plot shows the signals we’re working to connect to testing and race decisions.</p></div>
+            <div class="system-copy"><p class="system-label">Data-driven racing</p><h3 class="system-title">Systems &amp; Software</h3><p>Microcontrollers, a driver dashboard, and telemetry bring vehicle data to the driver and team. The illustrative telemetry plot shows the signals we’re working to connect to testing and race decisions.</p></div>
           </article>
         </div>
       </div>
@@ -170,14 +176,14 @@
     <section class="section" id="strategy" aria-labelledby="strategy-title">
       <div class="wrap grid-2 strategy">
         <div>
-          <p class="eyebrow">03 / Our strategy</p>
+          <p class="eyebrow">03 Our strategy</p>
           <h2 class="h2" id="strategy-title">Go farther.<br><span class="gold">Use less energy.</span></h2>
           <p class="lead">Our goal is to use all available energy but no more and no less. Thorough analysis and testing help us set a pace we can sustain and our drivers and strategy team adjust to racing conditions to make sure every last watt-hour from sunlight is spent on track before the race ends.</p>
         </div>
         <ol class="steps">
-          <li class="reveal"><span class="step-n" aria-hidden="true">01</span><div><h3 class="h3">Model the lap</h3><p>Estimate how speed, aerodynamic drag, and rolling resistance affect energy use.</p></div></li>
-          <li class="reveal"><span class="step-n" aria-hidden="true">02</span><div><h3 class="h3">Learn from testing</h3><p>Compare model predictions with measured power, speed, and battery behavior.</p></div></li>
-          <li class="reveal"><span class="step-n" aria-hidden="true">03</span><div><h3 class="h3">Adapt the pace</h3><p>Use sunlight, available energy, and track conditions to inform race strategy.</p></div></li>
+          <li><span class="step-n" aria-hidden="true">01</span><div><h3 class="h3">Model the lap</h3><p>Estimate how speed, aerodynamic drag, and rolling resistance affect energy use.</p></div></li>
+          <li><span class="step-n" aria-hidden="true">02</span><div><h3 class="h3">Learn from testing</h3><p>Compare model predictions with measured power, speed, and battery behavior.</p></div></li>
+          <li><span class="step-n" aria-hidden="true">03</span><div><h3 class="h3">Adapt the pace</h3><p>Use sunlight, available energy, and track conditions to inform race strategy.</p></div></li>
         </ol>
       </div>
     </section>
@@ -185,7 +191,7 @@
     <section class="section graphite" id="fsgp" aria-labelledby="fsgp-title">
       <div class="wrap race">
         <div>
-          <p class="eyebrow">04 / The next milestone</p>
+          <p class="eyebrow">04 The next milestone</p>
           <h2 class="h2" id="fsgp-title">Formula Sun Grand Prix</h2>
           <p class="muted">Our goal is to prepare Carrera for FSGP 2027: a closed-course endurance competition where solar cars aim to complete the most laps. Reliability, energy management, and teamwork matter as much as speed.</p>
           <dl class="race-facts">
@@ -206,11 +212,11 @@
     <section class="section" id="car-faq" aria-labelledby="car-faq-title">
       <div class="wrap faq-cols">
         <div>
-          <p class="eyebrow">05 / Car FAQs</p>
+          <p class="eyebrow">05 Car FAQs</p>
           <h2 class="h2" id="car-faq-title">A little more<br>under the hood.</h2>
           <p class="muted">Curious about the car or how to help build it?</p>
-          <p><a class="link-arrow" href="join.html">Join the team →</a></p>
-          <p><a class="link-arrow" href="sponsorship.html">Support Carrera →</a></p>
+          <p><a class="link-arrow" href="join.html">Join the team</a></p>
+          <p><a class="link-arrow" href="sponsorship.html">Support Carrera</a></p>
         </div>
         <div class="faq">
           <details><summary>What happens under a cloud or without sunlight?</summary><div class="answer"><p>That’s what the battery is for: the battery stores energy collected by the array, so the motor does not depend on direct sunlight at every moment.</p></div></details>
@@ -255,8 +261,8 @@
         </nav>
       </div>
       <div class="footer-base">
-        <span>© Rice Electric Vehicle · Rice University</span>
-        <span>v2 preview · not the published site</span>
+        <span>© Rice Electric Vehicle, Rice University</span>
+        <span>v2 preview, not the published site</span>
       </div>
     </div>
   </footer>

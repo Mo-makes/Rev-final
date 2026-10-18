@@ -166,7 +166,7 @@ async function boot() {
     const more = document.createElement("a");
     more.className = "link-arrow panel-more";
     more.href = `#${pin.system}`;
-    more.textContent = "More on this system ↓";
+    more.textContent = "More on this system";
     panelBody.append(more);
     panel.setAttribute("aria-labelledby", "viewer-panel-title");
     panel.classList.toggle("schematic", !!pin.schematic);
