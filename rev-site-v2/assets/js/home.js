@@ -225,7 +225,8 @@ async function boot() {
   studio.setStudioLevel(playIntro ? 0 : 1);
   studio.setLight(playIntro ? 0 : 1);
   studio.setCarOffset(intro.z);
-  stage.classList.toggle("drive-in", playIntro);
+  // The page head assumed a drive-in; if the page opened scrolled down instead, bring the poster back.
+  if (!playIntro) document.documentElement.classList.remove("drive-intro");
   const ease = (x) => 1 - Math.pow(1 - THREE.MathUtils.clamp(x, 0, 1), 3);
   const finishIntro = () => {
     intro.active = false;
