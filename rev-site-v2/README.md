@@ -28,7 +28,7 @@ All copy comes from the approved pages, plus the items from the president's Oct 
 
 ## Updating content
 
-- **Updates feed**: in `index.html`, copy an `<li class="post">` inside `.feed`, newest first. Use real dates in `<time datetime>`.
+- **Updates feed**: in `index.html`, copy an `<article class="post">` inside `.feed`, newest first. Use real dates in `<time datetime>`.
 - **Header and footer**: edit them in `contact.html`, then run `python3 lab/v2-partials.py` on a page that still has the `<!--HEADER-->` placeholders. Existing pages hold their own copy, so change those too.
 - **Lead names and headshots**: in `about.html`, replace "Lead: name coming soon" in each `.tower-row` and swap the `.tower-avatar` placeholder for a photo.
 

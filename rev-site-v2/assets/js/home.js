@@ -197,6 +197,26 @@ async function boot() {
   }, { timeout: 2500 });
 }
 
+// The profile beat's heading and specs are pinned (CSS sticky). Fade them in as the beat
+// arrives and out before the pin releases, so the text never scrolls across the car.
+const profileBeat = document.querySelector(".beat-bottom");
+if (profileBeat && !reduceMotion) {
+  const clamp01 = (x) => Math.min(1, Math.max(0, x));
+  let queued = false;
+  const fadeProfile = () => {
+    queued = false;
+    const r = profileBeat.getBoundingClientRect();
+    const vh = window.innerHeight;
+    const fadeIn = clamp01(1 - r.top / (vh * 0.45));
+    const fadeOut = clamp01((r.bottom - vh) / (vh * 0.35));
+    profileBeat.style.setProperty("--show", (fadeIn * fadeOut).toFixed(3));
+  };
+  const queue = () => { if (!queued) { queued = true; requestAnimationFrame(fadeProfile); } };
+  window.addEventListener("scroll", queue, { passive: true });
+  window.addEventListener("resize", queue);
+  fadeProfile();
+}
+
 if (reduceMotion) {
   stage.classList.add("is-static");
 } else {

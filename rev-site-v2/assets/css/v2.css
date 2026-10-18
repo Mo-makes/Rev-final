@@ -238,19 +238,10 @@ h1, h2, h3, h4 { margin: 0; font-weight: 600; }
 .js .reveal.is-in { opacity: 1; transform: none; }
 @media (prefers-reduced-motion: reduce) { .js .reveal { opacity: 1; transform: none; transition: none; } }
 
-/* ---------- Decal sheet: lists set as vinyl decals on a carbon panel (replaces cards) ---------- */
+/* ---------- Decals: short lists set as vinyl decals straight on the page (replaces cards) ---------- */
 .decals {
-  --weave: rgba(255, 255, 255, 0.045);
   display: flex; flex-wrap: wrap; align-items: center; gap: clamp(18px, 2.6vw, 30px) clamp(18px, 3vw, 34px);
-  padding: clamp(26px, 5vw, 60px);
-  border-radius: 6px;
-  background-color: #121314;
-  background-image:
-    linear-gradient(45deg, var(--weave) 25%, transparent 25%, transparent 75%, var(--weave) 75%),
-    linear-gradient(45deg, var(--weave) 25%, transparent 25%, transparent 75%, var(--weave) 75%),
-    radial-gradient(ellipse at 30% 0%, rgba(255, 255, 255, 0.08), transparent 60%);
-  background-size: 12px 12px, 12px 12px, 100% 100%;
-  background-position: 0 0, 6px 6px, 0 0;
+  margin: 0; padding: 0;
 }
 .decal { position: relative; display: block; max-width: 100%; color: #000; text-decoration: none; filter: drop-shadow(0 2px 0 rgba(0, 0, 0, 0.55)); transform: rotate(var(--r, 0deg)); transition: transform 0.2s ease; }
 a.decal:hover, a.decal:focus-visible { transform: rotate(0deg) translateY(-3px); }
@@ -264,7 +255,7 @@ a.decal:focus-visible .decal-face { outline: 3px solid var(--gold); outline-offs
 .decal .go { display: inline-block; margin-top: 10px; font: 600 0.8rem/1 var(--mono); text-decoration: underline; text-underline-offset: 3px; }
 .decal.tab .decal-face { background: var(--gold); border-radius: 4px 26px 4px 26px; }
 .decal.strip .decal-face { background: #fff; border-color: #00205b; color: #00205b; clip-path: polygon(3% 0, 100% 0, 97% 100%, 0 100%); padding-inline: 28px; }
-.decal.round .decal-face { width: 248px; height: 248px; border-radius: 50%; background: #00205b; color: #fff; display: grid; place-content: center; text-align: center; padding: 26px; }
+.decal.round .decal-face { width: 300px; height: 300px; border-radius: 50%; background: #00205b; color: #fff; display: grid; place-content: center; text-align: center; padding: 44px; }
 .decal.round p { color: #dfe7f5; margin-inline: auto; }
 .decal.plate .decal-face { background: #e8eaed; border-color: #e8eaed; border-radius: 3px; box-shadow: inset 0 0 0 2px #000; }
 .decal.hv .decal-face { background: #ff7a1a; border-radius: 3px; }
@@ -272,13 +263,12 @@ a.decal:focus-visible .decal-face { outline: 3px solid var(--gold); outline-offs
 .decal.white .decal-face { background: #fff; }
 .decals-note { margin: 14px 0 0; font: 400 0.8rem/1.4 var(--mono); color: var(--steel); }
 @media (max-width: 560px) {
-  .decals { padding: 22px 16px; }
   .decal { transform: none; }
-  .decal.round .decal-face { width: 220px; height: 220px; }
+  .decal.round .decal-face { width: 280px; height: 280px; padding: 40px; }
 }
 @media (prefers-reduced-motion: reduce) { .decal { transition: none; } }
 
 /* ---------- Round-decal fit (added with the content-page restyle) ---------- */
 /* Round decals: keep the title inside the circle on phones. */
-.decal.round .decal-title { font-size: clamp(1rem, 1.6vw, 1.3rem); }
-@media (max-width: 560px) { .decal.round .decal-face { width: 256px; height: 256px; padding: 30px; } }
+.decal.round .decal-title { font-size: clamp(0.95rem, 1.3vw, 1.1rem); }
+.decal.round p { font-size: 0.86rem; max-width: 24ch; }

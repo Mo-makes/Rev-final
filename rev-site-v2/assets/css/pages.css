@@ -234,7 +234,10 @@
   .tower-people .tower-row { grid-template-columns: 68px 6px minmax(0, 1fr); }
   .tower-people .tower-avatar { display: none; }
 }
-.team-decals { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); align-items: start; }
+.team-decals { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); align-items: stretch; }
+.team-decals .decal, .team-decals .decal-face { height: 100%; }
+.team-decals .decal { transform: none; }
+.team-decals a.decal:hover, .team-decals a.decal:focus-visible { transform: translateY(-3px); }
 .team-decals .decal-face { width: 100%; }
 @media (max-width: 1000px) { .team-decals { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
 @media (max-width: 520px) { .team-decals { grid-template-columns: 1fr; } }
