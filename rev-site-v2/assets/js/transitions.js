@@ -13,6 +13,8 @@
   }
   window.addEventListener("pagereveal", function (event) {
     var vt = event.viewTransition;
+    // Pages wait for this before starting heavy work (the 3D), so the slide stays smooth.
+    if (vt) window.__pageTransition = vt.finished.catch(function () {});
     var activation = window.navigation && window.navigation.activation;
     if (!vt || !vt.types || !activation || !activation.from || !activation.entry) return;
     var from = rank(activation.from.url);

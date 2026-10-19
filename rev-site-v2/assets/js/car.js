@@ -257,7 +257,8 @@ async function boot() {
   studio.wake();
 }
 
-const start = () => boot().catch(fail);
+// Wait for the page slide to finish first; building the 3D mid-slide makes it stutter.
+const start = () => (window.__pageTransition || Promise.resolve()).then(boot).catch(fail);
 if (reduceMotion) {
   // Motion-sensitive visitors get the still image first and can opt in to the viewer.
   startBtn.hidden = false;

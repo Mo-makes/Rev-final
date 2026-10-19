@@ -1078,6 +1078,18 @@ export async function createStudio({ stage, canvas, quality = pickQuality(), onP
     pageVisible = !document.hidden;
     if (pageVisible) wake();
   });
+  // Leaving for another page: stop rendering at once so the navigation and the page slide get the
+  // main thread and GPU. Coming back from the back/forward cache resumes.
+  window.addEventListener("pageswap", () => {
+    pageVisible = false;
+    if (frame) cancelAnimationFrame(frame);
+    frame = 0;
+  });
+  window.addEventListener("pageshow", (event) => {
+    if (!event.persisted) return;
+    pageVisible = !document.hidden;
+    wake();
+  });
   const ro = new ResizeObserver(() => resize());
   ro.observe(stage);
 

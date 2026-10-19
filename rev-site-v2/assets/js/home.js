@@ -347,7 +347,8 @@ if (reduceMotion) {
   stage.classList.add("is-static");
 } else {
   // Start after first paint so text, fonts and images win the bandwidth race.
-  const start = () => boot().catch(fail);
+  // Wait for the page slide to finish first; building the 3D mid-slide makes it stutter.
+const start = () => (window.__pageTransition || Promise.resolve()).then(boot).catch(fail);
   const idle = window.requestIdleCallback || ((fn) => setTimeout(fn, 200));
   if (document.readyState === "complete") idle(start, { timeout: 1500 });
   else window.addEventListener("load", () => idle(start, { timeout: 1500 }), { once: true });
